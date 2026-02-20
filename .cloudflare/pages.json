@@ -1,0 +1,7 @@
+{
+  "name": "costnimbus",
+  "build": {
+    "command": "echo 'Static site'",
+    "destination": "public"
+  }
+}
