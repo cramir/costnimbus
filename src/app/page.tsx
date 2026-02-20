@@ -56,18 +56,58 @@ export default function Home() {
         {/* Newsletter CTA */}
         <section className="bg-gray-50 border border-gray-200 rounded-lg p-8">
           <h3 className="text-xl font-bold text-gray-900 mb-3">
-            Get cloud cost tips in your inbox
+            Get weekly cloud cost tips
           </h3>
           <p className="text-gray-600 mb-6">
-            Weekly insights on reducing cloud spend, optimizing infrastructure, 
-            and building cost-conscious engineering teams.
+            Join engineers saving money on cloud costs. Actionable strategies every Friday.
           </p>
-          <a 
-            href="https://costnimbus.com/newsletter" 
-            className="inline-block bg-gray-900 text-white px-6 py-3 rounded-lg hover:bg-gray-800 transition-colors font-medium"
+          
+          {/* SendFox Form */}
+          <form 
+            method="post" 
+            action="https://sendfox.com/form/3qdz96/36enr2" 
+            className="sendfox-form space-y-4"
+            id="36enr2" 
+            data-async="true" 
+            data-recaptcha="true"
           >
-            Subscribe (it's free)
-          </a>
+            <div>
+              <label htmlFor="sendfox_form_name" className="block text-sm font-medium text-gray-700 mb-1">
+                First Name
+              </label>
+              <input 
+                type="text" 
+                id="sendfox_form_name" 
+                placeholder="Your first name" 
+                name="first_name" 
+                required
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              />
+            </div>
+            <div>
+              <label htmlFor="sendfox_form_email" className="block text-sm font-medium text-gray-700 mb-1">
+                Email
+              </label>
+              <input 
+                type="email" 
+                id="sendfox_form_email" 
+                placeholder="your@email.com" 
+                name="email" 
+                required
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              />
+            </div>
+            <div style={{position: 'absolute', left: '-5000px'}} aria-hidden="true">
+              <input type="text" name="a_password" tabIndex={-1} value="" autoComplete="off" />
+            </div>
+            <button 
+              type="submit"
+              className="w-full bg-gray-900 text-white px-6 py-3 rounded-lg hover:bg-gray-800 transition-colors font-medium"
+            >
+              Subscribe (free)
+            </button>
+          </form>
+          <script src="https://cdn.sendfox.com/js/form.js" charSet="utf-8" async></script>
         </section>
       </div>
 
