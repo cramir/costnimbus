@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { Space_Grotesk, Nunito, JetBrains_Mono } from 'next/font/google';
+import Nav from '@/components/nav';
 import './globals.css';
 
 const spaceGrotesk = Space_Grotesk({
@@ -53,6 +54,7 @@ export default function RootLayout({
           fontFamily: 'var(--font-nunito)',
         }}
       >
+        <Nav />
         {children}
       </body>
     </html>

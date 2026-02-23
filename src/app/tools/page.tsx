@@ -301,12 +301,17 @@ function PlatformCard({
 }) {
   return (
     <div
-      className="rounded-xl p-6 transition-all duration-300 hover:scale-[1.02] cursor-pointer border"
+      className="rounded-xl p-6 transition-all duration-300 hover:scale-[1.02] hover:-translate-y-1 cursor-pointer border"
       onClick={onToggle}
       style={{
-        background: 'var(--bg-card)',
+        background: isExpanded
+          ? 'linear-gradient(135deg, rgba(0, 212, 255, 0.05), rgba(168, 85, 247, 0.05))'
+          : 'var(--bg-card)',
         borderColor: isExpanded ? 'var(--accent-cyan)' : 'var(--border-subtle)',
-        boxShadow: isExpanded ? '0 0 30px rgba(0, 212, 255, 0.2)' : 'var(--card-shadow)'
+        boxShadow: isExpanded
+          ? '0 0 30px rgba(0, 212, 255, 0.2), 0 8px 32px rgba(0, 0, 0, 0.3)'
+          : '0 4px 20px rgba(0, 0, 0, 0.15)',
+        backdropFilter: 'blur(10px)',
       }}
     >
       <div className="flex items-start justify-between mb-4">

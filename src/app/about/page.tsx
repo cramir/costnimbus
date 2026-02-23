@@ -1,4 +1,3 @@
-import Nav from '@/components/nav';
 import AboutContent from '@/components/about-content';
 
 export const metadata = {
@@ -8,10 +7,5 @@ export const metadata = {
 };
 
 export default function AboutPage() {
-  return (
-    <>
-      <Nav />
-      <AboutContent />
-    </>
-  );
+  return <AboutContent />;
 }
