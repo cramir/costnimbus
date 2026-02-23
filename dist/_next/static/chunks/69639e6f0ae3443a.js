@@ -1,11 +1,4 @@
-export const articles = {
-  'how-i-saved-50k-month-cloud-costs': {
-    title: 'How I Saved $50K/Month in Cloud Costs',
-    description: 'Two specific solutions that delivered $30K + $20K in monthly savings, with exact technologies and step-by-step implementation.',
-    publishDate: '2026-02-20',
-    readTime: '15 min',
-    category: 'Cloud Cost Optimization',
-    content: `
+(globalThis.TURBOPACK||(globalThis.TURBOPACK=[])).push(["object"==typeof document?document.currentScript:void 0,64347,e=>{"use strict";var t=e.i(65639),a=e.i(56744);let s={"how-i-saved-50k-month-cloud-costs":{title:"How I Saved $50K/Month in Cloud Costs",description:"Two specific solutions that delivered $30K + $20K in monthly savings, with exact technologies and step-by-step implementation.",publishDate:"2026-02-20",readTime:"15 min",category:"Cloud Cost Optimization",content:`
 I saved $50,000 per month in cloud costs. Here's exactly how I did it.
 
 In this guide, I'll share two specific solutions that delivered $30K + $20K in monthly savings, the exact technologies I used, and the step-by-step implementation you can replicate in your own environment.
@@ -295,15 +288,7 @@ The $50,000 I saved each month didn't come from cutting corners or sacrificing r
 4. Build toward automation (this month)
 
 The cloud is a powerful tool. Let's make sure you're getting your money's worth.
-    `
-  },
-  'hidden-costs-aws-nat-gateways': {
-    title: 'The Hidden Costs of AWS NAT Gateways (And How to Cut Them by 80%)',
-    description: 'I saved $18,000 per month by optimizing NAT Gateway usage. Learn how VPC endpoints, NAT instances, and IPv6 can slash your AWS networking costs.',
-    publishDate: '2026-02-23',
-    readTime: '12 min',
-    category: 'AWS Cost Optimization',
-    content: `
+    `},"hidden-costs-aws-nat-gateways":{title:"The Hidden Costs of AWS NAT Gateways (And How to Cut Them by 80%)",description:"I saved $18,000 per month by optimizing NAT Gateway usage. Learn how VPC endpoints, NAT instances, and IPv6 can slash your AWS networking costs.",publishDate:"2026-02-23",readTime:"12 min",category:"AWS Cost Optimization",content:`
 I saved $18,000 per month by optimizing NAT Gateway usage across our AWS infrastructure. Here's exactly how I did it.
 
 In this guide, I'll break down why NAT Gateways are one of the most expensive components in cloud infrastructure, the specific architectural decisions that drive these costs, and the implementation strategies that delivered an 80% reduction in networking expenses.
@@ -329,8 +314,8 @@ NAT Gateway pricing has two components:
 
 **1. Hourly Availability Charge: $0.045/hour**
 \`\`\`
-$0.045 × 24 hours × 30 days = $32.40 per month
-$32.40 × 3 gateways (one per AZ) = $97.20/month
+$0.045 \xd7 24 hours \xd7 30 days = $32.40 per month
+$32.40 \xd7 3 gateways (one per AZ) = $97.20/month
 \`\`\`
 
 This charges whether you're processing 1 GB or 1 TB. It's the "tax" for having NAT Gateways available.
@@ -341,8 +326,8 @@ This is where the real costs accumulate. Every GB that passes through your NAT G
 \`\`\`
 Example scenario:
 - 100 GB/day through NAT Gateway
-- 100 GB × $0.045 = $4.50/day
-- $4.50 × 30 days = $135/month
+- 100 GB \xd7 $0.045 = $4.50/day
+- $4.50 \xd7 30 days = $135/month
 - That's just the processing fee (data transfer costs are extra)
 \`\`\`
 
@@ -360,7 +345,7 @@ After auditing dozens of AWS environments, I consistently see the same mistakes:
 Many teams deploy a NAT Gateway in each AZ for "availability." But here's what they're not calculating:
 
 \`\`\`
-3 AZs × $32.40/month = $97.20/month in idle charges
+3 AZs \xd7 $32.40/month = $97.20/month in idle charges
 \`\`\`
 
 If your workload can survive losing one AZ (which it should), you only need NAT Gateways in 2 AZs—not 3. That's $32.40/month saved immediately.
@@ -460,8 +445,8 @@ If you have bucket policies restricting access by VPC endpoint, update them:
 
 **Before:**
 - 2 TB/month S3 traffic through NAT Gateway
-- 2,000 GB × $0.045 = $90/month (data processing)
-- Plus data transfer costs: $0.09/GB × 2,000 = $180/month
+- 2,000 GB \xd7 $0.045 = $90/month (data processing)
+- Plus data transfer costs: $0.09/GB \xd7 2,000 = $180/month
 - Total: $270/month
 
 **After:**
@@ -503,17 +488,17 @@ For non-production or cost-sensitive workloads, NAT instances can dramatically r
 ### The Cost Comparison
 
 **NAT Gateway (us-east-1):**
-- Hourly: $0.045/hour × 730 hours = $32.85/month
+- Hourly: $0.045/hour \xd7 730 hours = $32.85/month
 - Data processing: $0.045/GB
 - Managed by AWS (high availability, auto-scaling)
 
 **NAT Instance (t4g.nano):**
-- Hourly: $0.0042/hour × 730 hours = $3.07/month
+- Hourly: $0.0042/hour \xd7 730 hours = $3.07/month
 - NO data processing charges
 - You manage it (can fail, needs monitoring)
 
 For 100 GB/month traffic:
-- NAT Gateway: $32.85 + (100 × $0.045) = $37.35/month
+- NAT Gateway: $32.85 + (100 \xd7 $0.045) = $37.35/month
 - NAT Instance: $3.07/month
 
 **Savings: $34.28/month (91.7%)**
@@ -955,19 +940,19 @@ Let's walk through a real-world scenario with specific numbers.
 
 **NAT Gateway Hourly Charges:**
 \`\`\`
-4 gateways × $32.40/month = $129.60/month
+4 gateways \xd7 $32.40/month = $129.60/month
 \`\`\`
 
 **Data Processing Charges:**
 \`\`\`
-S3: 5 TB × $0.045/GB = $225/month
-Internet: 2 TB × $0.045/GB = $90/month
+S3: 5 TB \xd7 $0.045/GB = $225/month
+Internet: 2 TB \xd7 $0.045/GB = $90/month
 Total data processing: $315/month
 \`\`\`
 
 **Data Transfer Charges (outbound to internet):**
 \`\`\`
-2 TB × $0.09/GB = $180/month
+2 TB \xd7 $0.09/GB = $180/month
 \`\`\`
 
 **Total Monthly Cost:**
@@ -979,10 +964,10 @@ $129.60 (hourly) + $315 (data processing) + $180 (data transfer) = $624.60/month
 
 **Step 1: Create VPC Endpoints for S3 and DynamoDB**
 - Cost: FREE
-- Savings: 5 TB × $0.045/GB = $225/month
+- Savings: 5 TB \xd7 $0.045/GB = $225/month
 
 **Step 2: Reduce NAT Gateways from 4 to 2 (HA with 2 AZs)**
-- Cost: 2 × $32.40 = $64.80/month
+- Cost: 2 \xd7 $32.40 = $64.80/month
 - Savings: $64.80/month
 
 **Step 3: Ensure same-AZ placement**
@@ -1120,7 +1105,7 @@ Rule of thumb: If you send > 500 GB/month to a specific service, create an inter
 
 ### Q: What about EIP costs for NAT Gateways?
 
-**A:** NAT Gateways automatically allocate Elastic IPs, which cost $3.60/month × $0.005/GB.
+**A:** NAT Gateways automatically allocate Elastic IPs, which cost $3.60/month \xd7 $0.005/GB.
 
 But wait—this is included in the NAT Gateway hourly charge. You don't pay extra for the EIP.
 
@@ -1328,15 +1313,7 @@ NAT Gateways are a silent killer in AWS bills, but they don't have to be. By und
 The $18,000 I saved wasn't theoretical—it came from systematically applying these strategies across multiple AWS accounts. Start with the quick wins, build momentum, and your cloud bills will thank you.
 
 Built by engineers, for engineers.
-    `
-  },
-  'cloudflare-r2-vs-s3-cost-comparison': {
-    title: 'Cloudflare R2 vs S3: The Real Cost Comparison Engineers Need',
-    description: '$90/TB egress on S3 vs $0 on R2. I analyzed the pricing, found the hidden costs, and built a calculator to help you choose the right object storage for your workload.',
-    publishDate: '2026-02-23',
-    readTime: '15 min',
-    category: 'Object Storage Cost Analysis',
-    content: `
+    `},"cloudflare-r2-vs-s3-cost-comparison":{title:"Cloudflare R2 vs S3: The Real Cost Comparison Engineers Need",description:"$90/TB egress on S3 vs $0 on R2. I analyzed the pricing, found the hidden costs, and built a calculator to help you choose the right object storage for your workload.",publishDate:"2026-02-23",readTime:"15 min",category:"Object Storage Cost Analysis",content:`
 $90/TB in egress fees on AWS S3 vs $0 on Cloudflare R2.
 
 That's the headline number that grabbed my attention. But the real cost comparison is more nuanced—and far more interesting—than a single line item on a bill.
@@ -1361,7 +1338,7 @@ Here's the reality:
 - $0/GB (FREE)
 
 This means for a 10 TB/month workload serving files to users:
-- **AWS S3**: 10,000 GB × $0.09 = $900/month in egress alone
+- **AWS S3**: 10,000 GB \xd7 $0.09 = $900/month in egress alone
 - **Cloudflare R2**: $0/month in egress
 
 That's $10,800/year in savings just from egress fees.
@@ -1476,17 +1453,17 @@ Let's walk through common workloads with actual numbers.
 - 1M PUT requests/month (daily uploads)
 
 **AWS S3 Standard:**
-- Storage: 5,000 GB × $0.023 = $115/month
-- Egress: 20,000 GB × $0.09 = $1,800/month
-- GET requests: 100M/1000 × $0.0004 = $40/month
-- PUT requests: 1M/1000 × $0.005 = $5/month
+- Storage: 5,000 GB \xd7 $0.023 = $115/month
+- Egress: 20,000 GB \xd7 $0.09 = $1,800/month
+- GET requests: 100M/1000 \xd7 $0.0004 = $40/month
+- PUT requests: 1M/1000 \xd7 $0.005 = $5/month
 - **Total: $1,960/month**
 
 **Cloudflare R2:**
-- Storage: 5,000 GB × $0.015 = $75/month
-- Egress: 20,000 GB × $0 = $0/month
-- GET requests: 100M/1000000 × $0.36 = $36/month
-- PUT requests: 1M/1000000 × $4.50 = $4.50/month
+- Storage: 5,000 GB \xd7 $0.015 = $75/month
+- Egress: 20,000 GB \xd7 $0 = $0/month
+- GET requests: 100M/1000000 \xd7 $0.36 = $36/month
+- PUT requests: 1M/1000000 \xd7 $4.50 = $4.50/month
 - **Total: $115.50/month**
 
 **Savings with R2: $1,844.50/month ($22,134/year)**
@@ -1500,15 +1477,15 @@ Let's walk through common workloads with actual numbers.
 - 10K PUT requests/month
 
 **AWS S3 Glacier Deep Archive:**
-- Storage: 50,000 GB × $0.00099 = $49.50/month
+- Storage: 50,000 GB \xd7 $0.00099 = $49.50/month
 - Data retrieval: $0.02/GB for bulk
-- Egress: 2,000 GB × $0.09 = $180/month
+- Egress: 2,000 GB \xd7 $0.09 = $180/month
 - **Total: ~$280/month** (with retrieval fees)
 
 **Cloudflare R2 Infrequent Access:**
-- Storage: 50,000 GB × $0.01 = $500/month
-- Data retrieval: 2,000 GB × $0.01 = $20/month
-- Egress: 2,000 GB × $0 = $0/month
+- Storage: 50,000 GB \xd7 $0.01 = $500/month
+- Data retrieval: 2,000 GB \xd7 $0.01 = $20/month
+- Egress: 2,000 GB \xd7 $0 = $0/month
 - **Total: $520/month**
 
 **Winner: AWS S3 Glacier Deep Archive** — $240/month cheaper
@@ -1524,17 +1501,17 @@ Let's walk through common workloads with actual numbers.
 - 1M PUT requests/month
 
 **AWS S3 Standard:**
-- Storage: 10,000 GB × $0.023 = $230/month
-- Egress: 5,000 GB × $0.09 = $450/month
-- GET requests: 10M/1000 × $0.0004 = $4/month
-- PUT requests: 1M/1000 × $0.005 = $5/month
+- Storage: 10,000 GB \xd7 $0.023 = $230/month
+- Egress: 5,000 GB \xd7 $0.09 = $450/month
+- GET requests: 10M/1000 \xd7 $0.0004 = $4/month
+- PUT requests: 1M/1000 \xd7 $0.005 = $5/month
 - **Total: $689/month**
 
 **Cloudflare R2:**
-- Storage: 10,000 GB × $0.015 = $150/month
-- Egress: 5,000 GB × $0 = $0/month
-- GET requests: 10M/1000000 × $0.36 = $3.60/month
-- PUT requests: 1M/1000000 × $4.50 = $4.50/month
+- Storage: 10,000 GB \xd7 $0.015 = $150/month
+- Egress: 5,000 GB \xd7 $0 = $0/month
+- GET requests: 10M/1000000 \xd7 $0.36 = $3.60/month
+- PUT requests: 1M/1000000 \xd7 $4.50 = $4.50/month
 - **Total: $158.10/month**
 
 **Savings with R2: $530.90/month ($6,370.80/year)**
@@ -1548,17 +1525,17 @@ Let's walk through common workloads with actual numbers.
 - 500K PUT requests/month
 
 **AWS S3 Standard:**
-- Storage: 100,000 GB × $0.022 = $2,200/month
-- Egress: 15,000 GB × $0.085 = $1,275/month
-- GET requests: 50M/1000 × $0.0004 = $20/month
-- PUT requests: 500K/1000 × $0.005 = $2.50/month
+- Storage: 100,000 GB \xd7 $0.022 = $2,200/month
+- Egress: 15,000 GB \xd7 $0.085 = $1,275/month
+- GET requests: 50M/1000 \xd7 $0.0004 = $20/month
+- PUT requests: 500K/1000 \xd7 $0.005 = $2.50/month
 - **Total: $3,497.50/month**
 
 **Cloudflare R2:**
-- Storage: 100,000 GB × $0.015 = $1,500/month
-- Egress: 15,000 GB × $0 = $0/month
-- GET requests: 50M/1000000 × $0.36 = $18/month
-- PUT requests: 500K/1000000 × $4.50 = $2.25/month
+- Storage: 100,000 GB \xd7 $0.015 = $1,500/month
+- Egress: 15,000 GB \xd7 $0 = $0/month
+- GET requests: 50M/1000000 \xd7 $0.36 = $18/month
+- PUT requests: 500K/1000000 \xd7 $4.50 = $2.25/month
 - **Total: $1,520.25/month**
 
 **Savings with R2: $1,977.25/month ($23,727/year)**
@@ -2043,15 +2020,15 @@ Here's a quick decision tree for choosing between S3 and R2:
 I migrated a 20 TB static asset workload from S3 to R2. Here's what happened:
 
 **Before (S3):**
-- Storage: 20,000 GB × $0.023 = $460/month
-- Egress: 15,000 GB × $0.09 = $1,350/month
-- Requests: 50M GET × $0.0004 = $20/month
+- Storage: 20,000 GB \xd7 $0.023 = $460/month
+- Egress: 15,000 GB \xd7 $0.09 = $1,350/month
+- Requests: 50M GET \xd7 $0.0004 = $20/month
 - Total: $1,830/month
 
 **After (R2):**
-- Storage: 20,000 GB × $0.015 = $300/month
-- Egress: 15,000 GB × $0 = $0/month
-- Requests: 50M GET × $0.36 = $18/month
+- Storage: 20,000 GB \xd7 $0.015 = $300/month
+- Egress: 15,000 GB \xd7 $0 = $0/month
+- Requests: 50M GET \xd7 $0.36 = $18/month
 - Total: $318/month
 
 **Savings: $1,512/month ($18,144/year)**
@@ -2190,15 +2167,7 @@ There's no universal answer. The right choice depends on your specific workload,
 The $90/TB egress on S3 vs $0 on R2 is just the headline. Dig deeper, model your specific workload, and make a data-driven decision.
 
 Built by engineers, for engineers.
-    `
-  },
-  'automated-cloud-resource-cleanup': {
-    title: 'Automated Cloud Resource Cleanup: Stop Paying for What You\'re Not Using',
-    description: 'The average cloud account has 30-40% waste. Learn how to find and eliminate zombie resources automatically with Python, Bash, and open source tools.',
-    publishDate: '2026-02-23',
-    readTime: '20 min',
-    category: 'Cloud Cost Optimization',
-    content: `
+    `},"automated-cloud-resource-cleanup":{title:"Automated Cloud Resource Cleanup: Stop Paying for What You're Not Using",description:"The average cloud account has 30-40% waste. Learn how to find and eliminate zombie resources automatically with Python, Bash, and open source tools.",publishDate:"2026-02-23",readTime:"20 min",category:"Cloud Cost Optimization",content:`
 The average cloud account has 30-40% waste. Here's how to find and eliminate it automatically.
 
 In this guide, I'll show you how to identify zombie resources—unattached EBS volumes, old snapshots, idle instances, forgotten dev environments—and eliminate them with automated cleanup scripts. We'll cover manual audit techniques, Python automation, EventBridge scheduling, and open source tools like aws-nuke and Cloud Custodian.
@@ -4107,17 +4076,16 @@ By implementing automated cleanup, you can:
 Stop paying for what you're not using. Your cloud bill will thank you.
 
 Built by engineers, for engineers.
-    `
-  }
-};
+    `}};function n(){let e=Object.entries(s).map(([e,t])=>({slug:e,...t})),n=e.find(e=>"how-i-saved-50k-month-cloud-costs"===e.slug),o=e.filter(e=>"how-i-saved-50k-month-cloud-costs"!==e.slug).slice(0,2);return(0,t.jsxs)(t.Fragment,{children:[(0,t.jsx)("div",{className:"cloud cloud-1"}),(0,t.jsx)("div",{className:"cloud cloud-2"}),(0,t.jsx)("div",{className:"cloud cloud-3"}),(0,t.jsx)("div",{className:"cloud cloud-4"}),(0,t.jsxs)("section",{className:"hero",style:{padding:"10rem 2rem 6rem",maxWidth:"1100px",margin:"0 auto",position:"relative",zIndex:1,animation:"fadeInUp 0.9s ease-out 0.2s both"},children:[(0,t.jsx)("div",{style:{display:"inline-flex",alignItems:"center",gap:"0.5rem",padding:"0.6rem 1.3rem",background:"rgba(168, 85, 247, 0.1)",border:"1px solid rgba(168, 85, 247, 0.25)",borderRadius:"30px",fontFamily:"var(--font-jetbrains-mono)",fontSize:"0.75rem",fontWeight:600,color:"var(--accent-purple)",marginBottom:"2rem",animation:"pulse 3s ease-in-out infinite"},children:"✓ Trusted by 500+ engineering teams"}),(0,t.jsxs)("h1",{style:{fontFamily:"var(--font-space-grotesk)",fontSize:"clamp(2.2rem, 6vw, 4rem)",fontWeight:700,lineHeight:1.15,marginBottom:"1.5rem",color:"var(--text-primary)",letterSpacing:"-0.02em"},children:["Save money on ",(0,t.jsx)("span",{style:{background:"linear-gradient(135deg, var(--accent-cyan) 0%, var(--accent-purple) 100%)",WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent",backgroundClip:"text"},children:"cloud costs"})]}),(0,t.jsx)("p",{style:{fontSize:"1.15rem",color:"var(--text-secondary)",marginBottom:"3rem",maxWidth:"650px",lineHeight:1.8},children:"Real strategies that deliver measurable ROI. Engineering teams save an average of 37% within the first quarter of implementation."}),(0,t.jsxs)("div",{style:{background:"var(--code-bg)",border:"1px solid var(--border-subtle)",borderRadius:"12px",padding:"1.8rem",marginTop:"2rem",fontFamily:"var(--font-jetbrains-mono)",fontSize:"0.8rem",overflowX:"auto",position:"relative",boxShadow:"var(--card-shadow)"},children:[(0,t.jsx)("div",{style:{position:"absolute",top:"-10px",left:"1.5rem",background:"var(--bg-tertiary)",padding:"0 0.7rem",fontSize:"0.7rem",color:"var(--text-muted)",borderRadius:"4px",border:"1px solid var(--border-subtle)",fontFamily:"var(--font-jetbrains-mono)"},children:"cost-savings.ts"}),(0,t.jsx)("pre",{style:{margin:0,padding:0,overflowX:"auto"},children:(0,t.jsx)("code",{style:{fontFamily:"var(--font-jetbrains-mono)",fontSize:"0.8rem",lineHeight:1.8,whiteSpace:"pre",display:"block",color:"var(--code-text)"},dangerouslySetInnerHTML:{__html:`<span class="code-keyword">const</span> <span class="code-function">analyzeSavings</span> = <span class="code-keyword">async</span> () =&gt; {
+  <span class="code-keyword">const</span> <span class="code-property">metrics</span> = <span class="code-keyword">await</span> <span class="code-function">getCloudMetrics</span>({
+    <span class="code-property">timeframe</span>: <span class="code-string">&#39;quarter&#39;</span>,
+    <span class="code-property">services</span>: [<span class="code-string">&#39;ec2&#39;</span>, <span class="code-string">&#39;s3&#39;</span>, <span class="code-string">&#39;rds&#39;</span>],
+  });
 
-export function getArticle(slug: string) {
-  return articles[slug as keyof typeof articles];
-}
-
-export function getAllArticles() {
-  return Object.entries(articles).map(([slug, article]) => ({
-    slug,
-    ...article
-  }));
-}
+  <span class="code-comment">// Optimization opportunities detected</span>
+  <span class="code-keyword">return</span> {
+    <span class="code-property">potentialSavings</span>: <span class="code-number">50_000</span>,  <span class="code-comment">// $50k / month</span>
+    <span class="code-property">reductionRate</span>: <span class="code-number">0.37</span>,
+    <span class="code-property">timeToImpact</span>: <span class="code-string">&#39;2 weeks&#39;</span>,
+  };
+};`}})})]}),(0,t.jsxs)("div",{style:{display:"flex",gap:"2rem",flexWrap:"wrap",marginTop:"3rem"},children:[(0,t.jsxs)("div",{style:{background:"var(--bg-card)",border:"1px solid var(--border-subtle)",borderRadius:"16px",padding:"2rem",minWidth:"180px",flex:1,textAlign:"center",transition:"all 0.4s ease",position:"relative",overflow:"hidden"},onMouseEnter:e=>{e.currentTarget.style.transform="translateY(-8px)",e.currentTarget.style.borderColor="rgba(0, 212, 255, 0.3)",e.currentTarget.style.boxShadow="0 20px 50px rgba(0, 212, 255, 0.15)"},onMouseLeave:e=>{e.currentTarget.style.transform="translateY(0)",e.currentTarget.style.borderColor="var(--border-subtle)",e.currentTarget.style.boxShadow="none"},children:[(0,t.jsx)("div",{style:{fontFamily:"var(--font-space-grotesk)",fontSize:"2.5rem",fontWeight:700,background:"linear-gradient(135deg, var(--accent-cyan) 0%, var(--accent-purple) 100%)",WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent",backgroundClip:"text",marginBottom:"0.3rem"},children:"$50K+"}),(0,t.jsx)("div",{style:{fontSize:"0.85rem",color:"var(--text-muted)",fontWeight:600},children:"Avg. Monthly Savings"})]}),(0,t.jsxs)("div",{style:{background:"var(--bg-card)",border:"1px solid var(--border-subtle)",borderRadius:"16px",padding:"2rem",minWidth:"180px",flex:1,textAlign:"center",transition:"all 0.4s ease",position:"relative",overflow:"hidden"},onMouseEnter:e=>{e.currentTarget.style.transform="translateY(-8px)",e.currentTarget.style.borderColor="rgba(0, 212, 255, 0.3)",e.currentTarget.style.boxShadow="0 20px 50px rgba(0, 212, 255, 0.15)"},onMouseLeave:e=>{e.currentTarget.style.transform="translateY(0)",e.currentTarget.style.borderColor="var(--border-subtle)",e.currentTarget.style.boxShadow="none"},children:[(0,t.jsx)("div",{style:{fontFamily:"var(--font-space-grotesk)",fontSize:"2.5rem",fontWeight:700,background:"linear-gradient(135deg, var(--accent-cyan) 0%, var(--accent-purple) 100%)",WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent",backgroundClip:"text",marginBottom:"0.3rem"},children:"37%"}),(0,t.jsx)("div",{style:{fontSize:"0.85rem",color:"var(--text-muted)",fontWeight:600},children:"Reduction Rate"})]}),(0,t.jsxs)("div",{style:{background:"var(--bg-card)",border:"1px solid var(--border-subtle)",borderRadius:"16px",padding:"2rem",minWidth:"180px",flex:1,textAlign:"center",transition:"all 0.4s ease",position:"relative",overflow:"hidden"},onMouseEnter:e=>{e.currentTarget.style.transform="translateY(-8px)",e.currentTarget.style.borderColor="rgba(0, 212, 255, 0.3)",e.currentTarget.style.boxShadow="0 20px 50px rgba(0, 212, 255, 0.15)"},onMouseLeave:e=>{e.currentTarget.style.transform="translateY(0)",e.currentTarget.style.borderColor="var(--border-subtle)",e.currentTarget.style.boxShadow="none"},children:[(0,t.jsx)("div",{style:{fontFamily:"var(--font-space-grotesk)",fontSize:"2.5rem",fontWeight:700,background:"linear-gradient(135deg, var(--accent-cyan) 0%, var(--accent-purple) 100%)",WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent",backgroundClip:"text",marginBottom:"0.3rem"},children:"2 weeks"}),(0,t.jsx)("div",{style:{fontSize:"0.85rem",color:"var(--text-muted)",fontWeight:600},children:"To First Impact"})]})]})]}),(0,t.jsx)("section",{style:{padding:"5rem 2rem",position:"relative",zIndex:1,animation:"fadeInUp 0.9s ease-out 0.4s both"},children:(0,t.jsxs)("div",{style:{maxWidth:"1100px",margin:"0 auto"},children:[(0,t.jsxs)("p",{style:{fontFamily:"var(--font-jetbrains-mono)",fontSize:"0.75rem",fontWeight:600,textTransform:"uppercase",letterSpacing:"0.1em",color:"var(--text-muted)",marginBottom:"1.5rem",display:"flex",alignItems:"center",gap:"0.75rem"},children:[(0,t.jsx)("span",{style:{color:"var(--accent-cyan)"},children:" //"})," Featured Story"]}),(0,t.jsx)(a.default,{href:`/article/${n?.slug}`,style:{textDecoration:"none",display:"block"},children:(0,t.jsxs)("article",{style:{background:"var(--bg-card)",border:"1px solid var(--border-subtle)",borderRadius:"20px",padding:"3rem",transition:"all 0.4s ease",cursor:"pointer",position:"relative",overflow:"hidden"},onMouseEnter:e=>{e.currentTarget.style.transform="translateX(8px) translateY(-4px)",e.currentTarget.style.borderColor="rgba(0, 212, 255, 0.3)",e.currentTarget.style.boxShadow="0 25px 70px rgba(0, 212, 255, 0.15)"},onMouseLeave:e=>{e.currentTarget.style.transform="translateX(0) translateY(0)",e.currentTarget.style.borderColor="var(--border-subtle)",e.currentTarget.style.boxShadow="none"},children:[(0,t.jsx)("h2",{style:{fontFamily:"var(--font-space-grotesk)",fontSize:"2rem",fontWeight:700,lineHeight:1.25,marginBottom:"1.5rem",color:"var(--text-primary)",position:"relative",zIndex:1},children:n?.title}),(0,t.jsx)("p",{style:{fontSize:"1rem",color:"var(--text-secondary)",marginBottom:"1.5rem",lineHeight:1.7,position:"relative",zIndex:1},children:n?.description}),(0,t.jsxs)("div",{style:{display:"flex",alignItems:"center",gap:"1rem",fontFamily:"var(--font-jetbrains-mono)",position:"relative",zIndex:1},children:[(0,t.jsx)("span",{style:{padding:"0.5rem 1.3rem",background:"rgba(0, 212, 255, 0.1)",color:"var(--accent-cyan)",border:"1px solid rgba(0, 212, 255, 0.3)",borderRadius:"20px",fontSize:"0.75rem",fontWeight:600},children:n?.category}),(0,t.jsx)("span",{style:{padding:"0.5rem 1.3rem",background:"rgba(168, 85, 247, 0.1)",color:"var(--accent-purple)",border:"1px solid rgba(168, 85, 247, 0.3)",borderRadius:"20px",fontSize:"0.75rem",fontWeight:600},children:n?.readTime})]})]})})]})}),o.length>0&&(0,t.jsx)("section",{style:{padding:"5rem 2rem",position:"relative",zIndex:1,animation:"fadeInUp 0.9s ease-out 0.6s both"},children:(0,t.jsxs)("div",{style:{maxWidth:"1100px",margin:"0 auto"},children:[(0,t.jsxs)("p",{style:{fontFamily:"var(--font-jetbrains-mono)",fontSize:"0.75rem",fontWeight:600,textTransform:"uppercase",letterSpacing:"0.1em",color:"var(--text-muted)",marginBottom:"1.5rem",display:"flex",alignItems:"center",gap:"0.75rem"},children:[(0,t.jsx)("span",{style:{color:"var(--accent-cyan)"},children:" //"})," Recent Articles"]}),(0,t.jsx)("div",{style:{display:"flex",flexDirection:"column",gap:"1.5rem"},children:o.map(e=>(0,t.jsx)(a.default,{href:`/article/${e.slug}`,style:{textDecoration:"none",display:"block"},children:(0,t.jsxs)("article",{style:{background:"var(--bg-card)",border:"1px solid var(--border-subtle)",borderRadius:"16px",padding:"2rem",transition:"all 0.4s ease",cursor:"pointer",position:"relative",overflow:"hidden"},onMouseEnter:e=>{e.currentTarget.style.transform="translateX(8px)",e.currentTarget.style.borderColor="rgba(0, 212, 255, 0.3)",e.currentTarget.style.boxShadow="0 20px 50px rgba(0, 212, 255, 0.1)"},onMouseLeave:e=>{e.currentTarget.style.transform="translateX(0)",e.currentTarget.style.borderColor="var(--border-subtle)",e.currentTarget.style.boxShadow="none"},children:[(0,t.jsx)("h3",{style:{fontFamily:"var(--font-space-grotesk)",fontSize:"1.5rem",fontWeight:700,lineHeight:1.3,marginBottom:"1rem",color:"var(--text-primary)",position:"relative",zIndex:1},children:e.title}),(0,t.jsx)("p",{style:{fontSize:"0.95rem",color:"var(--text-secondary)",marginBottom:"1rem",lineHeight:1.6,position:"relative",zIndex:1},children:e.description}),(0,t.jsxs)("div",{style:{display:"flex",alignItems:"center",gap:"1rem",fontFamily:"var(--font-jetbrains-mono)",position:"relative",zIndex:1},children:[(0,t.jsx)("span",{style:{padding:"0.4rem 1rem",background:"rgba(0, 212, 255, 0.1)",color:"var(--accent-cyan)",border:"1px solid rgba(0, 212, 255, 0.3)",borderRadius:"20px",fontSize:"0.7rem",fontWeight:600},children:e.category}),(0,t.jsx)("span",{style:{padding:"0.4rem 1rem",background:"rgba(168, 85, 247, 0.1)",color:"var(--accent-purple)",border:"1px solid rgba(168, 85, 247, 0.3)",borderRadius:"20px",fontSize:"0.7rem",fontWeight:600},children:e.readTime})]})]})},e.slug))})]})}),(0,t.jsx)("section",{style:{padding:"6rem 2rem",position:"relative",zIndex:1,animation:"fadeInUp 0.9s ease-out 0.6s both"},children:(0,t.jsxs)("div",{style:{maxWidth:"600px",margin:"0 auto",background:"var(--bg-card)",border:"1px solid var(--border-subtle)",borderRadius:"24px",padding:"3.5rem",position:"relative",overflow:"hidden",boxShadow:"var(--card-shadow)"},children:[(0,t.jsx)("div",{style:{position:"absolute",top:"-2px",left:"-2px",right:"-2px",bottom:"-2px",background:"linear-gradient(135deg, var(--accent-cyan), var(--accent-purple), var(--accent-cyan))",borderRadius:"26px",zIndex:-1,opacity:.3}}),(0,t.jsx)("h2",{style:{fontFamily:"var(--font-space-grotesk)",fontSize:"2.2rem",fontWeight:700,marginBottom:"0.75rem",color:"var(--text-primary)",position:"relative",zIndex:1},children:"Get weekly cloud cost tips"}),(0,t.jsx)("p",{style:{color:"var(--text-secondary)",marginBottom:"2.5rem",fontSize:"1rem",lineHeight:1.8,position:"relative",zIndex:1},children:"Join thousands of engineers getting practical insights delivered to their inbox. Clear, actionable strategies without the fluff."}),(0,t.jsxs)("form",{method:"post",action:"https://sendfox.com/form/3qdz96/36enr2",className:"sendfox-form",id:"36enr2","data-async":"true","data-recaptcha":"true",style:{display:"flex",flexDirection:"column",gap:"1rem",position:"relative",zIndex:1},children:[(0,t.jsx)("input",{type:"text",name:"first_name",placeholder:"Your name",required:!0,style:{width:"100%",padding:"1.1rem 1.5rem",fontFamily:"var(--font-nunito)",fontSize:"1rem",background:"var(--bg-tertiary)",border:"1px solid var(--border-subtle)",borderRadius:"12px",color:"var(--text-primary)",transition:"all 0.3s ease"}}),(0,t.jsx)("input",{type:"email",name:"email",placeholder:"your@email.com",required:!0,style:{width:"100%",padding:"1.1rem 1.5rem",fontFamily:"var(--font-nunito)",fontSize:"1rem",background:"var(--bg-tertiary)",border:"1px solid var(--border-subtle)",borderRadius:"12px",color:"var(--text-primary)",transition:"all 0.3s ease"}}),(0,t.jsx)("div",{style:{position:"absolute",left:"-5000px"},"aria-hidden":"true",children:(0,t.jsx)("input",{type:"text",name:"a_password",tabIndex:-1,value:"",autoComplete:"off"})}),(0,t.jsx)("button",{type:"submit",style:{fontFamily:"var(--font-nunito)",fontSize:"1rem",fontWeight:700,padding:"1.2rem 2rem",background:"linear-gradient(135deg, var(--accent-cyan) 0%, var(--accent-purple) 100%)",color:"white",border:"none",borderRadius:"12px",cursor:"pointer",transition:"all 0.3s ease",marginTop:"0.5rem"},onMouseEnter:e=>{e.currentTarget.style.transform="translateY(-3px)",e.currentTarget.style.boxShadow="0 15px 35px rgba(0, 212, 255, 0.3)"},onMouseLeave:e=>{e.currentTarget.style.transform="translateY(0)",e.currentTarget.style.boxShadow="none"},children:"Subscribe ✨"})]}),(0,t.jsx)("script",{src:"https://cdn.sendfox.com/js/form.js",charSet:"utf-8",async:!0})]})}),(0,t.jsx)("footer",{style:{padding:"3rem 2rem",textAlign:"center",borderTop:"1px solid var(--border-subtle)",position:"relative",zIndex:1,animation:"fadeInUp 0.9s ease-out 0.8s both"},children:(0,t.jsx)("p",{style:{fontFamily:"var(--font-nunito)",fontSize:"0.85rem",color:"var(--text-muted)"},children:"© 2026 Cost Nimbus. Built by engineers, for engineers."})})]})}e.s(["default",()=>n],64347)}]);

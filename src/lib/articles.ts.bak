@@ -831,8 +831,8 @@ def analyze_nat_traffic():
     total_bytes = sum(int(r[3]['value']) for r in results['results'])
     savings = (total_bytes / 1e9) * 0.045  # $0.045/GB
 
-    print(""
-    print(""  # 7 days to 30 days
+    print(f"Total S3 bytes through NAT: {total_bytes:,}")
+    print(f"Potential monthly savings: $\\{savings * 4:.2f}")  # 7 days to 30 days
 
 analyze_nat_traffic()
 \`\`\`
@@ -1146,7 +1146,7 @@ def audit_nat_gateways():
     # Get all NAT Gateways
     nat_gateways = ec2.describe_nat_gateways()
 
-    print(""
+    print(f"NAT Gateway Audit - {datetime.now().strftime('%Y-%m-%d')}")
     print("=" * 60)
 
     total_monthly_cost = 0
@@ -1177,13 +1177,13 @@ def audit_nat_gateways():
 
         total_monthly_cost += total_cost
 
-        print(""
-        print(""
-        print(""
-        print(""
-        print(""
-        print(""
-        print(""
+        print(f"\\nNAT Gateway: {nat_id}")
+        print(f"State: {state}")
+        print(f"Subnet: {subnet_id}")
+        print(f"Data processed (30d): {total_bytes / (1024**3):.2f} GB")
+        print(f"Hourly cost: $\\{hourly_cost:.2f}")
+        print(f"Data processing: $\\{data_processing_cost:.2f}")
+        print(f"Total monthly: $\\{total_cost:.2f}")
 
         # Check for VPC endpoints in same VPC
         vpc_id = nat['VpcId']
@@ -1195,15 +1195,15 @@ def audit_nat_gateways():
                             if ep['VpcEndpointType'] == 'Gateway']
 
         if gateway_endpoints:
-            print(""
+            print(f"VPC endpoints: {len(gateway_endpoints)}")
             for ep in gateway_endpoints:
-                print(""
+                print(f"  - {ep['ServiceName']}")
         else:
             print("⚠️  No gateway VPC endpoints found!")
 
     print("\\n" + "=" * 60)
-    print(""
-    print(""
+    print(f"Total monthly cost: $\\{total_monthly_cost:.2f}")
+    print(f"Potential savings with VPC endpoints: $\\{total_monthly_cost * 0.4:.2f}")
 
 if __name__ == '__main__':
     audit_nat_gateways()
@@ -1223,7 +1223,7 @@ def create_vpc_endpoints():
     vpc_ids = [vpc['VpcId'] for vpc in vpcs['Vpcs']]
 
     for vpc_id in vpc_ids:
-        print(""
+        print(f"\\nProcessing VPC: {vpc_id}")
 
         # Get route tables for this VPC
         route_tables = ec2.describe_route_tables(
@@ -1240,9 +1240,9 @@ def create_vpc_endpoints():
                 VpcEndpointType='Gateway',
                 RouteTableIds=rt_ids
             )
-            print(""
+            print(f"✓ Created S3 endpoint: {s3_endpoint['VpcEndpoint']['VpcEndpointId']}")
         except Exception as e:
-            print(""
+            print(f"✗ Failed to create S3 endpoint: {e}")
 
         # Create DynamoDB endpoint
         try:
@@ -1252,9 +1252,9 @@ def create_vpc_endpoints():
                 VpcEndpointType='Gateway',
                 RouteTableIds=rt_ids
             )
-            print(""
+            print(f"✓ Created DynamoDB endpoint: {dynamodb_endpoint['VpcEndpoint']['VpcEndpointId']}")
         except Exception as e:
-            print(""
+            print(f"✗ Failed to create DynamoDB endpoint: {e}")
 
 if __name__ == '__main__':
     create_vpc_endpoints()
@@ -1289,18 +1289,18 @@ def calculate_nat_costs():
     # Display results
     print("\\n" + "=" * 50)
     print("Current Architecture:")
-    print(""
-    print(""
-    print(""
+    print(f"  Hourly charges: $\\{hourly_cost:.2f}/month")
+    print(f"  Data processing: $\\{data_processing_cost:.2f}/month")
+    print(f"  Total: $\\{total_cost:.2f}/month")
 
     print("\\nWith VPC Endpoints (60% S3/DynamoDB):")
-    print(""
-    print(""
-    print(""
+    print(f"  Hourly charges: $\\{optimized_hourly_cost:.2f}/month")
+    print(f"  Data processing: $\\{optimized_data_cost:.2f}/month")
+    print(f"  Total: $\\{optimized_total:.2f}/month")
 
     print("\\n" + "=" * 50)
-    print(""
-    print(""
+    print(f"Savings: \${total_cost - optimized_total:.2f}/month")
+    print(f"Annual savings: \${(total_cost - optimized_total) * 12:.2f}")
 
 if __name__ == '__main__':
     calculate_nat_costs()
@@ -1807,19 +1807,20 @@ def migrate_object(s3_key):
         # Download from S3
         s3_source.download_file(
             source_bucket,
-            s3_key,"
-            "
+            s3_key,
+            f"/tmp/{os.path.basename(s3_key)}"
+        )
 
         # Upload to R2
-        r2_dest.upload_file("
-            ",
+        r2_dest.upload_file(
+            f"/tmp/{os.path.basename(s3_key)}",
             dest_bucket,
             s3_key
         )
 
-        print(""
+        print(f"✓ Migrated: {s3_key}")
     except Exception as e:
-        print(""
+        print(f"✗ Failed: {s3_key} - {e}")
 
 # Setup clients
 s3_source = boto3.client('s3')
@@ -1848,8 +1849,8 @@ def verify_migration():
     s3_count = len(s3_source.list_objects_v2(Bucket=source_bucket)['Contents'])
     r2_count = len(r2_dest.list_objects_v2(Bucket=dest_bucket)['Contents'])
 
-    print(""
-    print(""
+    print(f"S3 objects: {s3_count}")
+    print(f"R2 objects: {r2_count}")
 
     if s3_count == r2_count:
         print("✓ Migration complete: Counts match")
@@ -1864,9 +1865,9 @@ def verify_migration():
         r2_obj = r2_dest.head_object(Bucket=dest_bucket, Key=key)
 
         if s3_obj['ContentLength'] == r2_obj['ContentLength']:
-            print(""
+            print(f"✓ {key}: Sizes match")
         else:
-            print(""
+            print(f"✗ {key}: Size mismatch")
 
 verify_migration()
 \`\`\`
@@ -1938,11 +1939,11 @@ def calculate_r2_cost(storage_gb, egress_gb, put_requests, get_requests):
 
 def format_cost_breakdown(name, costs):
     """Pretty print cost breakdown"""
-    print(""
-    print(""
-    print(""
-    print(""
-    print(""
+    print(f"\\n{name}:")
+    print(f"  Storage:    $\\{costs['storage']:,.2f}")
+    print(f"  Egress:     $\\{costs['egress']:,.2f}")
+    print(f"  Requests:   $\\{costs['requests']:,.2f}")
+    print(f"  Total:      $\\{costs['total']:,.2f}")
 
 def main():
     print("=" * 60)
@@ -1979,8 +1980,8 @@ def main():
 
     print("\\n" + "=" * 60)
     savings = s3_costs['total'] - r2_costs['total']
-    print(""
-    print(""
+    print(f"MONTHLY SAVINGS WITH R2: $\\{savings:,.2f}")
+    print(f"ANNUAL SAVINGS WITH R2: $\\{savings * 12:,.2f}")
     print("=" * 60)
 
     # Recommendation
@@ -2338,7 +2339,7 @@ aws ec2 describe-volumes \\
   --output json | jq -r '.[] | @csv' | while IFS=, read -r vid size type; do
     # gp2 pricing: $0.10/GB/month in us-east-1
     cost=$(echo "$size * 0.10" | bc)
-    echo "$vid,$size,$type,$\\\${cost}"
+    echo "$vid,$size,$type,$\\${cost}"
   done
 \`\`\`
 
@@ -2350,7 +2351,7 @@ DATE=$(date -u -d '90 days ago' +%Y-%m-%dT%H:%M:%S)
 
 aws ec2 describe-snapshots \\
   --owner-ids self \\
-  --filters "Name=start-time,Values=,\\\${DATE}" \\
+  --filters "Name=start-time,Values=,\\${DATE}" \\
   --query 'Snapshots[*].[SnapshotId,VolumeSize,StartTime,Description]' \\
   --output table
 
@@ -2401,7 +2402,7 @@ unused_eips=$(aws ec2 describe-addresses \\
 
 monthly_cost=$(echo "$unused_eips * 3.60" | bc)
 echo "Unused EIPs: $unused_eips"
-echo "Monthly cost: $\\\${monthly_cost}"
+echo "Monthly cost: $\\${monthly_cost}"
 \`\`\`
 
 ### Step 6: Find Unused Lambda Versions
@@ -2448,7 +2449,7 @@ def get_unattached_volumes(dry_run=True):
     )
     
     volumes = response['Volumes']
-    print(""
+    print(f"Found {len(volumes)} unattached volumes")
     
     # Calculate total cost
     total_size = sum(v['Size'] for v in volumes)
@@ -2456,7 +2457,7 @@ def get_unattached_volumes(dry_run=True):
     monthly_cost = total_size * 0.10
     
     print("Total size: {} GB".format(total_size))
-    print("Monthly cost: \${:.2f}".format(monthly_cost))
+    print("Monthly cost: ${:.2f}".format(monthly_cost))
     
     return volumes
 
@@ -2470,7 +2471,7 @@ def check_tags(volume):
     
     for exempt_tag in exempt_tags:
         if exempt_tag in tag_dict:
-            print(""
+            print(f"  ⚠️  Volume exempt: {exempt_tag}={tag_dict[exempt_tag]}")
             return True
     
     return False
@@ -2481,13 +2482,13 @@ def delete_volume(volume_id, dry_run=True):
     
     try:
         if dry_run:
-            print(""
+            print(f"  [DRY RUN] Would delete volume: {volume_id}")
         else:
             ec2.delete_volume(VolumeId=volume_id)
-            print(""
+            print(f"  ✓ Deleted volume: {volume_id}")
         return True
     except Exception as e:
-        print(""
+        print(f"  ✗ Error deleting volume {volume_id}: {e}")
         return False
 
 def main():
@@ -2525,7 +2526,7 @@ def main():
         create_time = volume['CreateTime']
         age_days = (datetime.now(create_time.tzinfo) - create_time).days
         
-        print(""
+        print(f"\\n{volume_id} ({size} GB, {age_days} days old)")
         
         # Check exemption tags
         if check_tags(volume):
@@ -2534,7 +2535,7 @@ def main():
         
         # Additional safety: volumes created in last 7 days
         if age_days < 7:
-            print(""
+            print(f"  ⚠️  Too new ({age_days} days old) - skipping")
             exempt_count += 1
             continue
         
@@ -2544,10 +2545,10 @@ def main():
             total_size_deleted += size
     
     print("\\n" + "=" * 60)
-    print(""
-    print(""
-    print(""
-    print(""
+    print(f"Summary:")
+    print(f"  Deleted: {deleted_count} volumes ({total_size_deleted} GB)")
+    print(f"  Exempted: {exempt_count} volumes")
+    print(f"  Monthly savings: $\\${total_size_deleted * 0.10:.2f}")
 
 if __name__ == '__main__':
     main()
@@ -2593,7 +2594,7 @@ def get_old_snapshots(days=90, dry_run=True):
     )
     
     snapshots = response['Snapshots']
-    print(""
+    print(f"Found {len(snapshots)} snapshots older than {days} days")
     
     return snapshots
 
@@ -2615,13 +2616,13 @@ def delete_snapshot(snapshot_id, dry_run=True):
     
     try:
         if dry_run:
-            print(""
+            print(f"  [DRY RUN] Would delete snapshot: {snapshot_id}")
         else:
             ec2.delete_snapshot(SnapshotId=snapshot_id)
-            print(""
+            print(f"  ✓ Deleted snapshot: {snapshot_id}")
         return True
     except Exception as e:
-        print(""
+        print(f"  ✗ Error deleting snapshot {snapshot_id}: {e}")
         return False
 
 def main():
@@ -2631,13 +2632,13 @@ def main():
     
     if dry_run:
         print("=" * 60)
-        print(""
-        print(""
+        print(f"DRY RUN MODE - No changes will be made")
+        print(f"Snapshots older than {days} days")
         print("=" * 60)
     else:
         print("=" * 60)
-        print(""
-        print(""
+        print(f"PRODUCTION MODE - Snapshots WILL be deleted!")
+        print(f"Snapshots older than {days} days")
         print("=" * 60)
     
     if not dry_run and not force:
@@ -2664,13 +2665,13 @@ def main():
         
         age_days = (datetime.now(timezone.utc) - start_time).days
         
-        print(""
+        print(f"\\n{snapshot_id} ({size} GB, {age_days} days old)")
         if description:
-            print(""
+            print(f"  Description: {description[:60]}...")
         
         # Check if referenced by AMI
         if is_snapshot_referenced(snapshot_id):
-            print(""
+            print(f"  ⚠️  Referenced by AMI - skipping")
             exempt_count += 1
             continue
         
@@ -2681,7 +2682,7 @@ def main():
         exempt_tags = ['do-not-delete', 'preserve', 'keep', 'backup']
         for exempt_tag in exempt_tags:
             if exempt_tag in tag_dict:
-                print(""
+                print(f"  ⚠️  Volume exempt: {exempt_tag}={tag_dict[exempt_tag]}")
                 exempt_count += 1
                 continue
         
@@ -2691,11 +2692,11 @@ def main():
             total_size_deleted += size
     
     print("\\n" + "=" * 60)
-    print(""
-    print(""
-    print(""
+    print(f"Summary:")
+    print(f"  Deleted: {deleted_count} snapshots ({total_size_deleted} GB)")
+    print(f"  Exempted: {exempt_count} snapshots")
     # Snapshot pricing in us-east-1: $0.05/GB/month
-    print(""
+    print(f"  Monthly savings: $\\${total_size_deleted * 0.05:.2f}")
 
 if __name__ == '__main__':
     main()
@@ -2760,7 +2761,7 @@ def check_instance_tags(instance):
     
     for exempt_tag in exempt_tags:
         if exempt_tag.lower() in [k.lower() for k in tag_dict.keys()]:
-            print(""
+            print(f"  ⚠️  Instance exempt: {exempt_tag}")
             return True
     
     return False
@@ -2771,13 +2772,13 @@ def stop_instance(instance_id, dry_run=True):
     
     try:
         if dry_run:
-            print(""
+            print(f"  [DRY RUN] Would stop instance: {instance_id}")
         else:
             ec2.stop_instances(InstanceIds=[instance_id])
-            print(""
+            print(f"  ✓ Stopped instance: {instance_id}")
         return True
     except Exception as e:
-        print(""
+        print(f"  ✗ Error stopping instance {instance_id}: {e}")
         return False
 
 def main():
@@ -2799,17 +2800,17 @@ def main():
     for reservation in response['Reservations']:
         instances.extend(reservation['Instances'])
     
-    print(""
+    print(f"Found {len(instances)} running instances")
     
     if dry_run:
         print("=" * 60)
         print("DRY RUN MODE - No instances will be stopped")
-        print(""
+        print(f"CPU threshold: {cpu_threshold}% over {days} days")
         print("=" * 60)
     else:
         print("=" * 60)
         print("PRODUCTION MODE - Instances WILL be stopped!")
-        print(""
+        print(f"CPU threshold: {cpu_threshold}% over {days} days")
         print("=" * 60)
     
     if not dry_run and not force:
@@ -2835,15 +2836,15 @@ def main():
         avg_cpu = get_instance_cpu(instance_id, days)
         
         if avg_cpu is None:
-            print(""
-            print(""
+            print(f"\\n{instance_id} ({instance_type})")
+            print(f"  No CPU data available - skipping")
             continue
         
-        print(""
-        print(""
+        print(f"\\n{instance_id} ({instance_type})")
+        print(f"  Average CPU ({days} days): {avg_cpu:.2f}%")
         
         if avg_cpu >= cpu_threshold:
-            print(""
+            print(f"  ✓ Above threshold - keeping running")
             continue
         
         # Check exemption tags
@@ -2856,9 +2857,9 @@ def main():
             stopped_count += 1
     
     print("\\n" + "=" * 60)
-    print(""
-    print(""
-    print(""
+    print(f"Summary:")
+    print(f"  Stopped: {stopped_count} instances")
+    print(f"  Exempted: {exempt_count} instances")
 
 if __name__ == '__main__':
     main()
@@ -2900,8 +2901,8 @@ def get_unused_eips(dry_run=True):
         if addr.get('AssociationId') is None
     ]
     
-    print(""
-    print(""
+    print(f"Found {len(unused_eips)} unused Elastic IPs")
+    print(f"Monthly cost: $\\${len(unused_eips) * 3.60:.2f}")
     
     return unused_eips
 
@@ -2914,7 +2915,7 @@ def check_tags(address):
     
     for exempt_tag in exempt_tags:
         if exempt_tag in tag_dict:
-            print(""
+            print(f"  ⚠️  Address exempt: {exempt_tag}={tag_dict[exempt_tag]}")
             return True
     
     return False
@@ -2925,13 +2926,13 @@ def release_eip(allocation_id, dry_run=True):
     
     try:
         if dry_run:
-            print(""
+            print(f"  [DRY RUN] Would release EIP: {allocation_id}")
         else:
             ec2.release_address(AllocationId=allocation_id)
-            print(""
+            print(f"  ✓ Released EIP: {allocation_id}")
         return True
     except Exception as e:
-        print(""
+        print(f"  ✗ Error releasing EIP {allocation_id}: {e}")
         return False
 
 def main():
@@ -2966,7 +2967,7 @@ def main():
         public_ip = addr['PublicIp']
         allocation_id = addr['AllocationId']
         
-        print(""
+        print(f"\\n{public_ip} ({allocation_id})")
         
         # Check exemption tags
         if check_tags(addr):
@@ -2978,10 +2979,10 @@ def main():
             released_count += 1
     
     print("\\n" + "=" * 60)
-    print(""
-    print(""
-    print(""
-    print(""
+    print(f"Summary:")
+    print(f"  Released: {released_count} Elastic IPs")
+    print(f"  Exempted: {exempt_count} Elastic IPs")
+    print(f"  Monthly savings: $\\${released_count * 3.60:.2f}")
 
 if __name__ == '__main__':
     main()
@@ -3017,7 +3018,7 @@ def get_lambda_versions(function_name, keep_versions=5, dry_run=True):
     versions_to_delete = versions[keep_versions:]
     
     if versions_to_delete:
-        print(""
+        print(f"  {function_name}: {len(versions_to_delete)} old versions")
     
     return versions_to_delete
 
@@ -3027,16 +3028,16 @@ def delete_lambda_version(function_name, version, dry_run=True):
     
     try:
         if dry_run:
-            print(""
+            print(f"    [DRY RUN] Would delete version {version}")
         else:
             lambda_client.delete_function(
                 FunctionName=function_name,
                 Qualifier=version
             )
-            print(""
+            print(f"    ✓ Deleted version {version}")
         return True
     except Exception as e:
-        print(""
+        print(f"    ✗ Error deleting version {version}: {e}")
         return False
 
 def main():
@@ -3050,17 +3051,17 @@ def main():
     response = lambda_client.list_functions()
     
     functions = [func['FunctionName'] for func in response['Functions']]
-    print(""
+    print(f"Found {len(functions)} Lambda functions")
     
     if dry_run:
         print("=" * 60)
         print("DRY RUN MODE - No versions will be deleted")
-        print(""
+        print(f"Keeping latest {keep_versions} versions per function")
         print("=" * 60)
     else:
         print("=" * 60)
         print("PRODUCTION MODE - Versions WILL be deleted!")
-        print(""
+        print(f"Keeping latest {keep_versions} versions per function")
         print("=" * 60)
     
     if not dry_run and not force:
@@ -3085,8 +3086,8 @@ def main():
                 deleted_count += 1
     
     print("\\n" + "=" * 60)
-    print(""
-    print(""
+    print(f"Summary:")
+    print(f"  Deleted: {deleted_count} Lambda versions")
 
 if __name__ == '__main__':
     main()
@@ -3169,7 +3170,7 @@ from datetime import datetime, timedelta, timezone
 
 def lambda_handler(event, context):
     """Lambda handler for scheduled cleanup."""
-    print(""
+    print(f"Starting cleanup at {datetime.now(timezone.utc).isoformat()}")
     
     # Get configuration from event
     config = event.get('config', {})
@@ -3210,7 +3211,7 @@ def lambda_handler(event, context):
             'result': result
         })
     
-    print(""
+    print(f"Cleanup completed: {json.dumps(results, indent=2)}")
     
     return {
         'statusCode': 200,
@@ -3246,7 +3247,7 @@ def cleanup_ebs(dry_run=True):
             deleted += 1
             size_deleted += volume['Size']
         except Exception as e:
-            print(""
+            print(f"Error deleting {volume_id}: {e}")
     
     return {
         'deleted': deleted,
@@ -3292,7 +3293,7 @@ def cleanup_snapshots(days=90, dry_run=True):
             deleted += 1
             size_deleted += snapshot['VolumeSize']
         except Exception as e:
-            print(""
+            print(f"Error deleting {snapshot_id}: {e}")
     
     return {
         'deleted': deleted,
@@ -3354,7 +3355,7 @@ def cleanup_instances(cpu_threshold=5.0, days=7, dry_run=True):
                     ec2.stop_instances(InstanceIds=[instance_id])
                 stopped += 1
             except Exception as e:
-                print(""
+                print(f"Error stopping {instance_id}: {e}")
     
     return {
         'stopped': stopped,
@@ -3747,16 +3748,16 @@ Always implement dry-run mode in your scripts:
 def delete_resource(resource_id, dry_run=True):
     """Delete a resource with dry-run mode."""
     if dry_run:
-        print(""
+        print(f"[DRY RUN] Would delete: {resource_id}")
         return False
     else:
         # Actual deletion
         try:
             client.delete(ResourceId=resource_id)
-            print(""
+            print(f"✓ Deleted: {resource_id}")
             return True
         except Exception as e:
-            print(""
+            print(f"✗ Error: {e}")
             return False
 
 # Require explicit confirmation
@@ -3827,9 +3828,9 @@ AFTER_COST=$(echo "$cost_after")
 SAVINGS=$(echo "$BEFORE_COST - $AFTER_COST" | bc)
 PERCENT=$(echo "$SAVINGS / $BEFORE_COST * 100" | bc -l)
 
-echo "Before: $\\\${BEFORE_COST}/month"
-echo "After: $\\\${AFTER_COST}/month"
-echo "Savings: $\\\${SAVINGS}/month (\${PERCENT:.1f}%)"
+echo "Before: $\\${BEFORE_COST}/month"
+echo "After: $\\${AFTER_COST}/month"
+echo "Savings: $\\${SAVINGS}/month (${PERCENT:.1f}%)"
 \`\`\`
 
 ### Tracking Script
@@ -3901,9 +3902,9 @@ def track_cleanup_results():
         json.dump(history, f, indent=2)
     
     # Print summary
-    print(""
+    print(f"Current monthly cost: $\\${current_cost:.2f}")
     if savings > 0:
-        print(""
+        print(f"Savings: $\\${savings:.2f} ({savings_percent:.1f}%)")
     
     return entry
 
@@ -4110,10 +4111,6 @@ Built by engineers, for engineers.
     `
   }
 };
-
-export function getArticle(slug: string) {
-  return articles[slug as keyof typeof articles];
-}
 
 export function getAllArticles() {
   return Object.entries(articles).map(([slug, article]) => ({
