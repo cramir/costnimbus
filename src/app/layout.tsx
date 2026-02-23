@@ -1,10 +1,43 @@
 import type { Metadata } from 'next';
+import { Space_Grotesk, Nunito, JetBrains_Mono } from 'next/font/google';
 import './globals.css';
 
+const spaceGrotesk = Space_Grotesk({
+  subsets: ['latin'],
+  variable: '--font-space-grotesk',
+  display: 'swap',
+});
+
+const nunito = Nunito({
+  subsets: ['latin'],
+  variable: '--font-nunito',
+  display: 'swap',
+});
+
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ['latin'],
+  variable: '--font-jetbrains-mono',
+  display: 'swap',
+});
+
 export const metadata: Metadata = {
-  title: 'Cost Nimbus - Cloud Cost Intelligence',
-  description: 'Real cloud cost optimization strategies with concrete ROI. Save money on AWS, Azure, and GCP.',
+  title: {
+    template: '%s | Cost Nimbus',
+    default: 'Cost Nimbus - Cloud Cost Intelligence',
+  },
+  description: 'Real cloud cost optimization strategies built by engineers, for engineers. Save thousands monthly with battle-tested techniques.',
   keywords: 'cloud costs, AWS optimization, FinOps, cloud savings, cost management',
+  openGraph: {
+    title: 'Cost Nimbus - Cloud Cost Intelligence',
+    description: 'Real cloud cost optimization strategies built by engineers, for engineers. Save thousands monthly with battle-tested techniques.',
+    siteName: 'Cost Nimbus',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Cost Nimbus - Cloud Cost Intelligence',
+    description: 'Real cloud cost optimization strategies built by engineers, for engineers. Save thousands monthly with battle-tested techniques.',
+  },
 };
 
 export default function RootLayout({
@@ -13,8 +46,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body className="antialiased">{children}</body>
+    <html lang="en" suppressHydrationWarning>
+      <body
+        className={`${spaceGrotesk.variable} ${nunito.variable} ${jetbrainsMono.variable} antialiased`}
+        style={{
+          fontFamily: 'var(--font-nunito)',
+        }}
+      >
+        {children}
+      </body>
     </html>
   );
 }
