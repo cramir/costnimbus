@@ -1,309 +1,5 @@
-export const articles = {
-  'how-i-saved-50k-month-cloud-costs': {
-    title: 'How I Saved $50K/Month in Cloud Costs',
-    description: 'Two specific solutions that delivered $30K + $20K in monthly savings, with exact technologies and step-by-step implementation.',
-    publishDate: '2026-02-20',
-    readTime: '15 min',
-    category: 'Cloud Cost Optimization',
-    content: `
-I saved $50,000 per month in cloud costs. Here's exactly how I did it.
+# The Hidden Costs of AWS NAT Gateways (And How to Cut Them by 80%)
 
-In this guide, I'll share two specific solutions that delivered $30K + $20K in monthly savings, the exact technologies I used, and the step-by-step implementation you can replicate in your own environment.
-
-Whether you're a cloud engineer drowning in AWS bills, a DevOps professional looking to optimize infrastructure, or a FinOps practitioner building a cost-conscious culture, this guide will show you what actually works—with real metrics to back it up.
-
-## The Problem: Cloud Cost Creep
-
-Cloud costs have a nasty habit of growing 20-30% annually without any intervention. It's not because cloud providers are secretly raising prices—it's because cloud waste accumulates silently, invisibly, until you're paying for resources you don't need, don't use, and don't even remember creating.
-
-When I joined my current role, I inherited a cloud environment that had grown organically over several years. Here's what I found:
-
-- **1,000+ EC2 instances**, with 40% running at less than 5% CPU utilization
-- **Orphaned EBS volumes** from terminated instances, still incurring charges
-- **Development environments** running 24/7 despite only being used during business hours
-- **Alert fatigue** from multiple monitoring tools, each with their own pricing
-- **No clear cost ownership**—resources created without tags, owners, or business justification
-
-The business impact was significant: rising monthly bills without corresponding value, engineering time spent on manual cleanup, and leadership increasingly questioning whether the cloud migration had been worth it.
-
-Sound familiar?
-
-## Solution 1: Alert Management System ($30K/Month Savings)
-
-The first major opportunity I identified was a $30K/month vendor contract for alert management. The tool was comprehensive, but it didn't fit our workflow. We were paying for features we didn't use, and the alert fatigue was actually getting worse.
-
-I made a decision that would save $360K annually: I built our own.
-
-### What I Built
-
-I created a serverless alert management system using **Fission** (a serverless framework for Kubernetes), **FastAPI** for microservices, and **Python** for business logic.
-
-**Architecture:**
-
-\`\`\`
-Webhook Ingestion → Alert Enrichment → Correlation Engine → Ticket Creation → Team Routing
-\`\`\`
-
-### Key Features
-
-**1. Custom Webhook Ingestion**
-
-I built FastAPI microservices to handle webhook ingestion from multiple sources:
-- Monitoring tools (Prometheus, Datadog, CloudWatch)
-- Security tools (GuardDuty, Security Hub)
-- Infrastructure alerts (k8sgpt, Qualys)
-
-The system handles 10,000+ alerts per hour with real-time processing, all for the cost of serverless compute (~$500/month).
-
-**2. Alert Enrichment**
-
-Every alert gets enriched with context before anyone sees it:
-- **Prometheus metrics** for historical data
-- **ServiceNow CMDB lookup** for device ownership and business impact
-- **Correlation with recent changes** (deployments, configurations)
-
-This enrichment transforms "CPU high on instance i-abc123" into "CPU spike on payment-api-prod (owned by Platform team, affects checkout flow, recent deployment 2 hours ago)."
-
-**3. Correlation Engine**
-
-The biggest win: a correlation engine that prevents duplicate alerts for the same underlying issue.
-
-If 50 instances in an auto-scaling group all trigger CPU alerts within 5 minutes, engineers now get ONE consolidated alert instead of 50. This reduced alert noise by 70%.
-
-**4. Automated Ticket Creation**
-
-Integration with ServiceNow means:
-- Tickets auto-created for critical alerts
-- Auto-assignment based on patterns (payment issues → Platform team)
-- Context and runbooks included automatically
-- SLA-based prioritization
-
-**5. Smart Routing**
-
-Pattern matching handles edge cases:
-- Devices not in CMDB get routed based on naming conventions
-- Ambiguous alerts escalate to on-call
-- SLA breaches trigger manager notifications
-
-### Implementation Details
-
-**Technologies:**
-- Fission functions (serverless execution on Kubernetes)
-- FastAPI (API endpoints, 10x faster than Flask)
-- Python 3.11 (business logic)
-- Prometheus (metrics and monitoring)
-- ServiceNow (ticketing via REST API)
-
-**Development time:** 80 hours over 4 weeks
-**Infrastructure cost:** $500/month (serverless compute + API gateway)
-
-### Results
-
-- **$30,000/month savings** (replaced vendor tool)
-- **70% reduction in alert noise** (correlation + enrichment)
-- **60% faster response times** (better context, auto-routing)
-- **Engineering time freed** for higher-value work
-
-**ROI calculation:**
-- Development investment: 80 hours
-- Monthly infrastructure: $500
-- Monthly savings: $30,000
-- **Payback period: Less than 1 week**
-
-## Solution 2: Cloud Resource Cleanup ($20K/Month Savings)
-
-The second opportunity was hiding in plain sight: 87% of our cloud assets were neglected—either abandoned entirely or severely underutilized.
-
-### Discovery Process
-
-I started with a comprehensive inventory:
-
-**1. Resource Inventory**
-
-Every resource got tagged with:
-- Owner (who created it?)
-- Environment (prod, staging, dev)
-- Purpose (what does it do?)
-- Creation date (how long has it been here?)
-- Last activity (is anyone using it?)
-
-Cross-referencing with ServiceNow CMDB identified resources that existed in AWS but not in our configuration management system—always a red flag.
-
-**2. Utilization Analysis**
-
-I analyzed 30 days of CloudWatch metrics:
-- **EC2:** CPU utilization, network I/O, disk operations
-- **EBS:** IOPS vs. provisioned capacity
-- **Load Balancers:** Request counts vs. healthy targets
-- **Databases:** Connection counts, query throughput
-
-**3. Waste Identification Criteria**
-
-Resources flagged for cleanup if they met any criteria:
-- CPU average <5% for 30 days (compute waste)
-- Last activity >7 days for non-production (dev environments)
-- Orphaned resources (EBS volumes with no attached instance)
-- Over-provisioned resources (10x actual utilization)
-
-### Cleanup Strategies
-
-**1. Automated Scheduling**
-
-The easiest win: development environments now shut down automatically:
-- **Off hours:** 7 PM - 7 AM weekdays
-- **Weekends:** Completely off
-- **Result:** 40% immediate savings on non-production spend
-
-Implementation: Lambda functions triggered by EventBridge, with Slack notifications before shutdown.
-
-**2. Right-Sizing**
-
-Systematic analysis of over-provisioned resources:
-- **Instance types:** m5.xlarge → t3.large where appropriate
-- **Storage tiers:** GP3 instead of GP2 for most workloads
-- **Database instances:** Read replicas reduced during off-peak
-- **Result:** 25% savings on compute costs
-
-**3. Orphaned Resource Deletion**
-
-The zombie resources:
-- **Unattached EBS volumes:** 500+ volumes costing $2K/month
-- **Unused Elastic IPs:** 200+ addresses at $3.60/month each
-- **Old snapshots:** 90-day retention policy (was unlimited)
-- **Unused AMIs:** Custom images not launched in 90+ days
-- **Result:** 35% savings on storage costs
-
-**4. Reserved Instances + Savings Plans**
-
-For stable, predictable workloads:
-- **3-year commitments:** Core production databases
-- **1-year commitments:** Staging environments with stable usage
-- **Result:** 60% savings on committed spend
-
-### Results
-
-- **$20,000/month savings**
-- **87% reduction in neglected assets** (from 87% to 13%)
-- **Cleaner infrastructure** (easier to manage, fewer surprises)
-- **Better cost visibility** (accurate tagging = accurate allocation)
-
-### Automation
-
-This isn't a one-time cleanup. It's now automated:
-
-- **Weekly cleanup reports** (every Monday, top 10 waste items)
-- **Auto-termination** for abandoned resources (14 days no activity)
-- **Cost anomaly alerts** (>10% spike triggers investigation)
-- **Tag compliance audits** (missing tags = auto-ticket)
-
-## ROI Calculator
-
-Let's talk numbers.
-
-### Before Optimization
-
-- Monthly cloud spend: $120,000
-- Alert management vendor: $30,000
-- Neglected resources: $20,000
-- **Total waste: $50,000/month**
-
-### After Optimization
-
-- Monthly cloud spend: $70,000 (42% reduction)
-- Alert management: $500 (DIY serverless)
-- Resource waste: $2,000 (ongoing monitoring)
-- **Total monthly savings: $50,000**
-
-### Time Investment
-
-- Alert system development: 80 hours (one-time)
-- Resource cleanup: 40 hours (initial pass)
-- Ongoing monitoring: 2 hours/week (automated reports + review)
-
-### Annual ROI
-
-- **Annual savings:** $600,000
-- **Time investment:** 120 hours (@ $150/hr = $18,000)
-- **Infrastructure cost:** $6,000/year (serverless + monitoring)
-- **Net annual savings:** $576,000
-- **Payback period:** Less than 1 week
-
-These aren't theoretical numbers. This is what actually happened.
-
-## Getting Started Guide
-
-Ready to start your own cloud cost optimization journey? Here's the roadmap:
-
-### Week 1: Quick Wins
-
-- Enable AWS Cost Explorer (it's free)
-- Identify top 10 cost drivers
-- Turn off non-prod environments nights/weekends
-- Delete unattached EBS volumes
-- Review Cost Explorer recommendations
-
-**Expected impact:** 10-15% immediate cost reduction
-
-### Month 1: Process + Automation
-
-- Implement mandatory tagging (Owner, Environment, Purpose)
-- Set up cost alerts (anomaly detection, budget thresholds)
-- Automate resource scheduling (Lambda + EventBridge)
-- Start right-sizing analysis (utilization metrics)
-- Build your first cleanup report
-
-**Expected impact:** 20-30% cost reduction
-
-### Quarter 1: Culture + Optimization
-
-- Monthly cost reviews with leadership
-- Team accountability dashboards (showback reports)
-- Reserved instance purchases (predictable workloads)
-- Architecture cost reviews (cost as design metric)
-- FinOps practices (cross-functional cost consciousness)
-
-**Expected impact:** 30-40% cost reduction
-
-### Year 1: Scale + Refine
-
-- Continuous optimization (it's never "done")
-- FinOps practices institutionalized
-- Cost as architecture metric (every decision)
-- Regular cleanup automation (weekly)
-- Advanced strategies (spot instances, multi-region)
-
-**Expected impact:** 40-60% cost reduction vs. baseline
-
-## Conclusion
-
-Cloud cost optimization isn't about being cheap. It's about being intentional.
-
-The $50,000 I saved each month didn't come from cutting corners or sacrificing reliability. It came from building systems that automated what humans shouldn't do manually, eliminating waste that served no purpose, and creating processes that made cost-consciousness part of our culture.
-
-**Key takeaways:**
-
-1. **Start with visibility**—you can't optimize what you can't see
-2. **Real metrics beat theoretical ROI**—$50K/month isn't a projection, it's a result
-3. **Automation scales your efforts**—80 hours of development → $360K annual savings
-4. **ROI is measurable**—payback period was less than 1 week
-
-**Your next steps:**
-
-1. Review your current cloud spend (today)
-2. Identify your biggest waste categories (this week)
-3. Implement the quick wins (this week)
-4. Build toward automation (this month)
-
-The cloud is a powerful tool. Let's make sure you're getting your money's worth.
-    `
-  },
-  'hidden-costs-aws-nat-gateways': {
-    title: 'The Hidden Costs of AWS NAT Gateways (And How to Cut Them by 80%)',
-    description: 'I saved $18,000 per month by optimizing NAT Gateway usage. Learn how VPC endpoints, NAT instances, and IPv6 can slash your AWS networking costs.',
-    publishDate: '2026-02-23',
-    readTime: '12 min',
-    category: 'AWS Cost Optimization',
-    content: `
 I saved $18,000 per month by optimizing NAT Gateway usage across our AWS infrastructure. Here's exactly how I did it.
 
 In this guide, I'll break down why NAT Gateways are one of the most expensive components in cloud infrastructure, the specific architectural decisions that drive these costs, and the implementation strategies that delivered an 80% reduction in networking expenses.
@@ -328,23 +24,23 @@ The $4,580 in savings wasn't from eliminating NAT Gateways entirely—it came fr
 NAT Gateway pricing has two components:
 
 **1. Hourly Availability Charge: $0.045/hour**
-\`\`\`
+```
 $0.045 × 24 hours × 30 days = $32.40 per month
 $32.40 × 3 gateways (one per AZ) = $97.20/month
-\`\`\`
+```
 
 This charges whether you're processing 1 GB or 1 TB. It's the "tax" for having NAT Gateways available.
 
 **2. Data Processing Charge: $0.045/GB**
 This is where the real costs accumulate. Every GB that passes through your NAT Gateway incurs this fee—on top of standard data transfer charges.
 
-\`\`\`
+```
 Example scenario:
 - 100 GB/day through NAT Gateway
 - 100 GB × $0.045 = $4.50/day
 - $4.50 × 30 days = $135/month
 - That's just the processing fee (data transfer costs are extra)
-\`\`\`
+```
 
 For high-traffic workloads, this scales painfully:
 - 1 TB/month through NAT Gateway = $45/month (processing only)
@@ -359,9 +55,9 @@ After auditing dozens of AWS environments, I consistently see the same mistakes:
 
 Many teams deploy a NAT Gateway in each AZ for "availability." But here's what they're not calculating:
 
-\`\`\`
+```
 3 AZs × $32.40/month = $97.20/month in idle charges
-\`\`\`
+```
 
 If your workload can survive losing one AZ (which it should), you only need NAT Gateways in 2 AZs—not 3. That's $32.40/month saved immediately.
 
@@ -404,32 +100,32 @@ In the infrastructure I audited, 60% of NAT Gateway traffic was S3 and DynamoDB.
 
 **Step 1: Create Gateway Endpoints**
 
-\`\`\`bash
+```bash
 # S3 Gateway Endpoint
-aws ec2 create-vpc-endpoint \\
-  --vpc-id vpc-0123456789abcdef0 \\
-  --service-name com.amazonaws.us-east-1.s3 \\
+aws ec2 create-vpc-endpoint \
+  --vpc-id vpc-0123456789abcdef0 \
+  --service-name com.amazonaws.us-east-1.s3 \
   --route-table-ids rtb-0123456789abcdef0 rtb-0123456789abcdef1
 
 # DynamoDB Gateway Endpoint
-aws ec2 create-vpc-endpoint \\
-  --vpc-id vpc-0123456789abcdef0 \\
-  --service-name com.amazonaws.us-east-1.dynamodb \\
+aws ec2 create-vpc-endpoint \
+  --vpc-id vpc-0123456789abcdef0 \
+  --service-name com.amazonaws.us-east-1.dynamodb \
   --route-table-ids rtb-0123456789abcdef0 rtb-0123456789abcdef1
-\`\`\`
+```
 
 **Step 2: Verify Routing**
 
 After creating the endpoint, AWS automatically adds routes to your route tables:
 
-\`\`\`
+```
 Destination        | Target
 -------------------|-------------------
 10.0.0.0/16        | local
 0.0.0.0/0          | nat-0123456789abcdef0
 com.amazonaws.us-east-1.s3     | vpce-0123456789abcdef0
 com.amazonaws.us-east-1.dynamodb | vpce-0987654321fedcba0
-\`\`\`
+```
 
 Traffic to S3 and DynamoDB now uses the VPC endpoint instead of the NAT Gateway.
 
@@ -437,7 +133,7 @@ Traffic to S3 and DynamoDB now uses the VPC endpoint instead of the NAT Gateway.
 
 If you have bucket policies restricting access by VPC endpoint, update them:
 
-\`\`\`json
+```json
 {
   "Version": "2012-10-17",
   "Statement": [
@@ -454,7 +150,7 @@ If you have bucket policies restricting access by VPC endpoint, update them:
     }
   ]
 }
-\`\`\`
+```
 
 ### Cost Impact
 
@@ -480,11 +176,11 @@ Scale this up:
 
 For services that don't support gateway endpoints (API Gateway, SQS, SNS, etc.), use interface endpoints:
 
-\`\`\`
+```
 Interface Endpoint Pricing:
 - $0.011/hour (approx. $8.76/month per AZ)
 - $0.01/GB data processing
-\`\`\`
+```
 
 Compare to NAT Gateway:
 - $0.045/hour (approx. $32.40/month per AZ)
@@ -538,54 +234,54 @@ For 100 GB/month traffic:
 
 **Step 1: Launch NAT Instance**
 
-\`\`\`bash
+```bash
 # Find the latest fck-nat AMI
-AMI=$(aws ec2 describe-images \\
-  --owners 099720109477 \\
-  --filters "Name=name,Values=fck-nat-*" "Name=state,Values=available" \\
-  --query 'sort_by(Images, &CreationDate)[-1].ImageId' \\
+AMI=$(aws ec2 describe-images \
+  --owners 099720109477 \
+  --filters "Name=name,Values=fck-nat-*" "Name=state,Values=available" \
+  --query 'sort_by(Images, &CreationDate)[-1].ImageId' \
   --output text)
 
 # Launch the instance
-INSTANCE_ID=$(aws ec2 run-instances \\
-  --image-id $AMI \\
-  --instance-type t4g.nano \\
-  --subnet-id subnet-0123456789abcdef0 \\
-  --security-group-ids sg-0123456789abcdef0 \\
-  --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=fck-nat-dev}]" \\
-  --query 'Instances[0].InstanceId' \\
+INSTANCE_ID=$(aws ec2 run-instances \
+  --image-id $AMI \
+  --instance-type t4g.nano \
+  --subnet-id subnet-0123456789abcdef0 \
+  --security-group-ids sg-0123456789abcdef0 \
+  --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=fck-nat-dev}]" \
+  --query 'Instances[0].InstanceId' \
   --output text)
 
 # Disable source/destination check
-aws ec2 modify-instance-attribute \\
-  --instance-id $INSTANCE_ID \\
+aws ec2 modify-instance-attribute \
+  --instance-id $INSTANCE_ID \
   --no-source-dest-check
 
 # Associate Elastic IP
 EIP_ALLOCATION_ID=$(aws ec2 allocate-address --domain vpc --query 'AllocationId' --output text)
-aws ec2 associate-address \\
-  --instance-id $INSTANCE_ID \\
+aws ec2 associate-address \
+  --instance-id $INSTANCE_ID \
   --allocation-id $EIP_ALLOCATION_ID
-\`\`\`
+```
 
 **Step 2: Update Route Tables**
 
-\`\`\`bash
+```bash
 # Replace NAT Gateway route with NAT instance route
-aws ec2 replace-route \\
-  --route-table-id rtb-0123456789abcdef0 \\
-  --destination-cidr-block 0.0.0.0/0 \\
+aws ec2 replace-route \
+  --route-table-id rtb-0123456789abcdef0 \
+  --destination-cidr-block 0.0.0.0/0 \
   --instance-id $INSTANCE_ID
 
 # Verify the route
-aws ec2 describe-route-tables \\
-  --route-table-ids rtb-0123456789abcdef0 \\
+aws ec2 describe-route-tables \
+  --route-table-ids rtb-0123456789abcdef0 \
   --query 'RouteTables[0].Routes'
-\`\`\`
+```
 
 **Step 3: Configure Auto-Scaling and Monitoring**
 
-\`\`\`python
+```python
 # CloudWatch alarm for high CPU utilization
 import boto3
 
@@ -607,16 +303,16 @@ cloudwatch.put_metric_alarm(
     ComparisonOperator='GreaterThanThreshold',
     AlarmActions=['arn:aws:sns:us-east-1:123456789012:ops-alerts']
 )
-\`\`\`
+```
 
 ### High Availability with Auto Scaling Groups
 
 For production use with NAT instances, use an Auto Scaling Group:
 
-\`\`\`bash
+```bash
 # Create launch template for NAT instances
-aws ec2 create-launch-template \\
-  --launch-template-name nat-instance-template \\
+aws ec2 create-launch-template \
+  --launch-template-name nat-instance-template \
   --launch-template-data '{
     "ImageId": "ami-0123456789abcdef0",
     "InstanceType": "t4g.nano",
@@ -629,14 +325,14 @@ aws ec2 create-launch-template \\
   }'
 
 # Create Auto Scaling Group
-aws autoscaling create-auto-scaling-group \\
-  --auto-scaling-group-name nat-asg \\
-  --launch-template LaunchTemplateId=lt-0123456789abcdef0 \\
-  --min-size 2 \\
-  --max-size 2 \\
-  --desired-capacity 2 \\
+aws autoscaling create-auto-scaling-group \
+  --auto-scaling-group-name nat-asg \
+  --launch-template LaunchTemplateId=lt-0123456789abcdef0 \
+  --min-size 2 \
+  --max-size 2 \
+  --desired-capacity 2 \
   --vpc-zone-identifier "subnet-0123456789abcdef0,subnet-0987654321fedcba0"
-\`\`\`
+```
 
 This gives you HA with NAT instances at a fraction of the cost.
 
@@ -647,14 +343,14 @@ IPv6 eliminates the need for NAT Gateways for outbound internet traffic.
 ### How It Works
 
 With IPv4, private subnets need NAT to access the internet:
-\`\`\`
+```
 Private Subnet → NAT Gateway → Internet Gateway → Internet
-\`\`\`
+```
 
 With IPv6, instances have public addresses and use an Egress-only Internet Gateway:
-\`\`\`
+```
 IPv6 Subnet → Egress-only Internet Gateway → Internet
-\`\`\`
+```
 
 **Egress-only Internet Gateway Pricing:**
 - Hourly charge: **FREE**
@@ -664,55 +360,55 @@ IPv6 Subnet → Egress-only Internet Gateway → Internet
 
 **Step 1: Enable IPv6 in Your VPC**
 
-\`\`\`bash
+```bash
 # Associate IPv6 CIDR block with VPC
-aws ec2 associate-vpc-cidr-block \\
-  --vpc-id vpc-0123456789abcdef0 \\
+aws ec2 associate-vpc-cidr-block \
+  --vpc-id vpc-0123456789abcdef0 \
   --amazon-provided-ipv6-cidr-block
 
 # Enable IPv6 on subnets
-aws ec2 modify-subnet-attribute \\
-  --subnet-id subnet-0123456789abcdef0 \\
+aws ec2 modify-subnet-attribute \
+  --subnet-id subnet-0123456789abcdef0 \
   --ipv6-cidr-block-auto-assign-id
 
 # Update route table for IPv6
-aws ec2 create-route \\
-  --route-table-id rtb-0123456789abcdef0 \\
-  --destination-ipv6-cidr-block ::/0 \\
+aws ec2 create-route \
+  --route-table-id rtb-0123456789abcdef0 \
+  --destination-ipv6-cidr-block ::/0 \
   --egress-only-internet-gateway-id eigw-0123456789abcdef0
-\`\`\`
+```
 
 **Step 2: Create Egress-Only Internet Gateway**
 
-\`\`\`bash
+```bash
 # Create the gateway
-aws ec2 create-egress-only-internet-gateway \\
+aws ec2 create-egress-only-internet-gateway \
   --vpc-id vpc-0123456789abcdef0
 
 # Attach to route table
-aws ec2 create-route \\
-  --route-table-id rtb-0123456789abcdef0 \\
-  --destination-ipv6-cidr-block ::/0 \\
+aws ec2 create-route \
+  --route-table-id rtb-0123456789abcdef0 \
+  --destination-ipv6-cidr-block ::/0 \
   --egress-only-internet-gateway-id eigw-0123456789abcdef0
-\`\`\`
+```
 
 **Step 3: Configure EC2 Instances**
 
-\`\`\`bash
+```bash
 # Assign IPv6 address during launch
-INSTANCE_ID=$(aws ec2 run-instances \\
-  --image-id ami-0123456789abcdef0 \\
-  --instance-type t3.medium \\
-  --subnet-id subnet-0123456789abcdef0 \\
-  --ipv6-address-count 1 \\
-  --query 'Instances[0].InstanceId' \\
+INSTANCE_ID=$(aws ec2 run-instances \
+  --image-id ami-0123456789abcdef0 \
+  --instance-type t3.medium \
+  --subnet-id subnet-0123456789abcdef0 \
+  --ipv6-address-count 1 \
+  --query 'Instances[0].InstanceId' \
   --output text)
 
 # Or add to existing instance
-aws ec2 assign-ipv6-addresses \\
-  --instance-id $INSTANCE_ID \\
+aws ec2 assign-ipv6-addresses \
+  --instance-id $INSTANCE_ID \
   --ipv6-addresses 2001:db8::1234
-\`\`\`
+```
 
 ### Cost Impact
 
@@ -747,16 +443,16 @@ Before optimizing, you need to understand what's flowing through your NAT Gatewa
 
 ### Enable VPC Flow Logs
 
-\`\`\`bash
+```bash
 # Enable flow logs for NAT Gateway
-aws ec2 create-flow-logs \\
-  --resource-type VPC \\
-  --resource-id vpc-0123456789abcdef0 \\
-  --traffic-type ALL \\
-  --log-destination-type cloud-watch-logs \\
-  --log-group-name /aws/vpc/flow-logs \\
+aws ec2 create-flow-logs \
+  --resource-type VPC \
+  --resource-id vpc-0123456789abcdef0 \
+  --traffic-type ALL \
+  --log-destination-type cloud-watch-logs \
+  --log-group-name /aws/vpc/flow-logs \
   --deliver-logs-permission-arn arn:aws:iam::123456789012:role/FlowLogsRole
-\`\`\`
+```
 
 **Flow Logs Pricing:**
 - $0.50 per 1M flow log records
@@ -765,7 +461,7 @@ aws ec2 create-flow-logs \\
 
 ### Query Top Talkers with CloudWatch Logs Insights
 
-\`\`\`sql
+```sql
 # Find top 10 instances by bytes transferred through NAT Gateway
 fields @timestamp, srcAddr, dstAddr, bytes, protocol, port
 | filter dstAddr like '10.0.0.0/8'
@@ -773,18 +469,18 @@ fields @timestamp, srcAddr, dstAddr, bytes, protocol, port
 | stats sum(bytes) as totalBytes by srcAddr
 | sort totalBytes desc
 | limit 10
-\`\`\`
+```
 
-\`\`\`sql
+```sql
 # Find top 10 destinations by bytes
 fields @timestamp, srcAddr, dstAddr, bytes, protocol, port
 | filter action = 'ACCEPT'
 | stats sum(bytes) as totalBytes by dstAddr
 | sort totalBytes desc
 | limit 10
-\`\`\`
+```
 
-\`\`\`sql
+```sql
 # Identify S3 traffic (should use VPC endpoint)
 fields @timestamp, srcAddr, dstAddr, bytes
 | filter dstPort = 443
@@ -792,11 +488,11 @@ fields @timestamp, srcAddr, dstAddr, bytes
 | filter dstAddr like '52.216.0.0/16'  # S3 IPs
 | stats sum(bytes) as s3ThroughNAT by srcAddr
 | sort s3ThroughNAT desc
-\`\`\`
+```
 
 ### Analyze Traffic Patterns
 
-\`\`\`python
+```python
 # Python script to identify optimization opportunities
 import boto3
 
@@ -832,21 +528,21 @@ def analyze_nat_traffic():
     savings = (total_bytes / 1e9) * 0.045  # $0.045/GB
 
     print(f"Total S3 bytes through NAT: {total_bytes:,}")
-    print(f"Potential monthly savings: $\\{savings * 4:.2f}")  # 7 days to 30 days
+    print(f"Potential monthly savings: ${savings * 4:.2f}")  # 7 days to 30 days
 
 analyze_nat_traffic()
-\`\`\`
+```
 
 ### Identify Low-Value NAT Gateways
 
-\`\`\`sql
+```sql
 # Find NAT Gateways with minimal traffic
 fields @timestamp, srcAddr, bytes
 | filter action = 'ACCEPT'
 | stats sum(bytes) as totalBytes by srcAddr
 | where totalBytes < 104857600  # Less than 100 MB
 | sort totalBytes asc
-\`\`\`
+```
 
 If a NAT Gateway is processing less than 100 GB/month, consider:
 - Consolidating with another AZ's NAT Gateway
@@ -857,7 +553,7 @@ If a NAT Gateway is processing less than 100 GB/month, consider:
 
 ### Before: Traditional NAT Gateway Architecture
 
-\`\`\`
+```
 ┌─────────────────────────────────────────────────────────┐
 │                        VPC                              │
 │  ┌──────────────────────────────────────────────────┐  │
@@ -883,7 +579,7 @@ If a NAT Gateway is processing less than 100 GB/month, consider:
                     │
                     ▼
               Internet Gateway
-\`\`\`
+```
 
 **Monthly Costs (Example):**
 - 3 NAT Gateways: $97.20
@@ -893,7 +589,7 @@ If a NAT Gateway is processing less than 100 GB/month, consider:
 
 ### After: Optimized Architecture
 
-\`\`\`
+```
 ┌─────────────────────────────────────────────────────────┐
 │                        VPC                              │
 │  ┌──────────────────────────────────────────────────┐  │
@@ -928,7 +624,7 @@ If a NAT Gateway is processing less than 100 GB/month, consider:
                     │
                     ▼
               Internet Gateway
-\`\`\`
+```
 
 **Monthly Costs (Optimized):**
 - 2 NAT Gateways: $64.80
@@ -954,26 +650,26 @@ Let's walk through a real-world scenario with specific numbers.
 ### Before Optimization
 
 **NAT Gateway Hourly Charges:**
-\`\`\`
+```
 4 gateways × $32.40/month = $129.60/month
-\`\`\`
+```
 
 **Data Processing Charges:**
-\`\`\`
+```
 S3: 5 TB × $0.045/GB = $225/month
 Internet: 2 TB × $0.045/GB = $90/month
 Total data processing: $315/month
-\`\`\`
+```
 
 **Data Transfer Charges (outbound to internet):**
-\`\`\`
+```
 2 TB × $0.09/GB = $180/month
-\`\`\`
+```
 
 **Total Monthly Cost:**
-\`\`\`
+```
 $129.60 (hourly) + $315 (data processing) + $180 (data transfer) = $624.60/month
-\`\`\`
+```
 
 ### After Optimization
 
@@ -989,9 +685,9 @@ $129.60 (hourly) + $315 (data processing) + $180 (data transfer) = $624.60/month
 - Eliminate cross-AZ transfer: ~$20/month
 
 **Optimized Monthly Cost:**
-\`\`\`
+```
 $64.80 (2 NAT gateways) + $90 (1 TB data processing) + $90 (data transfer) = $244.80/month
-\`\`\`
+```
 
 **Total Savings: $379.80/month (60.8%)**
 
@@ -1059,46 +755,46 @@ $64.80 (2 NAT gateways) + $90 (1 TB data processing) + $90 (data transfer) = $24
 **A:** No. Gateway endpoints are transparent to applications. As long as you're using standard AWS SDKs, they'll automatically route through the VPC endpoint once the endpoint and routes are configured.
 
 Test with:
-\`\`\`bash
+```bash
 # Before: Routes through NAT Gateway
 time aws s3 ls s3://my-bucket
 
 # After: Routes through VPC endpoint (should be same or faster)
 time aws s3 ls s3://my-bucket
-\`\`\`
+```
 
 ### Q: Can I have multiple NAT Gateways in the same AZ?
 
 **A:** Yes, but you need to manage routing. Create multiple route tables and associate different subnets with different route tables.
 
-\`\`\`bash
+```bash
 # Route table 1
-aws ec2 create-route \\
-  --route-table-id rtb-0123456789abcdef0 \\
-  --destination-cidr-block 0.0.0.0/0 \\
+aws ec2 create-route \
+  --route-table-id rtb-0123456789abcdef0 \
+  --destination-cidr-block 0.0.0.0/0 \
   --gateway-id nat-0123456789abcdef0
 
 # Route table 2
-aws ec2 create-route \\
-  --route-table-id rtb-0987654321fedcba0 \\
-  --destination-cidr-block 0.0.0.0/0 \\
+aws ec2 create-route \
+  --route-table-id rtb-0987654321fedcba0 \
+  --destination-cidr-block 0.0.0.0/0 \
   --gateway-id nat-0987654321fedcba0
 
 # Associate different subnets
-aws ec2 associate-route-table \\
-  --route-table-id rtb-0123456789abcdef0 \\
+aws ec2 associate-route-table \
+  --route-table-id rtb-0123456789abcdef0 \
   --subnet-id subnet-0123456789abcdef0
 
-aws ec2 associate-route-table \\
-  --route-table-id rtb-0987654321fedcba0 \\
+aws ec2 associate-route-table \
+  --route-table-id rtb-0987654321fedcba0 \
   --subnet-id subnet-0987654321fedcba0
-\`\`\`
+```
 
 ### Q: How do I know if an interface endpoint is cost-effective?
 
 **A:** Calculate the break-even point:
 
-\`\`\`
+```
 Interface endpoint cost:
 - Hourly: $0.011/hour = $8.76/month
 - Data processing: $0.01/GB
@@ -1114,7 +810,7 @@ Total NAT cost - Total Interface cost
 x = -675 GB
 
 At ~675 GB/month, interface endpoint becomes cheaper.
-\`\`\`
+```
 
 Rule of thumb: If you send > 500 GB/month to a specific service, create an interface endpoint.
 
@@ -1134,7 +830,7 @@ This is one of the hidden costs of NAT instances to be aware of.
 
 ### Script 1: Audit NAT Gateway Costs
 
-\`\`\`python
+```python
 #!/usr/bin/env python3
 import boto3
 from datetime import datetime, timedelta
@@ -1177,13 +873,13 @@ def audit_nat_gateways():
 
         total_monthly_cost += total_cost
 
-        print(f"\\nNAT Gateway: {nat_id}")
+        print(f"\nNAT Gateway: {nat_id}")
         print(f"State: {state}")
         print(f"Subnet: {subnet_id}")
         print(f"Data processed (30d): {total_bytes / (1024**3):.2f} GB")
-        print(f"Hourly cost: $\\{hourly_cost:.2f}")
-        print(f"Data processing: $\\{data_processing_cost:.2f}")
-        print(f"Total monthly: $\\{total_cost:.2f}")
+        print(f"Hourly cost: ${hourly_cost:.2f}")
+        print(f"Data processing: ${data_processing_cost:.2f}")
+        print(f"Total monthly: ${total_cost:.2f}")
 
         # Check for VPC endpoints in same VPC
         vpc_id = nat['VpcId']
@@ -1201,17 +897,17 @@ def audit_nat_gateways():
         else:
             print("⚠️  No gateway VPC endpoints found!")
 
-    print("\\n" + "=" * 60)
-    print(f"Total monthly cost: $\\{total_monthly_cost:.2f}")
-    print(f"Potential savings with VPC endpoints: $\\{total_monthly_cost * 0.4:.2f}")
+    print("\n" + "=" * 60)
+    print(f"Total monthly cost: ${total_monthly_cost:.2f}")
+    print(f"Potential savings with VPC endpoints: ${total_monthly_cost * 0.4:.2f}")
 
 if __name__ == '__main__':
     audit_nat_gateways()
-\`\`\`
+```
 
 ### Script 2: Create VPC Endpoints for All VPCs
 
-\`\`\`python
+```python
 #!/usr/bin/env python3
 import boto3
 
@@ -1223,7 +919,7 @@ def create_vpc_endpoints():
     vpc_ids = [vpc['VpcId'] for vpc in vpcs['Vpcs']]
 
     for vpc_id in vpc_ids:
-        print(f"\\nProcessing VPC: {vpc_id}")
+        print(f"\nProcessing VPC: {vpc_id}")
 
         # Get route tables for this VPC
         route_tables = ec2.describe_route_tables(
@@ -1258,11 +954,11 @@ def create_vpc_endpoints():
 
 if __name__ == '__main__':
     create_vpc_endpoints()
-\`\`\`
+```
 
 ### Script 3: NAT Gateway Cost Calculator
 
-\`\`\`python
+```python
 #!/usr/bin/env python3
 
 def calculate_nat_costs():
@@ -1287,24 +983,24 @@ def calculate_nat_costs():
     optimized_total = optimized_hourly_cost + optimized_data_cost
 
     # Display results
-    print("\\n" + "=" * 50)
+    print("\n" + "=" * 50)
     print("Current Architecture:")
-    print(f"  Hourly charges: $\\{hourly_cost:.2f}/month")
-    print(f"  Data processing: $\\{data_processing_cost:.2f}/month")
-    print(f"  Total: $\\{total_cost:.2f}/month")
+    print(f"  Hourly charges: ${hourly_cost:.2f}/month")
+    print(f"  Data processing: ${data_processing_cost:.2f}/month")
+    print(f"  Total: ${total_cost:.2f}/month")
 
-    print("\\nWith VPC Endpoints (60% S3/DynamoDB):")
-    print(f"  Hourly charges: $\\{optimized_hourly_cost:.2f}/month")
-    print(f"  Data processing: $\\{optimized_data_cost:.2f}/month")
-    print(f"  Total: $\\{optimized_total:.2f}/month")
+    print("\nWith VPC Endpoints (60% S3/DynamoDB):")
+    print(f"  Hourly charges: ${optimized_hourly_cost:.2f}/month")
+    print(f"  Data processing: ${optimized_data_cost:.2f}/month")
+    print(f"  Total: ${optimized_total:.2f}/month")
 
-    print("\\n" + "=" * 50)
-    print(f"Savings: \${total_cost - optimized_total:.2f}/month")
-    print(f"Annual savings: \${(total_cost - optimized_total) * 12:.2f}")
+    print("\n" + "=" * 50)
+    print(f"Savings: ${total_cost - optimized_total:.2f}/month")
+    print(f"Annual savings: ${(total_cost - optimized_total) * 12:.2f}")
 
 if __name__ == '__main__':
     calculate_nat_costs()
-\`\`\`
+```
 
 ## Conclusion
 
@@ -1328,17 +1024,3 @@ NAT Gateways are a silent killer in AWS bills, but they don't have to be. By und
 The $18,000 I saved wasn't theoretical—it came from systematically applying these strategies across multiple AWS accounts. Start with the quick wins, build momentum, and your cloud bills will thank you.
 
 Built by engineers, for engineers.
-    `
-  }
-};
-
-export function getArticle(slug: string) {
-  return articles[slug as keyof typeof articles];
-}
-
-export function getAllArticles() {
-  return Object.entries(articles).map(([slug, article]) => ({
-    slug,
-    ...article
-  }));
-}

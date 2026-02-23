@@ -1,8 +1,13 @@
 'use client';
 
 import Link from 'next/link';
+import { getAllArticles } from '@/lib/articles';
 
 export default function HomeContent() {
+  const articles = getAllArticles();
+  const featuredArticle = articles.find(a => a.slug === 'how-i-saved-50k-month-cloud-costs');
+  const recentArticles = articles.filter(a => a.slug !== 'how-i-saved-50k-month-cloud-costs').slice(0, 2);
+
   return (
     <>
       {/* Cloud decorations */}
@@ -94,25 +99,29 @@ export default function HomeContent() {
             margin: 0,
             padding: 0,
             overflowX: 'auto',
-          }}><code style={{
-            fontFamily: 'var(--font-jetbrains-mono)',
-            fontSize: '0.8rem',
-            lineHeight: 1.8,
-            whiteSpace: 'pre',
-            color: 'var(--code-text)',
-          }}>{`<span class="code-keyword">const</span> <span class="code-function">analyzeSavings</span> = <span class="code-keyword">async</span> () => {
+          }}><code
+            style={{
+              fontFamily: 'var(--font-jetbrains-mono)',
+              fontSize: '0.8rem',
+              lineHeight: 1.8,
+              whiteSpace: 'pre',
+              display: 'block',
+              color: 'var(--code-text)',
+            }}
+            dangerouslySetInnerHTML={{ __html: `<span class="code-keyword">const</span> <span class="code-function">analyzeSavings</span> = <span class="code-keyword">async</span> () =&gt; {
   <span class="code-keyword">const</span> <span class="code-property">metrics</span> = <span class="code-keyword">await</span> <span class="code-function">getCloudMetrics</span>({
-    <span class="code-property">timeframe</span>: <span class="code-string">'quarter'</span>,
-    <span class="code-property">services</span>: [<span class="code-string">'ec2'</span>, <span class="code-string">'s3'</span>, <span class="code-string">'rds'</span>],
+    <span class="code-property">timeframe</span>: <span class="code-string">&#39;quarter&#39;</span>,
+    <span class="code-property">services</span>: [<span class="code-string">&#39;ec2&#39;</span>, <span class="code-string">&#39;s3&#39;</span>, <span class="code-string">&#39;rds&#39;</span>],
   });
 
   <span class="code-comment">// Optimization opportunities detected</span>
   <span class="code-keyword">return</span> {
     <span class="code-property">potentialSavings</span>: <span class="code-number">50_000</span>,  <span class="code-comment">// $50k / month</span>
     <span class="code-property">reductionRate</span>: <span class="code-number">0.37</span>,
-    <span class="code-property">timeToImpact</span>: <span class="code-string">'2 weeks'</span>,
+    <span class="code-property">timeToImpact</span>: <span class="code-string">&#39;2 weeks&#39;</span>,
   };
-};`}</code></pre>
+};` }}
+          /></pre>
         </div>
 
         {/* Stats cards */}
@@ -270,7 +279,7 @@ export default function HomeContent() {
             <span style={{ color: 'var(--accent-cyan)' }}> //</span> Featured Story
           </p>
 
-          <Link href="/article/how-i-saved-50k-month-cloud-costs" style={{
+          <Link href={`/article/${featuredArticle?.slug}`} style={{
             textDecoration: 'none',
             display: 'block',
           }}>
@@ -304,7 +313,15 @@ export default function HomeContent() {
                 color: 'var(--text-primary)',
                 position: 'relative',
                 zIndex: 1,
-              }}>How I Saved $50K/Month in Cloud Costs</h2>
+              }}>{featuredArticle?.title}</h2>
+              <p style={{
+                fontSize: '1rem',
+                color: 'var(--text-secondary)',
+                marginBottom: '1.5rem',
+                lineHeight: 1.7,
+                position: 'relative',
+                zIndex: 1,
+              }}>{featuredArticle?.description}</p>
               <div style={{
                 display: 'flex',
                 alignItems: 'center',
@@ -321,7 +338,7 @@ export default function HomeContent() {
                   borderRadius: '20px',
                   fontSize: '0.75rem',
                   fontWeight: 600,
-                }}>Cloud Cost Optimization</span>
+                }}>{featuredArticle?.category}</span>
                 <span style={{
                   padding: '0.5rem 1.3rem',
                   background: 'rgba(168, 85, 247, 0.1)',
@@ -330,12 +347,123 @@ export default function HomeContent() {
                   borderRadius: '20px',
                   fontSize: '0.75rem',
                   fontWeight: 600,
-                }}>15 min read</span>
+                }}>{featuredArticle?.readTime}</span>
               </div>
             </article>
           </Link>
         </div>
       </section>
+
+      {/* Recent Articles */}
+      {recentArticles.length > 0 && (
+        <section style={{
+          padding: '5rem 2rem',
+          position: 'relative',
+          zIndex: 1,
+          animation: 'fadeInUp 0.9s ease-out 0.6s both',
+        }}>
+          <div style={{
+            maxWidth: '1100px',
+            margin: '0 auto',
+          }}>
+            <p style={{
+              fontFamily: 'var(--font-jetbrains-mono)',
+              fontSize: '0.75rem',
+              fontWeight: 600,
+              textTransform: 'uppercase',
+              letterSpacing: '0.1em',
+              color: 'var(--text-muted)',
+              marginBottom: '1.5rem',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.75rem',
+            }}>
+              <span style={{ color: 'var(--accent-cyan)' }}> //</span> Recent Articles
+            </p>
+
+            <div style={{
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '1.5rem',
+            }}>
+              {recentArticles.map((article) => (
+                <Link key={article.slug} href={`/article/${article.slug}`} style={{
+                  textDecoration: 'none',
+                  display: 'block',
+                }}>
+                  <article style={{
+                    background: 'var(--bg-card)',
+                    border: '1px solid var(--border-subtle)',
+                    borderRadius: '16px',
+                    padding: '2rem',
+                    transition: 'all 0.4s ease',
+                    cursor: 'pointer',
+                    position: 'relative',
+                    overflow: 'hidden',
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.transform = 'translateX(8px)';
+                    e.currentTarget.style.borderColor = 'rgba(0, 212, 255, 0.3)';
+                    e.currentTarget.style.boxShadow = '0 20px 50px rgba(0, 212, 255, 0.1)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.transform = 'translateX(0)';
+                    e.currentTarget.style.borderColor = 'var(--border-subtle)';
+                    e.currentTarget.style.boxShadow = 'none';
+                  }}
+                  >
+                    <h3 style={{
+                      fontFamily: 'var(--font-space-grotesk)',
+                      fontSize: '1.5rem',
+                      fontWeight: 700,
+                      lineHeight: 1.3,
+                      marginBottom: '1rem',
+                      color: 'var(--text-primary)',
+                      position: 'relative',
+                      zIndex: 1,
+                    }}>{article.title}</h3>
+                    <p style={{
+                      fontSize: '0.95rem',
+                      color: 'var(--text-secondary)',
+                      marginBottom: '1rem',
+                      lineHeight: 1.6,
+                      position: 'relative',
+                      zIndex: 1,
+                    }}>{article.description}</p>
+                    <div style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '1rem',
+                      fontFamily: 'var(--font-jetbrains-mono)',
+                      position: 'relative',
+                      zIndex: 1,
+                    }}>
+                      <span style={{
+                        padding: '0.4rem 1rem',
+                        background: 'rgba(0, 212, 255, 0.1)',
+                        color: 'var(--accent-cyan)',
+                        border: '1px solid rgba(0, 212, 255, 0.3)',
+                        borderRadius: '20px',
+                        fontSize: '0.7rem',
+                        fontWeight: 600,
+                      }}>{article.category}</span>
+                      <span style={{
+                        padding: '0.4rem 1rem',
+                        background: 'rgba(168, 85, 247, 0.1)',
+                        color: 'var(--accent-purple)',
+                        border: '1px solid rgba(168, 85, 247, 0.3)',
+                        borderRadius: '20px',
+                        fontSize: '0.7rem',
+                        fontWeight: 600,
+                      }}>{article.readTime}</span>
+                    </div>
+                  </article>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* Newsletter */}
       <section style={{
