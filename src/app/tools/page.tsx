@@ -16,10 +16,10 @@ export default function ToolsPage() {
       });
 
   return (
-    <main className="min-h-screen pt-32 pb-24" style={{ background: 'var(--bg-primary)' }}>
+    <main className="min-h-screen pt-28 pb-16" style={{ background: 'var(--bg-primary)' }}>
       {/* Hero */}
-      <section className="max-w-5xl mx-auto px-6 py-20 text-center">
-        <span className="inline-block mb-6 text-xs font-bold uppercase tracking-[0.2em] px-5 py-2 rounded-full"
+      <section className="max-w-5xl mx-auto px-6 pt-12 pb-10 text-center">
+        <span className="inline-block mb-4 text-xs font-bold uppercase tracking-[0.2em] px-5 py-2 rounded-full"
           style={{
             color: 'var(--accent-cyan)',
             background: 'rgba(0,212,255,0.08)',
@@ -27,7 +27,7 @@ export default function ToolsPage() {
           }}>
           Tools &amp; Resources
         </span>
-        <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold leading-tight mb-8"
+        <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold leading-tight mb-5"
           style={{
             fontFamily: 'var(--font-space-grotesk)',
             background: 'linear-gradient(135deg, var(--text-primary) 40%, var(--accent-cyan) 100%)',
@@ -36,7 +36,7 @@ export default function ToolsPage() {
           }}>
           SOC Platform Comparison
         </h1>
-        <p className="text-lg max-w-2xl mx-auto mb-12" style={{ color: 'var(--text-secondary)', lineHeight: 1.8 }}>
+        <p className="text-lg max-w-2xl mx-auto mb-8" style={{ color: 'var(--text-secondary)', lineHeight: 1.8 }}>
           Interactive comparison of 9 leading AI&nbsp;SOC, SOAR, and SIEM platforms.
           Find the right solution for your team&rsquo;s size, budget, and use case.
         </p>
@@ -56,7 +56,7 @@ export default function ToolsPage() {
       </section>
 
       {/* Category Filters */}
-      <section className="max-w-5xl mx-auto px-6 pb-16">
+      <section className="max-w-5xl mx-auto px-6 pb-8">
         <div className="flex flex-wrap gap-3 justify-center">
           {[{ id: 'all', name: 'All Platforms' }, ...categories].map(cat => {
             const active = selectedCategory === cat.id;
@@ -80,7 +80,7 @@ export default function ToolsPage() {
 
       {/* Comparison Matrix */}
       {showComparison && (
-        <section className="max-w-6xl mx-auto px-6 pb-20">
+        <section className="max-w-6xl mx-auto px-6 pb-12">
           <div className="rounded-2xl overflow-hidden" style={{
             border: '1px solid var(--border-subtle)',
             background: 'var(--bg-card)',
@@ -135,8 +135,8 @@ export default function ToolsPage() {
       )}
 
       {/* Platform Cards */}
-      <section className="max-w-6xl mx-auto px-6 py-16">
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <section className="max-w-6xl mx-auto px-6 py-8">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredPlatforms.map((platform) => (
             <PlatformCard
               key={platform.name}
@@ -149,8 +149,8 @@ export default function ToolsPage() {
       </section>
 
       {/* Email Capture */}
-      <section className="max-w-2xl mx-auto px-6 py-24">
-        <div className="relative rounded-3xl p-12 md:p-16 text-center overflow-hidden"
+      <section className="max-w-2xl mx-auto px-6 pt-12 pb-10">
+        <div className="relative rounded-3xl p-10 md:p-12 text-center overflow-hidden"
           style={{
             background: 'linear-gradient(135deg, rgba(0,212,255,0.06) 0%, rgba(168,85,247,0.06) 100%)',
             border: '1px solid rgba(0,212,255,0.15)',
@@ -160,10 +160,10 @@ export default function ToolsPage() {
           <div className="absolute -top-24 -right-24 w-48 h-48 rounded-full opacity-20 blur-3xl" style={{ background: 'var(--accent-cyan)' }} />
           <div className="absolute -bottom-24 -left-24 w-48 h-48 rounded-full opacity-20 blur-3xl" style={{ background: 'var(--accent-purple)' }} />
 
-          <h2 className="relative text-2xl md:text-3xl font-bold mb-5" style={{ fontFamily: 'var(--font-space-grotesk)', color: 'var(--text-primary)' }}>
+          <h2 className="relative text-2xl md:text-3xl font-bold mb-4" style={{ fontFamily: 'var(--font-space-grotesk)', color: 'var(--text-primary)' }}>
             Get the Full SOC Platform Report
           </h2>
-          <p className="relative text-base mb-10 max-w-md mx-auto" style={{ color: 'var(--text-secondary)', lineHeight: 1.8 }}>
+          <p className="relative text-base mb-8 max-w-md mx-auto" style={{ color: 'var(--text-secondary)', lineHeight: 1.8 }}>
             Detailed analysis of all 9 platforms — feature comparison, pricing breakdown,
             implementation timelines, and team-size recommendations.
           </p>
@@ -183,10 +183,10 @@ export default function ToolsPage() {
       </section>
 
       {/* Coming Soon */}
-      <section className="max-w-3xl mx-auto px-6 py-16">
-        <div className="rounded-2xl p-12 text-center border border-dashed" style={{ borderColor: 'var(--border-subtle)', opacity: 0.5 }}>
-          <p className="text-5xl mb-5">🚧</p>
-          <h3 className="text-xl font-bold mb-3" style={{ fontFamily: 'var(--font-space-grotesk)', color: 'var(--text-primary)' }}>
+      <section className="max-w-3xl mx-auto px-6 pt-8 pb-4">
+        <div className="rounded-2xl p-10 text-center border border-dashed" style={{ borderColor: 'var(--border-subtle)', opacity: 0.5 }}>
+          <p className="text-5xl mb-4">🚧</p>
+          <h3 className="text-xl font-bold mb-2" style={{ fontFamily: 'var(--font-space-grotesk)', color: 'var(--text-primary)' }}>
             More Tools Coming Soon
           </h3>
           <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>
@@ -211,7 +211,7 @@ function PlatformCard({ platform, isExpanded, onToggle }: { platform: Platform; 
       }}
     >
       {/* Inner card */}
-      <div className="rounded-2xl p-8 h-full flex flex-col transition-all duration-300"
+      <div className="rounded-2xl p-6 h-full flex flex-col transition-all duration-300"
         style={{
           background: 'var(--bg-card)',
           boxShadow: isExpanded
@@ -220,7 +220,7 @@ function PlatformCard({ platform, isExpanded, onToggle }: { platform: Platform; 
         }}>
 
         {/* Header */}
-        <div className="flex items-start justify-between mb-6">
+        <div className="flex items-start justify-between mb-4">
           <div>
             <h3 className="text-xl font-bold mb-2" style={{ fontFamily: 'var(--font-space-grotesk)', color: 'var(--text-primary)' }}>
               {platform.name}
@@ -243,12 +243,12 @@ function PlatformCard({ platform, isExpanded, onToggle }: { platform: Platform; 
         </div>
 
         {/* Tagline */}
-        <p className="text-sm mb-8 leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
+        <p className="text-sm mb-5 leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
           {platform.tagline}
         </p>
 
         {/* Pricing */}
-        <div className="mb-6 pb-6" style={{ borderBottom: '1px solid var(--border-subtle)' }}>
+        <div className="mb-4 pb-4" style={{ borderBottom: '1px solid var(--border-subtle)' }}>
           <div className="text-[10px] font-bold uppercase tracking-wider mb-2" style={{ color: 'var(--text-muted)' }}>Pricing</div>
           <div className="text-sm font-semibold" style={{ color: 'var(--text-primary)' }}>{platform.pricing.model}</div>
           {platform.pricing.starting && (
@@ -257,7 +257,7 @@ function PlatformCard({ platform, isExpanded, onToggle }: { platform: Platform; 
         </div>
 
         {/* Strengths */}
-        <div className="mb-6 flex-1">
+        <div className="mb-4 flex-1">
           <div className="text-[10px] font-bold uppercase tracking-wider mb-3" style={{ color: 'var(--text-muted)' }}>Key Strengths</div>
           <ul className="space-y-2">
             {platform.strengths.slice(0, isExpanded ? undefined : 3).map((s, i) => (
@@ -271,7 +271,7 @@ function PlatformCard({ platform, isExpanded, onToggle }: { platform: Platform; 
 
         {/* Expanded: Features */}
         {isExpanded && (
-          <div className="mb-6 pt-6" style={{ borderTop: '1px solid var(--border-subtle)' }}>
+          <div className="mb-4 pt-4" style={{ borderTop: '1px solid var(--border-subtle)' }}>
             <div className="text-[10px] font-bold uppercase tracking-wider mb-3" style={{ color: 'var(--text-muted)' }}>Key Features</div>
             <ul className="space-y-2">
               {platform.keyFeatures.map((f, i) => (
@@ -286,7 +286,7 @@ function PlatformCard({ platform, isExpanded, onToggle }: { platform: Platform; 
 
         {/* Expanded: Considerations */}
         {isExpanded && (
-          <div className="mb-6 pt-6" style={{ borderTop: '1px solid var(--border-subtle)' }}>
+          <div className="mb-4 pt-4" style={{ borderTop: '1px solid var(--border-subtle)' }}>
             <div className="text-[10px] font-bold uppercase tracking-wider mb-3" style={{ color: 'var(--text-muted)' }}>Considerations</div>
             <ul className="space-y-2">
               {platform.weaknesses.map((w, i) => (
@@ -300,7 +300,7 @@ function PlatformCard({ platform, isExpanded, onToggle }: { platform: Platform; 
         )}
 
         {/* Footer */}
-        <div className="flex items-center justify-between pt-6 mt-auto" style={{ borderTop: '1px solid var(--border-subtle)' }}>
+        <div className="flex items-center justify-between pt-4 mt-auto" style={{ borderTop: '1px solid var(--border-subtle)' }}>
           <span className="text-xs" style={{ color: 'var(--text-muted)' }}>
             <span className="font-semibold" style={{ color: 'var(--text-secondary)' }}>{platform.integrations}+</span> integrations
           </span>
