@@ -16,9 +16,9 @@ export default function ToolsPage() {
       });
 
   return (
-    <main className="min-h-screen pt-28 pb-16" style={{ background: 'var(--bg-primary)' }}>
+    <main className="min-h-screen pt-32 pb-16" style={{ background: 'var(--bg-primary)' }}>
       {/* Hero */}
-      <section className="max-w-5xl mx-auto px-6 pt-12 pb-10 text-center">
+      <section className="max-w-5xl mx-auto px-6 pt-14 pb-10 text-center">
         <span className="inline-block mb-4 text-xs font-bold uppercase tracking-[0.2em] px-5 py-2 rounded-full"
           style={{
             color: 'var(--accent-cyan)',
@@ -135,8 +135,8 @@ export default function ToolsPage() {
       )}
 
       {/* Platform Cards */}
-      <section className="max-w-6xl mx-auto px-6 py-8">
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <section className="max-w-6xl mx-auto px-6 py-10">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-7">
           {filteredPlatforms.map((platform) => (
             <PlatformCard
               key={platform.name}
@@ -207,11 +207,11 @@ function PlatformCard({ platform, isExpanded, onToggle }: { platform: Platform; 
       style={{
         background: isExpanded
           ? 'linear-gradient(135deg, var(--accent-cyan), var(--accent-purple))'
-          : 'var(--border-subtle)',
+          : 'linear-gradient(135deg, rgba(255,255,255,0.12), rgba(255,255,255,0.06))',
       }}
     >
       {/* Inner card */}
-      <div className="rounded-2xl p-6 h-full flex flex-col transition-all duration-300"
+      <div className="rounded-2xl p-7 h-full flex flex-col transition-all duration-300"
         style={{
           background: 'var(--bg-card)',
           boxShadow: isExpanded
