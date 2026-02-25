@@ -70,59 +70,67 @@ export default function HomeContent({ articles }: { articles: Article[] }) {
           I&apos;m a cloud infrastructure engineer who slashed $50K/month from a real production bill — and documented every step. Here you&apos;ll find battle-tested guides, open source tools, and free calculators to help you do the same.
         </p>
 
-        {/* Code block */}
+        {/* CTA Buttons */}
         <div style={{
-          background: 'var(--code-bg)',
-          border: '1px solid var(--border-subtle)',
-          borderRadius: '12px',
-          padding: '1.8rem',
-          marginTop: '2rem',
-          fontFamily: 'var(--font-jetbrains-mono)',
-          fontSize: '0.8rem',
-          overflowX: 'auto',
-          position: 'relative',
-          boxShadow: 'var(--card-shadow)',
+          display: 'flex',
+          gap: '1rem',
+          flexWrap: 'wrap',
+          marginTop: '0.5rem',
         }}>
-          <div style={{
-            position: 'absolute',
-            top: '-10px',
-            left: '1.5rem',
-            background: 'var(--bg-tertiary)',
-            padding: '0 0.7rem',
-            fontSize: '0.7rem',
-            color: 'var(--text-muted)',
-            borderRadius: '4px',
-            border: '1px solid var(--border-subtle)',
-            fontFamily: 'var(--font-jetbrains-mono)',
-          }}>cost-savings.ts</div>
-          <pre style={{
-            margin: 0,
-            padding: 0,
-            overflowX: 'auto',
-          }}><code
-              style={{
-                fontFamily: 'var(--font-jetbrains-mono)',
-                fontSize: '0.8rem',
-                lineHeight: 1.8,
-                whiteSpace: 'pre',
-                display: 'block',
-                color: 'var(--code-text)',
-              }}
-              dangerouslySetInnerHTML={{
-                __html: `<span class="code-keyword">const</span> <span class="code-function">analyzeSavings</span> = <span class="code-keyword">async</span> () =&gt; {
-  <span class="code-keyword">const</span> <span class="code-property">metrics</span> = <span class="code-keyword">await</span> <span class="code-function">getCloudMetrics</span>({
-    <span class="code-property">timeframe</span>: <span class="code-string">&#39;quarter&#39;</span>,
-    <span class="code-property">services</span>: [<span class="code-string">&#39;ec2&#39;</span>, <span class="code-string">&#39;s3&#39;</span>, <span class="code-string">&#39;rds&#39;</span>],
-  });
-
-  <span class="code-comment">// Optimization opportunities detected</span>
-  <span class="code-keyword">return</span> {
-    <span class="code-property">potentialSavings</span>: <span class="code-number">50_000</span>,  <span class="code-comment">// $50k / month</span>
-    <span class="code-property">reductionRate</span>: <span class="code-number">0.37</span>,
-    <span class="code-property">timeToImpact</span>: <span class="code-string">&#39;2 weeks&#39;</span>,
-  };
-};` }}
-            /></pre>
+          <Link href="/calculators" style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '0.5rem',
+            padding: '0.85rem 2rem',
+            background: 'linear-gradient(135deg, var(--accent-cyan) 0%, #0099bb 100%)',
+            color: '#0d1117',
+            borderRadius: '10px',
+            fontFamily: 'var(--font-nunito)',
+            fontSize: '0.95rem',
+            fontWeight: 700,
+            textDecoration: 'none',
+            transition: 'all 0.3s ease',
+            boxShadow: '0 4px 20px rgba(0, 212, 255, 0.3)',
+          }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.transform = 'translateY(-3px)';
+              e.currentTarget.style.boxShadow = '0 8px 30px rgba(0, 212, 255, 0.45)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.transform = 'translateY(0)';
+              e.currentTarget.style.boxShadow = '0 4px 20px rgba(0, 212, 255, 0.3)';
+            }}
+          >
+            Explore Calculators →
+          </Link>
+          <Link href="/articles" style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '0.5rem',
+            padding: '0.85rem 2rem',
+            background: 'transparent',
+            color: 'var(--accent-cyan)',
+            border: '1.5px solid var(--accent-cyan)',
+            borderRadius: '10px',
+            fontFamily: 'var(--font-nunito)',
+            fontSize: '0.95rem',
+            fontWeight: 700,
+            textDecoration: 'none',
+            transition: 'all 0.3s ease',
+          }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.transform = 'translateY(-3px)';
+              e.currentTarget.style.background = 'rgba(0, 212, 255, 0.08)';
+              e.currentTarget.style.boxShadow = '0 8px 30px rgba(0, 212, 255, 0.15)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.transform = 'translateY(0)';
+              e.currentTarget.style.background = 'transparent';
+              e.currentTarget.style.boxShadow = 'none';
+            }}
+          >
+            Read the Guides →
+          </Link>
         </div>
 
         {/* Stats cards */}
