@@ -55,10 +55,28 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.85,
     },
     {
+      url: `${baseUrl}/calculators/cloud-compare`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly',
+      priority: 0.85,
+    },
+    {
+      url: `${baseUrl}/calculators/managed-db`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly',
+      priority: 0.85,
+    },
+    {
       url: `${baseUrl}/resources`,
       lastModified: new Date(),
       changeFrequency: 'weekly',
       priority: 0.85,
+    },
+    {
+      url: `${baseUrl}/article/how-to-cut-aws-egress-costs`,
+      lastModified: new Date('2026-02-25'),
+      changeFrequency: 'monthly',
+      priority: 0.9,
     },
   ];
 }

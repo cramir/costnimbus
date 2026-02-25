@@ -255,6 +255,133 @@ export default function HomeContent({ articles }: { articles: Article[] }) {
         </div>
       </section>
 
+      {/* Featured Calculators */}
+      <section style={{
+        padding: '5rem 2rem',
+        position: 'relative',
+        zIndex: 1,
+        animation: 'fadeInUp 0.9s ease-out 0.35s both',
+      }}>
+        <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1.5rem', flexWrap: 'wrap', gap: '1rem' }}>
+            <p style={{
+              fontFamily: 'var(--font-jetbrains-mono)',
+              fontSize: '0.75rem',
+              fontWeight: 600,
+              textTransform: 'uppercase',
+              letterSpacing: '0.1em',
+              color: 'var(--text-muted)',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.75rem',
+              margin: 0,
+            }}>
+              <span style={{ color: 'var(--accent-cyan)' }}>{" //"}</span> Free Calculators
+            </p>
+            <Link href="/calculators" style={{
+              fontFamily: 'var(--font-jetbrains-mono)',
+              fontSize: '0.7rem',
+              fontWeight: 600,
+              color: 'var(--accent-cyan)',
+              textDecoration: 'none',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.4rem',
+            }}>
+              View all calculators →
+            </Link>
+          </div>
+
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.25rem' }}>
+            {[
+              {
+                href: '/calculators/nat-gateway',
+                icon: '🔀',
+                title: 'NAT Gateway Calculator',
+                desc: 'See how much VPC endpoints save vs. NAT Gateway. Most teams cut 80–91%.',
+                badge: 'Popular',
+                badgeColor: 'var(--accent-cyan)',
+                saving: 'Up to 91% off',
+              },
+              {
+                href: '/calculators/storage',
+                icon: '🗄️',
+                title: 'S3 vs R2 vs Backblaze',
+                desc: 'R2\'s zero-egress model saves 60–80% vs S3 for most storage workloads.',
+                badge: 'New',
+                badgeColor: '#4ade80',
+                saving: 'Up to 80% off',
+              },
+              {
+                href: '/calculators/managed-db',
+                icon: '🗃️',
+                title: 'Managed Database TCO',
+                desc: 'RDS vs Aurora vs PlanetScale vs Neon — real cost for your instance + I/O mix.',
+                badge: 'New',
+                badgeColor: '#4ade80',
+                saving: 'Find the cheapest DB',
+              },
+              {
+                href: '/calculators/cloud-compare',
+                icon: '⚖️',
+                title: 'AWS vs Azure vs GCP',
+                desc: 'Compare compute, storage, and egress across all three major clouds.',
+                badge: 'New',
+                badgeColor: '#4ade80',
+                saving: 'Pick the winner',
+              },
+            ].map(c => (
+              <Link key={c.href} href={c.href} style={{ textDecoration: 'none', display: 'block' }}>
+                <div
+                  style={{
+                    background: 'var(--bg-card)',
+                    border: '1px solid var(--border-subtle)',
+                    borderRadius: '16px',
+                    padding: '1.5rem',
+                    transition: 'all 0.3s ease',
+                    cursor: 'pointer',
+                    height: '100%',
+                  }}
+                  onMouseEnter={e => {
+                    (e.currentTarget as HTMLElement).style.transform = 'translateY(-6px)';
+                    (e.currentTarget as HTMLElement).style.borderColor = 'rgba(0,212,255,0.3)';
+                    (e.currentTarget as HTMLElement).style.boxShadow = '0 20px 50px rgba(0,212,255,0.1)';
+                  }}
+                  onMouseLeave={e => {
+                    (e.currentTarget as HTMLElement).style.transform = 'translateY(0)';
+                    (e.currentTarget as HTMLElement).style.borderColor = 'var(--border-subtle)';
+                    (e.currentTarget as HTMLElement).style.boxShadow = 'none';
+                  }}
+                >
+                  <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: '1rem' }}>
+                    <span style={{ fontSize: '1.75rem' }}>{c.icon}</span>
+                    <span style={{
+                      fontSize: '0.65rem',
+                      fontWeight: 700,
+                      padding: '0.25rem 0.6rem',
+                      borderRadius: '20px',
+                      background: `${c.badgeColor}15`,
+                      color: c.badgeColor,
+                      border: `1px solid ${c.badgeColor}40`,
+                    }}>{c.badge}</span>
+                  </div>
+                  <div style={{ fontFamily: 'var(--font-space-grotesk)', fontSize: '1rem', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '0.5rem' }}>
+                    {c.title}
+                  </div>
+                  <p style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', lineHeight: 1.6, marginBottom: '1rem' }}>
+                    {c.desc}
+                  </p>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingTop: '0.75rem', borderTop: '1px solid var(--border-subtle)' }}>
+                    <span style={{ fontSize: '0.7rem', fontWeight: 700, color: '#4ade80' }}>{c.saving}</span>
+                    <span style={{ fontSize: '0.7rem', color: 'var(--accent-cyan)', fontWeight: 600 }}>Open →</span>
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Featured Article */}
       <section style={{
         padding: '5rem 2rem',

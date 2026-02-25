@@ -47,6 +47,16 @@ const calculators = [
     savings: 'Find the cheapest cloud',
     tags: ['AWS', 'Azure', 'GCP', 'Multi-cloud'],
   },
+  {
+    href: '/calculators/managed-db',
+    title: 'Managed Database Calculator',
+    description: 'Real monthly TCO: RDS vs Aurora vs Aurora Serverless vs PlanetScale vs Neon. See which managed database is actually cheapest for your compute, storage, and I/O mix.',
+    icon: '🗃️',
+    badge: 'New',
+    badgeColor: '#4ade80',
+    savings: 'Find the cheapest DB',
+    tags: ['RDS', 'Aurora', 'PlanetScale', 'Neon', 'Database'],
+  },
 ];
 
 export default function CalculatorsPage() {
