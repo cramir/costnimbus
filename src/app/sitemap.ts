@@ -78,5 +78,17 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: 'monthly',
       priority: 0.9,
     },
+    {
+      url: `${baseUrl}/article/azure-vs-aws-dotnet`,
+      lastModified: new Date('2026-02-25'),
+      changeFrequency: 'monthly',
+      priority: 0.9,
+    },
+    {
+      url: `${baseUrl}/methodology`,
+      lastModified: new Date('2026-02-25'),
+      changeFrequency: 'monthly',
+      priority: 0.7,
+    },
   ];
 }

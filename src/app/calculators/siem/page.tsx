@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useMemo } from 'react';
+import Breadcrumb from '@/components/breadcrumb';
 
 interface SIEMPlatform {
   name: string;
@@ -131,8 +132,11 @@ export default function SIEMCalculator() {
 
   return (
     <main className="min-h-screen pt-28 pb-20" style={{ background: 'var(--bg-primary)' }}>
+      <div className="max-w-4xl mx-auto px-6 pt-6">
+        <Breadcrumb items={[{ label: 'Home', href: '/' }, { label: 'Calculators', href: '/calculators' }, { label: 'SIEM TCO' }]} />
+      </div>
       {/* Hero */}
-      <section className="max-w-4xl mx-auto px-6 pt-10 pb-8 text-center">
+      <section className="max-w-4xl mx-auto px-6 pt-4 pb-8 text-center">
         <span className="inline-block mb-4 text-xs font-bold uppercase tracking-[0.2em] px-5 py-2 rounded-full"
           style={{ color: 'var(--accent-purple)', background: 'rgba(168,85,247,0.08)', border: '1px solid rgba(168,85,247,0.2)' }}>
           Calculator

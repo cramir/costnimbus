@@ -2,7 +2,6 @@
 
 import Link from 'next/link';
 import Newsletter from './newsletter';
-import Footer from './footer';
 import { Article } from '@/lib/articles';
 
 export default function HomeContent({ articles }: { articles: Article[] }) {
@@ -597,8 +596,6 @@ export default function HomeContent({ articles }: { articles: Article[] }) {
       {/* Newsletter */}
       <Newsletter wrapInSection={true} />
 
-      {/* Footer */}
-      <Footer animationDelay="0.8s" />
     </>
   );
 }

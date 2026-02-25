@@ -3,7 +3,6 @@
 import Link from 'next/link';
 import { Github, Linkedin } from 'lucide-react';
 import Newsletter from './newsletter';
-import Footer from './footer';
 
 export default function AboutContent() {
   return (
@@ -217,8 +216,6 @@ export default function AboutContent() {
         <Newsletter wrapInSection={false} />
       </article>
 
-      {/* Footer */}
-      <Footer animationDelay="0.4s" />
     </>
   );
 }

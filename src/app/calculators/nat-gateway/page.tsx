@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useMemo } from 'react';
+import Breadcrumb from '@/components/breadcrumb';
 
 const NAT_PRICE_PER_HOUR = 0.045;
 const NAT_PRICE_PER_GB = 0.045;
@@ -63,8 +64,11 @@ export default function NatGatewayCalculator() {
 
   return (
     <main className="min-h-screen pt-28 pb-20" style={{ background: 'var(--bg-primary)' }}>
+      <div className="max-w-4xl mx-auto px-6 pt-6">
+        <Breadcrumb items={[{ label: 'Home', href: '/' }, { label: 'Calculators', href: '/calculators' }, { label: 'NAT Gateway' }]} />
+      </div>
       {/* Hero */}
-      <section className="max-w-4xl mx-auto px-6 pt-10 pb-8 text-center">
+      <section className="max-w-4xl mx-auto px-6 pt-4 pb-8 text-center">
         <span className="inline-block mb-4 text-xs font-bold uppercase tracking-[0.2em] px-5 py-2 rounded-full"
           style={{ color: 'var(--accent-cyan)', background: 'rgba(0,212,255,0.08)', border: '1px solid rgba(0,212,255,0.2)' }}>
           Calculator

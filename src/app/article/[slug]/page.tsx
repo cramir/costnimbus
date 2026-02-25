@@ -2,7 +2,6 @@ import { notFound } from 'next/navigation';
 import { getArticle, getAllArticles } from '@/lib/articles';
 import InnerHeader from '@/components/inner-header';
 import Newsletter from '@/components/newsletter';
-import Footer from '@/components/footer';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import rehypeHighlight from 'rehype-highlight';
@@ -116,8 +115,6 @@ export default async function ArticlePage({ params }: PageProps) {
         <Newsletter wrapInSection={false} />
       </article>
 
-      {/* Footer */}
-      <Footer animationDelay="0.4s" />
     </>
   );
 }

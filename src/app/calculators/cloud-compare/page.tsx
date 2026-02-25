@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useMemo } from 'react';
+import Breadcrumb from '@/components/breadcrumb';
 
 // ─── Pricing Data — us-east-1 / eastus / us-east1, Q1 2026 ───────────────
 
@@ -152,9 +153,12 @@ export default function CloudCompareCalculator() {
 
   return (
     <main className="min-h-screen pt-28 pb-20" style={{ background: 'var(--bg-primary)' }}>
+      <div className="max-w-4xl mx-auto px-6 pt-6">
+        <Breadcrumb items={[{ label: 'Home', href: '/' }, { label: 'Calculators', href: '/calculators' }, { label: 'AWS vs Azure vs GCP' }]} />
+      </div>
 
       {/* ── Hero ─────────────────────────────────────────────────────────── */}
-      <section className="max-w-4xl mx-auto px-6 pt-10 pb-8 text-center">
+      <section className="max-w-4xl mx-auto px-6 pt-4 pb-8 text-center">
         <span className="inline-block mb-4 text-xs font-bold uppercase tracking-[0.2em] px-5 py-2 rounded-full"
           style={{ color: 'var(--accent-cyan)', background: 'rgba(0,212,255,0.08)', border: '1px solid rgba(0,212,255,0.2)' }}>
           Calculator
