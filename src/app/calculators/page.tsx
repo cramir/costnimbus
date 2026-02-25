@@ -77,6 +77,36 @@ const calculators = [
     savings: 'Up to 60% savings',
     tags: ['EC2', 'Reserved Instances', 'Spot', 'AWS Compute'],
   },
+  {
+    href: '/calculators/ebs-storage',
+    title: 'EBS Volume Cost Calculator',
+    description: 'Compare gp3, gp2, io2, io1, st1, sc1 — with full IOPS and throughput breakdowns. See exactly why gp3 beats gp2 and when to use io2 Block Express.',
+    icon: '💾',
+    badge: 'New',
+    badgeColor: '#4ade80',
+    savings: 'gp3 saves ~20% vs gp2',
+    tags: ['EBS', 'AWS', 'Block Storage', 'IOPS'],
+  },
+  {
+    href: '/calculators/cdn',
+    title: 'CDN Cost Calculator',
+    description: 'CloudFront vs Cloudflare vs Fastly vs BunnyCDN — real monthly costs for your bandwidth and request volume. BunnyCDN is often 85%+ cheaper than CloudFront.',
+    icon: '🌐',
+    badge: 'New',
+    badgeColor: '#4ade80',
+    savings: 'Up to 85% savings',
+    tags: ['CDN', 'CloudFront', 'Cloudflare', 'Egress'],
+  },
+  {
+    href: '/calculators/finops-maturity',
+    title: 'FinOps Maturity Assessment',
+    description: '15 questions across 5 dimensions — Visibility, Optimization, Planning, Governance, and Culture. Get your maturity score and a personalized action plan.',
+    icon: '📋',
+    badge: 'New',
+    badgeColor: '#4ade80',
+    savings: 'Find your gaps',
+    tags: ['FinOps', 'Maturity', 'Assessment', 'Governance'],
+  },
 ];
 
 export default function CalculatorsPage() {

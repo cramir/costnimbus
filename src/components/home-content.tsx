@@ -347,6 +347,33 @@ export default function HomeContent({ articles }: { articles: Article[] }) {
                 badgeColor: '#4ade80',
                 saving: 'Up to 60% off',
               },
+              {
+                href: '/calculators/ebs-storage',
+                icon: '💾',
+                title: 'EBS Volume Cost Calculator',
+                desc: 'gp3 vs gp2 vs io2 — with full IOPS and throughput breakdowns. Stop paying gp2 prices.',
+                badge: 'New',
+                badgeColor: '#4ade80',
+                saving: 'gp3 saves ~20%',
+              },
+              {
+                href: '/calculators/cdn',
+                icon: '🌐',
+                title: 'CDN Cost Calculator',
+                desc: 'CloudFront vs Cloudflare vs Fastly vs BunnyCDN — real costs for your bandwidth.',
+                badge: 'New',
+                badgeColor: '#4ade80',
+                saving: 'Up to 85% savings',
+              },
+              {
+                href: '/calculators/finops-maturity',
+                icon: '📋',
+                title: 'FinOps Maturity Assessment',
+                desc: '15 questions, 5 dimensions — score your cloud financial management maturity and get a personalized action plan.',
+                badge: 'New',
+                badgeColor: '#a855f7',
+                saving: 'Find your gaps',
+              },
             ].map(c => (
               <Link key={c.href} href={c.href} style={{ textDecoration: 'none', display: 'block' }}>
                 <div

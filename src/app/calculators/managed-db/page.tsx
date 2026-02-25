@@ -506,6 +506,17 @@ export default function ManagedDBCalculator() {
             </div>
           </div>
 
+          {/* Deep-dive article link */}
+          <Link href="/article/rds-vs-aurora-cost-comparison"
+            className="block rounded-2xl p-5"
+            style={{ background: 'rgba(168,85,247,0.06)', border: '1px solid rgba(168,85,247,0.2)', textDecoration: 'none', transition: 'all 0.2s ease' }}>
+            <div className="text-xs font-bold uppercase tracking-[0.15em] mb-1" style={{ color: '#a855f7' }}>DEEP DIVE</div>
+            <div className="text-sm font-semibold mb-1" style={{ color: 'var(--text-primary)' }}>RDS vs Aurora: The Real Cost Difference</div>
+            <div className="text-xs" style={{ color: 'var(--text-muted)' }}>
+              When Aurora saves money vs when RDS wins — with real Q1 2026 pricing and I/O math →
+            </div>
+          </Link>
+
           {/* Newsletter CTA */}
           <div className="rounded-2xl p-5 relative overflow-hidden"
             style={{

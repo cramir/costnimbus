@@ -108,5 +108,41 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: 'monthly',
       priority: 0.9,
     },
+    {
+      url: `${baseUrl}/calculators/ebs-storage`,
+      lastModified: new Date('2026-02-25'),
+      changeFrequency: 'monthly',
+      priority: 0.85,
+    },
+    {
+      url: `${baseUrl}/calculators/cdn`,
+      lastModified: new Date('2026-02-25'),
+      changeFrequency: 'monthly',
+      priority: 0.85,
+    },
+    {
+      url: `${baseUrl}/article/lambda-cold-starts`,
+      lastModified: new Date('2026-02-25'),
+      changeFrequency: 'monthly',
+      priority: 0.9,
+    },
+    {
+      url: `${baseUrl}/article/savings-plans-vs-reserved-instances`,
+      lastModified: new Date('2026-02-25'),
+      changeFrequency: 'monthly',
+      priority: 0.9,
+    },
+    {
+      url: `${baseUrl}/calculators/finops-maturity`,
+      lastModified: new Date('2026-02-25'),
+      changeFrequency: 'monthly',
+      priority: 0.88,
+    },
+    {
+      url: `${baseUrl}/article/rds-vs-aurora-cost-comparison`,
+      lastModified: new Date('2026-02-25'),
+      changeFrequency: 'monthly',
+      priority: 0.9,
+    },
   ];
 }
