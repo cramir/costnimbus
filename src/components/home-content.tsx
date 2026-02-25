@@ -1,10 +1,11 @@
 'use client';
 
 import Link from 'next/link';
-import { getAllArticles } from '@/lib/articles';
+import Newsletter from './newsletter';
+import Footer from './footer';
+import { Article } from '@/lib/articles';
 
-export default function HomeContent() {
-  const articles = getAllArticles();
+export default function HomeContent({ articles }: { articles: Article[] }) {
   const featuredArticle = articles.find(a => a.slug === 'how-i-saved-50k-month-cloud-costs');
   const recentArticles = articles.filter(a => a.slug !== 'how-i-saved-50k-month-cloud-costs').slice(0, 2);
 
@@ -100,15 +101,16 @@ export default function HomeContent() {
             padding: 0,
             overflowX: 'auto',
           }}><code
-            style={{
-              fontFamily: 'var(--font-jetbrains-mono)',
-              fontSize: '0.8rem',
-              lineHeight: 1.8,
-              whiteSpace: 'pre',
-              display: 'block',
-              color: 'var(--code-text)',
-            }}
-            dangerouslySetInnerHTML={{ __html: `<span class="code-keyword">const</span> <span class="code-function">analyzeSavings</span> = <span class="code-keyword">async</span> () =&gt; {
+              style={{
+                fontFamily: 'var(--font-jetbrains-mono)',
+                fontSize: '0.8rem',
+                lineHeight: 1.8,
+                whiteSpace: 'pre',
+                display: 'block',
+                color: 'var(--code-text)',
+              }}
+              dangerouslySetInnerHTML={{
+                __html: `<span class="code-keyword">const</span> <span class="code-function">analyzeSavings</span> = <span class="code-keyword">async</span> () =&gt; {
   <span class="code-keyword">const</span> <span class="code-property">metrics</span> = <span class="code-keyword">await</span> <span class="code-function">getCloudMetrics</span>({
     <span class="code-property">timeframe</span>: <span class="code-string">&#39;quarter&#39;</span>,
     <span class="code-property">services</span>: [<span class="code-string">&#39;ec2&#39;</span>, <span class="code-string">&#39;s3&#39;</span>, <span class="code-string">&#39;rds&#39;</span>],
@@ -121,7 +123,7 @@ export default function HomeContent() {
     <span class="code-property">timeToImpact</span>: <span class="code-string">&#39;2 weeks&#39;</span>,
   };
 };` }}
-          /></pre>
+            /></pre>
         </div>
 
         {/* Stats cards */}
@@ -143,16 +145,16 @@ export default function HomeContent() {
             position: 'relative',
             overflow: 'hidden',
           }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.transform = 'translateY(-8px)';
-            e.currentTarget.style.borderColor = 'rgba(0, 212, 255, 0.3)';
-            e.currentTarget.style.boxShadow = '0 20px 50px rgba(0, 212, 255, 0.15)';
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.transform = 'translateY(0)';
-            e.currentTarget.style.borderColor = 'var(--border-subtle)';
-            e.currentTarget.style.boxShadow = 'none';
-          }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.transform = 'translateY(-8px)';
+              e.currentTarget.style.borderColor = 'rgba(0, 212, 255, 0.3)';
+              e.currentTarget.style.boxShadow = '0 20px 50px rgba(0, 212, 255, 0.15)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.transform = 'translateY(0)';
+              e.currentTarget.style.borderColor = 'var(--border-subtle)';
+              e.currentTarget.style.boxShadow = 'none';
+            }}
           >
             <div style={{
               fontFamily: 'var(--font-space-grotesk)',
@@ -183,16 +185,16 @@ export default function HomeContent() {
             position: 'relative',
             overflow: 'hidden',
           }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.transform = 'translateY(-8px)';
-            e.currentTarget.style.borderColor = 'rgba(0, 212, 255, 0.3)';
-            e.currentTarget.style.boxShadow = '0 20px 50px rgba(0, 212, 255, 0.15)';
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.transform = 'translateY(0)';
-            e.currentTarget.style.borderColor = 'var(--border-subtle)';
-            e.currentTarget.style.boxShadow = 'none';
-          }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.transform = 'translateY(-8px)';
+              e.currentTarget.style.borderColor = 'rgba(0, 212, 255, 0.3)';
+              e.currentTarget.style.boxShadow = '0 20px 50px rgba(0, 212, 255, 0.15)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.transform = 'translateY(0)';
+              e.currentTarget.style.borderColor = 'var(--border-subtle)';
+              e.currentTarget.style.boxShadow = 'none';
+            }}
           >
             <div style={{
               fontFamily: 'var(--font-space-grotesk)',
@@ -223,16 +225,16 @@ export default function HomeContent() {
             position: 'relative',
             overflow: 'hidden',
           }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.transform = 'translateY(-8px)';
-            e.currentTarget.style.borderColor = 'rgba(0, 212, 255, 0.3)';
-            e.currentTarget.style.boxShadow = '0 20px 50px rgba(0, 212, 255, 0.15)';
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.transform = 'translateY(0)';
-            e.currentTarget.style.borderColor = 'var(--border-subtle)';
-            e.currentTarget.style.boxShadow = 'none';
-          }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.transform = 'translateY(-8px)';
+              e.currentTarget.style.borderColor = 'rgba(0, 212, 255, 0.3)';
+              e.currentTarget.style.boxShadow = '0 20px 50px rgba(0, 212, 255, 0.15)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.transform = 'translateY(0)';
+              e.currentTarget.style.borderColor = 'var(--border-subtle)';
+              e.currentTarget.style.boxShadow = 'none';
+            }}
           >
             <div style={{
               fontFamily: 'var(--font-space-grotesk)',
@@ -276,7 +278,7 @@ export default function HomeContent() {
             alignItems: 'center',
             gap: '0.75rem',
           }}>
-            <span style={{ color: 'var(--accent-cyan)' }}> //</span> Featured Story
+            <span style={{ color: 'var(--accent-cyan)' }}>{" //"}</span> Featured Story
           </p>
 
           <Link href={`/article/${featuredArticle?.slug}`} style={{
@@ -293,16 +295,16 @@ export default function HomeContent() {
               position: 'relative',
               overflow: 'hidden',
             }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.transform = 'translateX(8px) translateY(-4px)';
-              e.currentTarget.style.borderColor = 'rgba(0, 212, 255, 0.3)';
-              e.currentTarget.style.boxShadow = '0 25px 70px rgba(0, 212, 255, 0.15)';
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.transform = 'translateX(0) translateY(0)';
-              e.currentTarget.style.borderColor = 'var(--border-subtle)';
-              e.currentTarget.style.boxShadow = 'none';
-            }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = 'translateX(8px) translateY(-4px)';
+                e.currentTarget.style.borderColor = 'rgba(0, 212, 255, 0.3)';
+                e.currentTarget.style.boxShadow = '0 25px 70px rgba(0, 212, 255, 0.15)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = 'translateX(0) translateY(0)';
+                e.currentTarget.style.borderColor = 'var(--border-subtle)';
+                e.currentTarget.style.boxShadow = 'none';
+              }}
             >
               <h2 style={{
                 fontFamily: 'var(--font-space-grotesk)',
@@ -378,7 +380,7 @@ export default function HomeContent() {
               alignItems: 'center',
               gap: '0.75rem',
             }}>
-              <span style={{ color: 'var(--accent-cyan)' }}> //</span> Recent Articles
+              <span style={{ color: 'var(--accent-cyan)' }}>{" //"}</span> Recent Articles
             </p>
 
             <div style={{
@@ -401,16 +403,16 @@ export default function HomeContent() {
                     position: 'relative',
                     overflow: 'hidden',
                   }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.transform = 'translateX(8px)';
-                    e.currentTarget.style.borderColor = 'rgba(0, 212, 255, 0.3)';
-                    e.currentTarget.style.boxShadow = '0 20px 50px rgba(0, 212, 255, 0.1)';
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.transform = 'translateX(0)';
-                    e.currentTarget.style.borderColor = 'var(--border-subtle)';
-                    e.currentTarget.style.boxShadow = 'none';
-                  }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.transform = 'translateX(8px)';
+                      e.currentTarget.style.borderColor = 'rgba(0, 212, 255, 0.3)';
+                      e.currentTarget.style.boxShadow = '0 20px 50px rgba(0, 212, 255, 0.1)';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.transform = 'translateX(0)';
+                      e.currentTarget.style.borderColor = 'var(--border-subtle)';
+                      e.currentTarget.style.boxShadow = 'none';
+                    }}
                   >
                     <h3 style={{
                       fontFamily: 'var(--font-space-grotesk)',
@@ -466,152 +468,10 @@ export default function HomeContent() {
       )}
 
       {/* Newsletter */}
-      <section style={{
-        padding: '6rem 2rem',
-        position: 'relative',
-        zIndex: 1,
-        animation: 'fadeInUp 0.9s ease-out 0.6s both',
-      }}>
-        <div style={{
-          maxWidth: '600px',
-          margin: '0 auto',
-          background: 'var(--bg-card)',
-          border: '1px solid var(--border-subtle)',
-          borderRadius: '24px',
-          padding: '3.5rem',
-          position: 'relative',
-          overflow: 'hidden',
-          boxShadow: 'var(--card-shadow)',
-        }}>
-          <div style={{
-            position: 'absolute',
-            top: '-2px',
-            left: '-2px',
-            right: '-2px',
-            bottom: '-2px',
-            background: 'linear-gradient(135deg, var(--accent-cyan), var(--accent-purple), var(--accent-cyan))',
-            borderRadius: '26px',
-            zIndex: -1,
-            opacity: 0.3,
-          }}></div>
-
-          <h2 style={{
-            fontFamily: 'var(--font-space-grotesk)',
-            fontSize: '2.2rem',
-            fontWeight: 700,
-            marginBottom: '0.75rem',
-            color: 'var(--text-primary)',
-            position: 'relative',
-            zIndex: 1,
-          }}>Get weekly cloud cost tips</h2>
-          <p style={{
-            color: 'var(--text-secondary)',
-            marginBottom: '2.5rem',
-            fontSize: '1rem',
-            lineHeight: 1.8,
-            position: 'relative',
-            zIndex: 1,
-          }}>Join thousands of engineers getting practical insights delivered to their inbox. Clear, actionable strategies without the fluff.</p>
-
-          {/* SendFox Form */}
-          <form
-            method="post"
-            action="https://sendfox.com/form/3qdz96/36enr2"
-            className="sendfox-form"
-            id="36enr2"
-            data-async="true"
-            data-recaptcha="true"
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              gap: '1rem',
-              position: 'relative',
-              zIndex: 1,
-            }}
-          >
-            <input
-              type="text"
-              name="first_name"
-              placeholder="Your name"
-              required
-              style={{
-                width: '100%',
-                padding: '1.1rem 1.5rem',
-                fontFamily: 'var(--font-nunito)',
-                fontSize: '1rem',
-                background: 'var(--bg-tertiary)',
-                border: '1px solid var(--border-subtle)',
-                borderRadius: '12px',
-                color: 'var(--text-primary)',
-                transition: 'all 0.3s ease',
-              }}
-            />
-            <input
-              type="email"
-              name="email"
-              placeholder="your@email.com"
-              required
-              style={{
-                width: '100%',
-                padding: '1.1rem 1.5rem',
-                fontFamily: 'var(--font-nunito)',
-                fontSize: '1rem',
-                background: 'var(--bg-tertiary)',
-                border: '1px solid var(--border-subtle)',
-                borderRadius: '12px',
-                color: 'var(--text-primary)',
-                transition: 'all 0.3s ease',
-              }}
-            />
-            <div style={{ position: 'absolute', left: '-5000px' }} aria-hidden="true">
-              <input type="text" name="a_password" tabIndex={-1} value="" autoComplete="off" />
-            </div>
-            <button
-              type="submit"
-              style={{
-                fontFamily: 'var(--font-nunito)',
-                fontSize: '1rem',
-                fontWeight: 700,
-                padding: '1.2rem 2rem',
-                background: 'linear-gradient(135deg, var(--accent-cyan) 0%, var(--accent-purple) 100%)',
-                color: 'white',
-                border: 'none',
-                borderRadius: '12px',
-                cursor: 'pointer',
-                transition: 'all 0.3s ease',
-                marginTop: '0.5rem',
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = 'translateY(-3px)';
-                e.currentTarget.style.boxShadow = '0 15px 35px rgba(0, 212, 255, 0.3)';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = 'translateY(0)';
-                e.currentTarget.style.boxShadow = 'none';
-              }}
-            >
-              Subscribe ✨
-            </button>
-          </form>
-          <script src="https://cdn.sendfox.com/js/form.js" charSet="utf-8" async></script>
-        </div>
-      </section>
+      <Newsletter wrapInSection={true} />
 
       {/* Footer */}
-      <footer style={{
-        padding: '3rem 2rem',
-        textAlign: 'center',
-        borderTop: '1px solid var(--border-subtle)',
-        position: 'relative',
-        zIndex: 1,
-        animation: 'fadeInUp 0.9s ease-out 0.8s both',
-      }}>
-        <p style={{
-          fontFamily: 'var(--font-nunito)',
-          fontSize: '0.85rem',
-          color: 'var(--text-muted)',
-        }}>© 2026 Cost Nimbus. Built by engineers, for engineers.</p>
-      </footer>
+      <Footer animationDelay="0.8s" />
     </>
   );
 }

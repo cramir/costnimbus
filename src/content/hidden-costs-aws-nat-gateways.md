@@ -1,4 +1,10 @@
-# The Hidden Costs of AWS NAT Gateways (And How to Cut Them by 80%)
+---
+title: "The Hidden Costs of AWS NAT Gateways (And How to Cut Them by 80%)"
+description: "I saved $18,000 per month by optimizing NAT Gateway usage. Learn how VPC endpoints, NAT instances, and IPv6 can slash your AWS networking costs."
+publishDate: "2026-02-23"
+readTime: "12 min"
+category: "AWS Cost Optimization"
+---
 
 I saved $18,000 per month by optimizing NAT Gateway usage across our AWS infrastructure. Here's exactly how I did it.
 
@@ -24,23 +30,23 @@ The $4,580 in savings wasn't from eliminating NAT Gateways entirely—it came fr
 NAT Gateway pricing has two components:
 
 **1. Hourly Availability Charge: $0.045/hour**
-```
+\`\`\`
 $0.045 × 24 hours × 30 days = $32.40 per month
 $32.40 × 3 gateways (one per AZ) = $97.20/month
-```
+\`\`\`
 
 This charges whether you're processing 1 GB or 1 TB. It's the "tax" for having NAT Gateways available.
 
 **2. Data Processing Charge: $0.045/GB**
 This is where the real costs accumulate. Every GB that passes through your NAT Gateway incurs this fee—on top of standard data transfer charges.
 
-```
+\`\`\`
 Example scenario:
 - 100 GB/day through NAT Gateway
 - 100 GB × $0.045 = $4.50/day
 - $4.50 × 30 days = $135/month
 - That's just the processing fee (data transfer costs are extra)
-```
+\`\`\`
 
 For high-traffic workloads, this scales painfully:
 - 1 TB/month through NAT Gateway = $45/month (processing only)
@@ -55,9 +61,9 @@ After auditing dozens of AWS environments, I consistently see the same mistakes:
 
 Many teams deploy a NAT Gateway in each AZ for "availability." But here's what they're not calculating:
 
-```
+\`\`\`
 3 AZs × $32.40/month = $97.20/month in idle charges
-```
+\`\`\`
 
 If your workload can survive losing one AZ (which it should), you only need NAT Gateways in 2 AZs—not 3. That's $32.40/month saved immediately.
 
@@ -100,32 +106,32 @@ In the infrastructure I audited, 60% of NAT Gateway traffic was S3 and DynamoDB.
 
 **Step 1: Create Gateway Endpoints**
 
-```bash
+\`\`\`bash
 # S3 Gateway Endpoint
-aws ec2 create-vpc-endpoint \
-  --vpc-id vpc-0123456789abcdef0 \
-  --service-name com.amazonaws.us-east-1.s3 \
+aws ec2 create-vpc-endpoint \\
+  --vpc-id vpc-0123456789abcdef0 \\
+  --service-name com.amazonaws.us-east-1.s3 \\
   --route-table-ids rtb-0123456789abcdef0 rtb-0123456789abcdef1
 
 # DynamoDB Gateway Endpoint
-aws ec2 create-vpc-endpoint \
-  --vpc-id vpc-0123456789abcdef0 \
-  --service-name com.amazonaws.us-east-1.dynamodb \
+aws ec2 create-vpc-endpoint \\
+  --vpc-id vpc-0123456789abcdef0 \\
+  --service-name com.amazonaws.us-east-1.dynamodb \\
   --route-table-ids rtb-0123456789abcdef0 rtb-0123456789abcdef1
-```
+\`\`\`
 
 **Step 2: Verify Routing**
 
 After creating the endpoint, AWS automatically adds routes to your route tables:
 
-```
+\`\`\`
 Destination        | Target
 -------------------|-------------------
 10.0.0.0/16        | local
 0.0.0.0/0          | nat-0123456789abcdef0
 com.amazonaws.us-east-1.s3     | vpce-0123456789abcdef0
 com.amazonaws.us-east-1.dynamodb | vpce-0987654321fedcba0
-```
+\`\`\`
 
 Traffic to S3 and DynamoDB now uses the VPC endpoint instead of the NAT Gateway.
 
@@ -133,7 +139,7 @@ Traffic to S3 and DynamoDB now uses the VPC endpoint instead of the NAT Gateway.
 
 If you have bucket policies restricting access by VPC endpoint, update them:
 
-```json
+\`\`\`json
 {
   "Version": "2012-10-17",
   "Statement": [
@@ -150,7 +156,7 @@ If you have bucket policies restricting access by VPC endpoint, update them:
     }
   ]
 }
-```
+\`\`\`
 
 ### Cost Impact
 
@@ -176,11 +182,11 @@ Scale this up:
 
 For services that don't support gateway endpoints (API Gateway, SQS, SNS, etc.), use interface endpoints:
 
-```
+\`\`\`
 Interface Endpoint Pricing:
 - $0.011/hour (approx. $8.76/month per AZ)
 - $0.01/GB data processing
-```
+\`\`\`
 
 Compare to NAT Gateway:
 - $0.045/hour (approx. $32.40/month per AZ)
@@ -234,54 +240,54 @@ For 100 GB/month traffic:
 
 **Step 1: Launch NAT Instance**
 
-```bash
+\`\`\`bash
 # Find the latest fck-nat AMI
-AMI=$(aws ec2 describe-images \
-  --owners 099720109477 \
-  --filters "Name=name,Values=fck-nat-*" "Name=state,Values=available" \
-  --query 'sort_by(Images, &CreationDate)[-1].ImageId' \
+AMI=$(aws ec2 describe-images \\
+  --owners 099720109477 \\
+  --filters "Name=name,Values=fck-nat-*" "Name=state,Values=available" \\
+  --query 'sort_by(Images, &CreationDate)[-1].ImageId' \\
   --output text)
 
 # Launch the instance
-INSTANCE_ID=$(aws ec2 run-instances \
-  --image-id $AMI \
-  --instance-type t4g.nano \
-  --subnet-id subnet-0123456789abcdef0 \
-  --security-group-ids sg-0123456789abcdef0 \
-  --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=fck-nat-dev}]" \
-  --query 'Instances[0].InstanceId' \
+INSTANCE_ID=$(aws ec2 run-instances \\
+  --image-id $AMI \\
+  --instance-type t4g.nano \\
+  --subnet-id subnet-0123456789abcdef0 \\
+  --security-group-ids sg-0123456789abcdef0 \\
+  --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=fck-nat-dev}]" \\
+  --query 'Instances[0].InstanceId' \\
   --output text)
 
 # Disable source/destination check
-aws ec2 modify-instance-attribute \
-  --instance-id $INSTANCE_ID \
+aws ec2 modify-instance-attribute \\
+  --instance-id $INSTANCE_ID \\
   --no-source-dest-check
 
 # Associate Elastic IP
 EIP_ALLOCATION_ID=$(aws ec2 allocate-address --domain vpc --query 'AllocationId' --output text)
-aws ec2 associate-address \
-  --instance-id $INSTANCE_ID \
+aws ec2 associate-address \\
+  --instance-id $INSTANCE_ID \\
   --allocation-id $EIP_ALLOCATION_ID
-```
+\`\`\`
 
 **Step 2: Update Route Tables**
 
-```bash
+\`\`\`bash
 # Replace NAT Gateway route with NAT instance route
-aws ec2 replace-route \
-  --route-table-id rtb-0123456789abcdef0 \
-  --destination-cidr-block 0.0.0.0/0 \
+aws ec2 replace-route \\
+  --route-table-id rtb-0123456789abcdef0 \\
+  --destination-cidr-block 0.0.0.0/0 \\
   --instance-id $INSTANCE_ID
 
 # Verify the route
-aws ec2 describe-route-tables \
-  --route-table-ids rtb-0123456789abcdef0 \
+aws ec2 describe-route-tables \\
+  --route-table-ids rtb-0123456789abcdef0 \\
   --query 'RouteTables[0].Routes'
-```
+\`\`\`
 
 **Step 3: Configure Auto-Scaling and Monitoring**
 
-```python
+\`\`\`python
 # CloudWatch alarm for high CPU utilization
 import boto3
 
@@ -303,16 +309,16 @@ cloudwatch.put_metric_alarm(
     ComparisonOperator='GreaterThanThreshold',
     AlarmActions=['arn:aws:sns:us-east-1:123456789012:ops-alerts']
 )
-```
+\`\`\`
 
 ### High Availability with Auto Scaling Groups
 
 For production use with NAT instances, use an Auto Scaling Group:
 
-```bash
+\`\`\`bash
 # Create launch template for NAT instances
-aws ec2 create-launch-template \
-  --launch-template-name nat-instance-template \
+aws ec2 create-launch-template \\
+  --launch-template-name nat-instance-template \\
   --launch-template-data '{
     "ImageId": "ami-0123456789abcdef0",
     "InstanceType": "t4g.nano",
@@ -325,14 +331,14 @@ aws ec2 create-launch-template \
   }'
 
 # Create Auto Scaling Group
-aws autoscaling create-auto-scaling-group \
-  --auto-scaling-group-name nat-asg \
-  --launch-template LaunchTemplateId=lt-0123456789abcdef0 \
-  --min-size 2 \
-  --max-size 2 \
-  --desired-capacity 2 \
+aws autoscaling create-auto-scaling-group \\
+  --auto-scaling-group-name nat-asg \\
+  --launch-template LaunchTemplateId=lt-0123456789abcdef0 \\
+  --min-size 2 \\
+  --max-size 2 \\
+  --desired-capacity 2 \\
   --vpc-zone-identifier "subnet-0123456789abcdef0,subnet-0987654321fedcba0"
-```
+\`\`\`
 
 This gives you HA with NAT instances at a fraction of the cost.
 
@@ -343,14 +349,14 @@ IPv6 eliminates the need for NAT Gateways for outbound internet traffic.
 ### How It Works
 
 With IPv4, private subnets need NAT to access the internet:
-```
+\`\`\`
 Private Subnet → NAT Gateway → Internet Gateway → Internet
-```
+\`\`\`
 
 With IPv6, instances have public addresses and use an Egress-only Internet Gateway:
-```
+\`\`\`
 IPv6 Subnet → Egress-only Internet Gateway → Internet
-```
+\`\`\`
 
 **Egress-only Internet Gateway Pricing:**
 - Hourly charge: **FREE**
@@ -360,55 +366,55 @@ IPv6 Subnet → Egress-only Internet Gateway → Internet
 
 **Step 1: Enable IPv6 in Your VPC**
 
-```bash
+\`\`\`bash
 # Associate IPv6 CIDR block with VPC
-aws ec2 associate-vpc-cidr-block \
-  --vpc-id vpc-0123456789abcdef0 \
+aws ec2 associate-vpc-cidr-block \\
+  --vpc-id vpc-0123456789abcdef0 \\
   --amazon-provided-ipv6-cidr-block
 
 # Enable IPv6 on subnets
-aws ec2 modify-subnet-attribute \
-  --subnet-id subnet-0123456789abcdef0 \
+aws ec2 modify-subnet-attribute \\
+  --subnet-id subnet-0123456789abcdef0 \\
   --ipv6-cidr-block-auto-assign-id
 
 # Update route table for IPv6
-aws ec2 create-route \
-  --route-table-id rtb-0123456789abcdef0 \
-  --destination-ipv6-cidr-block ::/0 \
+aws ec2 create-route \\
+  --route-table-id rtb-0123456789abcdef0 \\
+  --destination-ipv6-cidr-block ::/0 \\
   --egress-only-internet-gateway-id eigw-0123456789abcdef0
-```
+\`\`\`
 
 **Step 2: Create Egress-Only Internet Gateway**
 
-```bash
+\`\`\`bash
 # Create the gateway
-aws ec2 create-egress-only-internet-gateway \
+aws ec2 create-egress-only-internet-gateway \\
   --vpc-id vpc-0123456789abcdef0
 
 # Attach to route table
-aws ec2 create-route \
-  --route-table-id rtb-0123456789abcdef0 \
-  --destination-ipv6-cidr-block ::/0 \
+aws ec2 create-route \\
+  --route-table-id rtb-0123456789abcdef0 \\
+  --destination-ipv6-cidr-block ::/0 \\
   --egress-only-internet-gateway-id eigw-0123456789abcdef0
-```
+\`\`\`
 
 **Step 3: Configure EC2 Instances**
 
-```bash
+\`\`\`bash
 # Assign IPv6 address during launch
-INSTANCE_ID=$(aws ec2 run-instances \
-  --image-id ami-0123456789abcdef0 \
-  --instance-type t3.medium \
-  --subnet-id subnet-0123456789abcdef0 \
-  --ipv6-address-count 1 \
-  --query 'Instances[0].InstanceId' \
+INSTANCE_ID=$(aws ec2 run-instances \\
+  --image-id ami-0123456789abcdef0 \\
+  --instance-type t3.medium \\
+  --subnet-id subnet-0123456789abcdef0 \\
+  --ipv6-address-count 1 \\
+  --query 'Instances[0].InstanceId' \\
   --output text)
 
 # Or add to existing instance
-aws ec2 assign-ipv6-addresses \
-  --instance-id $INSTANCE_ID \
+aws ec2 assign-ipv6-addresses \\
+  --instance-id $INSTANCE_ID \\
   --ipv6-addresses 2001:db8::1234
-```
+\`\`\`
 
 ### Cost Impact
 
@@ -443,16 +449,16 @@ Before optimizing, you need to understand what's flowing through your NAT Gatewa
 
 ### Enable VPC Flow Logs
 
-```bash
+\`\`\`bash
 # Enable flow logs for NAT Gateway
-aws ec2 create-flow-logs \
-  --resource-type VPC \
-  --resource-id vpc-0123456789abcdef0 \
-  --traffic-type ALL \
-  --log-destination-type cloud-watch-logs \
-  --log-group-name /aws/vpc/flow-logs \
+aws ec2 create-flow-logs \\
+  --resource-type VPC \\
+  --resource-id vpc-0123456789abcdef0 \\
+  --traffic-type ALL \\
+  --log-destination-type cloud-watch-logs \\
+  --log-group-name /aws/vpc/flow-logs \\
   --deliver-logs-permission-arn arn:aws:iam::123456789012:role/FlowLogsRole
-```
+\`\`\`
 
 **Flow Logs Pricing:**
 - $0.50 per 1M flow log records
@@ -461,7 +467,7 @@ aws ec2 create-flow-logs \
 
 ### Query Top Talkers with CloudWatch Logs Insights
 
-```sql
+\`\`\`sql
 # Find top 10 instances by bytes transferred through NAT Gateway
 fields @timestamp, srcAddr, dstAddr, bytes, protocol, port
 | filter dstAddr like '10.0.0.0/8'
@@ -469,18 +475,18 @@ fields @timestamp, srcAddr, dstAddr, bytes, protocol, port
 | stats sum(bytes) as totalBytes by srcAddr
 | sort totalBytes desc
 | limit 10
-```
+\`\`\`
 
-```sql
+\`\`\`sql
 # Find top 10 destinations by bytes
 fields @timestamp, srcAddr, dstAddr, bytes, protocol, port
 | filter action = 'ACCEPT'
 | stats sum(bytes) as totalBytes by dstAddr
 | sort totalBytes desc
 | limit 10
-```
+\`\`\`
 
-```sql
+\`\`\`sql
 # Identify S3 traffic (should use VPC endpoint)
 fields @timestamp, srcAddr, dstAddr, bytes
 | filter dstPort = 443
@@ -488,11 +494,11 @@ fields @timestamp, srcAddr, dstAddr, bytes
 | filter dstAddr like '52.216.0.0/16'  # S3 IPs
 | stats sum(bytes) as s3ThroughNAT by srcAddr
 | sort s3ThroughNAT desc
-```
+\`\`\`
 
 ### Analyze Traffic Patterns
 
-```python
+\`\`\`python
 # Python script to identify optimization opportunities
 import boto3
 
@@ -527,22 +533,22 @@ def analyze_nat_traffic():
     total_bytes = sum(int(r[3]['value']) for r in results['results'])
     savings = (total_bytes / 1e9) * 0.045  # $0.045/GB
 
-    print(f"Total S3 bytes through NAT: {total_bytes:,}")
-    print(f"Potential monthly savings: ${savings * 4:.2f}")  # 7 days to 30 days
+    print(""
+    print(""  # 7 days to 30 days
 
 analyze_nat_traffic()
-```
+\`\`\`
 
 ### Identify Low-Value NAT Gateways
 
-```sql
+\`\`\`sql
 # Find NAT Gateways with minimal traffic
 fields @timestamp, srcAddr, bytes
 | filter action = 'ACCEPT'
 | stats sum(bytes) as totalBytes by srcAddr
 | where totalBytes < 104857600  # Less than 100 MB
 | sort totalBytes asc
-```
+\`\`\`
 
 If a NAT Gateway is processing less than 100 GB/month, consider:
 - Consolidating with another AZ's NAT Gateway
@@ -553,7 +559,7 @@ If a NAT Gateway is processing less than 100 GB/month, consider:
 
 ### Before: Traditional NAT Gateway Architecture
 
-```
+\`\`\`
 ┌─────────────────────────────────────────────────────────┐
 │                        VPC                              │
 │  ┌──────────────────────────────────────────────────┐  │
@@ -579,7 +585,7 @@ If a NAT Gateway is processing less than 100 GB/month, consider:
                     │
                     ▼
               Internet Gateway
-```
+\`\`\`
 
 **Monthly Costs (Example):**
 - 3 NAT Gateways: $97.20
@@ -589,7 +595,7 @@ If a NAT Gateway is processing less than 100 GB/month, consider:
 
 ### After: Optimized Architecture
 
-```
+\`\`\`
 ┌─────────────────────────────────────────────────────────┐
 │                        VPC                              │
 │  ┌──────────────────────────────────────────────────┐  │
@@ -624,7 +630,7 @@ If a NAT Gateway is processing less than 100 GB/month, consider:
                     │
                     ▼
               Internet Gateway
-```
+\`\`\`
 
 **Monthly Costs (Optimized):**
 - 2 NAT Gateways: $64.80
@@ -650,26 +656,26 @@ Let's walk through a real-world scenario with specific numbers.
 ### Before Optimization
 
 **NAT Gateway Hourly Charges:**
-```
+\`\`\`
 4 gateways × $32.40/month = $129.60/month
-```
+\`\`\`
 
 **Data Processing Charges:**
-```
+\`\`\`
 S3: 5 TB × $0.045/GB = $225/month
 Internet: 2 TB × $0.045/GB = $90/month
 Total data processing: $315/month
-```
+\`\`\`
 
 **Data Transfer Charges (outbound to internet):**
-```
+\`\`\`
 2 TB × $0.09/GB = $180/month
-```
+\`\`\`
 
 **Total Monthly Cost:**
-```
+\`\`\`
 $129.60 (hourly) + $315 (data processing) + $180 (data transfer) = $624.60/month
-```
+\`\`\`
 
 ### After Optimization
 
@@ -685,9 +691,9 @@ $129.60 (hourly) + $315 (data processing) + $180 (data transfer) = $624.60/month
 - Eliminate cross-AZ transfer: ~$20/month
 
 **Optimized Monthly Cost:**
-```
+\`\`\`
 $64.80 (2 NAT gateways) + $90 (1 TB data processing) + $90 (data transfer) = $244.80/month
-```
+\`\`\`
 
 **Total Savings: $379.80/month (60.8%)**
 
@@ -755,46 +761,46 @@ $64.80 (2 NAT gateways) + $90 (1 TB data processing) + $90 (data transfer) = $24
 **A:** No. Gateway endpoints are transparent to applications. As long as you're using standard AWS SDKs, they'll automatically route through the VPC endpoint once the endpoint and routes are configured.
 
 Test with:
-```bash
+\`\`\`bash
 # Before: Routes through NAT Gateway
 time aws s3 ls s3://my-bucket
 
 # After: Routes through VPC endpoint (should be same or faster)
 time aws s3 ls s3://my-bucket
-```
+\`\`\`
 
 ### Q: Can I have multiple NAT Gateways in the same AZ?
 
 **A:** Yes, but you need to manage routing. Create multiple route tables and associate different subnets with different route tables.
 
-```bash
+\`\`\`bash
 # Route table 1
-aws ec2 create-route \
-  --route-table-id rtb-0123456789abcdef0 \
-  --destination-cidr-block 0.0.0.0/0 \
+aws ec2 create-route \\
+  --route-table-id rtb-0123456789abcdef0 \\
+  --destination-cidr-block 0.0.0.0/0 \\
   --gateway-id nat-0123456789abcdef0
 
 # Route table 2
-aws ec2 create-route \
-  --route-table-id rtb-0987654321fedcba0 \
-  --destination-cidr-block 0.0.0.0/0 \
+aws ec2 create-route \\
+  --route-table-id rtb-0987654321fedcba0 \\
+  --destination-cidr-block 0.0.0.0/0 \\
   --gateway-id nat-0987654321fedcba0
 
 # Associate different subnets
-aws ec2 associate-route-table \
-  --route-table-id rtb-0123456789abcdef0 \
+aws ec2 associate-route-table \\
+  --route-table-id rtb-0123456789abcdef0 \\
   --subnet-id subnet-0123456789abcdef0
 
-aws ec2 associate-route-table \
-  --route-table-id rtb-0987654321fedcba0 \
+aws ec2 associate-route-table \\
+  --route-table-id rtb-0987654321fedcba0 \\
   --subnet-id subnet-0987654321fedcba0
-```
+\`\`\`
 
 ### Q: How do I know if an interface endpoint is cost-effective?
 
 **A:** Calculate the break-even point:
 
-```
+\`\`\`
 Interface endpoint cost:
 - Hourly: $0.011/hour = $8.76/month
 - Data processing: $0.01/GB
@@ -810,7 +816,7 @@ Total NAT cost - Total Interface cost
 x = -675 GB
 
 At ~675 GB/month, interface endpoint becomes cheaper.
-```
+\`\`\`
 
 Rule of thumb: If you send > 500 GB/month to a specific service, create an interface endpoint.
 
@@ -830,7 +836,7 @@ This is one of the hidden costs of NAT instances to be aware of.
 
 ### Script 1: Audit NAT Gateway Costs
 
-```python
+\`\`\`python
 #!/usr/bin/env python3
 import boto3
 from datetime import datetime, timedelta
@@ -842,7 +848,7 @@ def audit_nat_gateways():
     # Get all NAT Gateways
     nat_gateways = ec2.describe_nat_gateways()
 
-    print(f"NAT Gateway Audit - {datetime.now().strftime('%Y-%m-%d')}")
+    print(""
     print("=" * 60)
 
     total_monthly_cost = 0
@@ -873,13 +879,13 @@ def audit_nat_gateways():
 
         total_monthly_cost += total_cost
 
-        print(f"\nNAT Gateway: {nat_id}")
-        print(f"State: {state}")
-        print(f"Subnet: {subnet_id}")
-        print(f"Data processed (30d): {total_bytes / (1024**3):.2f} GB")
-        print(f"Hourly cost: ${hourly_cost:.2f}")
-        print(f"Data processing: ${data_processing_cost:.2f}")
-        print(f"Total monthly: ${total_cost:.2f}")
+        print(""
+        print(""
+        print(""
+        print(""
+        print(""
+        print(""
+        print(""
 
         # Check for VPC endpoints in same VPC
         vpc_id = nat['VpcId']
@@ -891,23 +897,23 @@ def audit_nat_gateways():
                             if ep['VpcEndpointType'] == 'Gateway']
 
         if gateway_endpoints:
-            print(f"VPC endpoints: {len(gateway_endpoints)}")
+            print(""
             for ep in gateway_endpoints:
-                print(f"  - {ep['ServiceName']}")
+                print(""
         else:
             print("⚠️  No gateway VPC endpoints found!")
 
-    print("\n" + "=" * 60)
-    print(f"Total monthly cost: ${total_monthly_cost:.2f}")
-    print(f"Potential savings with VPC endpoints: ${total_monthly_cost * 0.4:.2f}")
+    print("\\n" + "=" * 60)
+    print(""
+    print(""
 
 if __name__ == '__main__':
     audit_nat_gateways()
-```
+\`\`\`
 
 ### Script 2: Create VPC Endpoints for All VPCs
 
-```python
+\`\`\`python
 #!/usr/bin/env python3
 import boto3
 
@@ -919,7 +925,7 @@ def create_vpc_endpoints():
     vpc_ids = [vpc['VpcId'] for vpc in vpcs['Vpcs']]
 
     for vpc_id in vpc_ids:
-        print(f"\nProcessing VPC: {vpc_id}")
+        print(""
 
         # Get route tables for this VPC
         route_tables = ec2.describe_route_tables(
@@ -936,9 +942,9 @@ def create_vpc_endpoints():
                 VpcEndpointType='Gateway',
                 RouteTableIds=rt_ids
             )
-            print(f"✓ Created S3 endpoint: {s3_endpoint['VpcEndpoint']['VpcEndpointId']}")
+            print(""
         except Exception as e:
-            print(f"✗ Failed to create S3 endpoint: {e}")
+            print(""
 
         # Create DynamoDB endpoint
         try:
@@ -948,17 +954,17 @@ def create_vpc_endpoints():
                 VpcEndpointType='Gateway',
                 RouteTableIds=rt_ids
             )
-            print(f"✓ Created DynamoDB endpoint: {dynamodb_endpoint['VpcEndpoint']['VpcEndpointId']}")
+            print(""
         except Exception as e:
-            print(f"✗ Failed to create DynamoDB endpoint: {e}")
+            print(""
 
 if __name__ == '__main__':
     create_vpc_endpoints()
-```
+\`\`\`
 
 ### Script 3: NAT Gateway Cost Calculator
 
-```python
+\`\`\`python
 #!/usr/bin/env python3
 
 def calculate_nat_costs():
@@ -983,24 +989,24 @@ def calculate_nat_costs():
     optimized_total = optimized_hourly_cost + optimized_data_cost
 
     # Display results
-    print("\n" + "=" * 50)
+    print("\\n" + "=" * 50)
     print("Current Architecture:")
-    print(f"  Hourly charges: ${hourly_cost:.2f}/month")
-    print(f"  Data processing: ${data_processing_cost:.2f}/month")
-    print(f"  Total: ${total_cost:.2f}/month")
+    print(""
+    print(""
+    print(""
 
-    print("\nWith VPC Endpoints (60% S3/DynamoDB):")
-    print(f"  Hourly charges: ${optimized_hourly_cost:.2f}/month")
-    print(f"  Data processing: ${optimized_data_cost:.2f}/month")
-    print(f"  Total: ${optimized_total:.2f}/month")
+    print("\\nWith VPC Endpoints (60% S3/DynamoDB):")
+    print(""
+    print(""
+    print(""
 
-    print("\n" + "=" * 50)
-    print(f"Savings: ${total_cost - optimized_total:.2f}/month")
-    print(f"Annual savings: ${(total_cost - optimized_total) * 12:.2f}")
+    print("\\n" + "=" * 50)
+    print(""
+    print(""
 
 if __name__ == '__main__':
     calculate_nat_costs()
-```
+\`\`\`
 
 ## Conclusion
 

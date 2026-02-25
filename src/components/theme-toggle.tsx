@@ -10,6 +10,7 @@ export default function ThemeToggle() {
     // Check localStorage first, then system preference
     const storedTheme = localStorage.getItem('theme') as 'light' | 'dark' | null;
     if (storedTheme) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setTheme(storedTheme);
       document.documentElement.classList.add(storedTheme);
     } else if (window.matchMedia('(prefers-color-scheme: light)').matches) {
