@@ -90,5 +90,23 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: 'monthly',
       priority: 0.7,
     },
+    {
+      url: `${baseUrl}/calculators/serverless`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly',
+      priority: 0.85,
+    },
+    {
+      url: `${baseUrl}/calculators/ec2-pricing`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly',
+      priority: 0.85,
+    },
+    {
+      url: `${baseUrl}/article/kubernetes-cost-optimization`,
+      lastModified: new Date('2026-02-25'),
+      changeFrequency: 'monthly',
+      priority: 0.9,
+    },
   ];
 }

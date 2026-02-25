@@ -1,8 +1,8 @@
 ---
 title: "Azure vs AWS for .NET Shops: A Cost and DX Deep-Dive"
-excerpt: "You can run .NET on AWS. But Azure is purpose-built for it — and in most cases, dramatically cheaper. Here's a rigorous comparison of managed services, pricing, and developer experience for teams migrating from on-prem or choosing a cloud for their .NET stack."
-date: "2026-02-25"
-readTime: "14 min read"
+description: "You can run .NET on AWS. But Azure is purpose-built for it — and in most cases, dramatically cheaper. A rigorous comparison of managed services, pricing, and DX for teams migrating from on-prem or choosing a cloud for their .NET stack."
+publishDate: "2026-02-25"
+readTime: "14 min"
 category: "Cloud Strategy"
 ---
 

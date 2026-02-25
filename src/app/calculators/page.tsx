@@ -57,6 +57,26 @@ const calculators = [
     savings: 'Find the cheapest DB',
     tags: ['RDS', 'Aurora', 'PlanetScale', 'Neon', 'Database'],
   },
+  {
+    href: '/calculators/serverless',
+    title: 'Serverless Cost Calculator',
+    description: 'Lambda vs Azure Functions vs GCP Cloud Functions vs Cloudflare Workers vs Vercel. Enter your invocations, duration, and memory — see the real monthly cost per platform.',
+    icon: '⚡',
+    badge: 'New',
+    badgeColor: '#4ade80',
+    savings: 'Find the cheapest FaaS',
+    tags: ['Lambda', 'Serverless', 'Azure Functions', 'GCP', 'Cloudflare'],
+  },
+  {
+    href: '/calculators/ec2-pricing',
+    title: 'EC2 Pricing Calculator',
+    description: 'On-Demand vs Reserved Instances (1yr/3yr No/Partial/All Upfront) vs Spot — side by side for any instance type and usage pattern. See your exact annual savings.',
+    icon: '💰',
+    badge: 'New',
+    badgeColor: '#4ade80',
+    savings: 'Up to 60% savings',
+    tags: ['EC2', 'Reserved Instances', 'Spot', 'AWS Compute'],
+  },
 ];
 
 export default function CalculatorsPage() {

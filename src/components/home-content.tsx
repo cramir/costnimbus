@@ -329,6 +329,24 @@ export default function HomeContent({ articles }: { articles: Article[] }) {
                 badgeColor: '#4ade80',
                 saving: 'Pick the winner',
               },
+              {
+                href: '/calculators/serverless',
+                icon: '⚡',
+                title: 'Serverless Calculator',
+                desc: 'Lambda vs Azure Functions vs GCP vs Cloudflare Workers — real cost for your invocations + duration.',
+                badge: 'New',
+                badgeColor: '#4ade80',
+                saving: 'Find cheapest FaaS',
+              },
+              {
+                href: '/calculators/ec2-pricing',
+                icon: '💰',
+                title: 'EC2: On-Demand vs RI vs Spot',
+                desc: 'See exact savings from Reserved Instances and Spot across 20+ instance types.',
+                badge: 'New',
+                badgeColor: '#4ade80',
+                saving: 'Up to 60% off',
+              },
             ].map(c => (
               <Link key={c.href} href={c.href} style={{ textDecoration: 'none', display: 'block' }}>
                 <div
