@@ -40,7 +40,7 @@ export default function HomeContent({ articles }: { articles: Article[] }) {
           marginBottom: '2rem',
           animation: 'pulse 3s ease-in-out infinite',
         }}>
-          ✓ Trusted by 500+ engineering teams
+          ⚡ From the engineer who cut $50K/month
         </div>
 
         <h1 style={{
@@ -52,12 +52,12 @@ export default function HomeContent({ articles }: { articles: Article[] }) {
           color: 'var(--text-primary)',
           letterSpacing: '-0.02em',
         }}>
-          Save money on <span style={{
+          Your cloud bill is <span style={{
             background: 'linear-gradient(135deg, var(--accent-cyan) 0%, var(--accent-purple) 100%)',
             WebkitBackgroundClip: 'text',
             WebkitTextFillColor: 'transparent',
             backgroundClip: 'text',
-          }}>cloud costs</span>
+          }}>lying to you</span>
         </h1>
 
         <p style={{
@@ -67,7 +67,7 @@ export default function HomeContent({ articles }: { articles: Article[] }) {
           maxWidth: '650px',
           lineHeight: 1.8,
         }}>
-          Real strategies that deliver measurable ROI. Engineering teams save an average of 37% within the first quarter of implementation.
+          I&apos;m a cloud infrastructure engineer who slashed $50K/month from a real production bill — and documented every step. Here you&apos;ll find battle-tested guides, open source tools, and free calculators to help you do the same.
         </p>
 
         {/* Code block */}
@@ -164,12 +164,12 @@ export default function HomeContent({ articles }: { articles: Article[] }) {
               WebkitTextFillColor: 'transparent',
               backgroundClip: 'text',
               marginBottom: '0.3rem',
-            }}>$50K+</div>
+            }}>$600K+</div>
             <div style={{
               fontSize: '0.85rem',
               color: 'var(--text-muted)',
               fontWeight: 600,
-            }}>Avg. Monthly Savings</div>
+            }}>Annual Savings Documented</div>
           </div>
 
           <div style={{
@@ -204,12 +204,12 @@ export default function HomeContent({ articles }: { articles: Article[] }) {
               WebkitTextFillColor: 'transparent',
               backgroundClip: 'text',
               marginBottom: '0.3rem',
-            }}>37%</div>
+            }}>9</div>
             <div style={{
               fontSize: '0.85rem',
               color: 'var(--text-muted)',
               fontWeight: 600,
-            }}>Reduction Rate</div>
+            }}>Free Calculators</div>
           </div>
 
           <div style={{
@@ -244,12 +244,12 @@ export default function HomeContent({ articles }: { articles: Article[] }) {
               WebkitTextFillColor: 'transparent',
               backgroundClip: 'text',
               marginBottom: '0.3rem',
-            }}>2 weeks</div>
+            }}>15K+</div>
             <div style={{
               fontSize: '0.85rem',
               color: 'var(--text-muted)',
               fontWeight: 600,
-            }}>To First Impact</div>
+            }}>Words of Guides</div>
           </div>
         </div>
       </section>
