@@ -40,13 +40,12 @@ const calculators = [
   {
     href: '/calculators/cloud-compare',
     title: 'Cloud Provider Comparison',
-    description: 'AWS vs Azure vs GCP for common workloads — compute, storage, databases, and data transfer. Find the best cloud for your specific use case.',
+    description: 'AWS vs Azure vs GCP for compute, storage, managed databases, and egress — side by side. Enter your workload, see exactly which provider wins for your numbers.',
     icon: '⚖️',
-    badge: 'Coming Soon',
-    badgeColor: 'var(--text-muted)',
-    savings: 'Multi-cloud savings',
-    tags: ['AWS', 'Azure', 'GCP'],
-    disabled: true,
+    badge: 'New',
+    badgeColor: '#4ade80',
+    savings: 'Find the cheapest cloud',
+    tags: ['AWS', 'Azure', 'GCP', 'Multi-cloud'],
   },
 ];
 

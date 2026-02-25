@@ -37,8 +37,8 @@ export default function ToolsPage() {
           SOC Platform Comparison
         </h1>
         <p className="text-lg max-w-2xl mx-auto mb-8" style={{ color: 'var(--text-secondary)', lineHeight: 1.8 }}>
-          Interactive comparison of 9 leading AI&nbsp;SOC, SOAR, and SIEM platforms.
-          Find the right solution for your team&rsquo;s size, budget, and use case.
+          Interactive comparison of 21 AI&nbsp;SOC, SOAR, and SIEM platforms — from agentless SMB tools to
+          enterprise platforms. Find the right solution for your team&rsquo;s size, budget, and use case.
         </p>
         <button
           onClick={() => setShowComparison(!showComparison)}
