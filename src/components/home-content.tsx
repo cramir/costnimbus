@@ -460,78 +460,80 @@ export default function HomeContent({ articles }: { articles: Article[] }) {
             <span style={{ color: 'var(--accent-cyan)' }}>{" //"}</span> Featured Story
           </p>
 
-          <Link href={`/article/${featuredArticle?.slug}`} style={{
-            textDecoration: 'none',
-            display: 'block',
-          }}>
-            <article style={{
-              background: 'var(--bg-card)',
-              border: '1px solid var(--border-subtle)',
-              borderRadius: '20px',
-              padding: '3rem',
-              transition: 'all 0.4s ease',
-              cursor: 'pointer',
-              position: 'relative',
-              overflow: 'hidden',
-            }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = 'translateX(8px) translateY(-4px)';
-                e.currentTarget.style.borderColor = 'rgba(0, 212, 255, 0.3)';
-                e.currentTarget.style.boxShadow = '0 25px 70px rgba(0, 212, 255, 0.15)';
+          {featuredArticle && (
+            <Link href={`/article/${featuredArticle?.slug}`} style={{
+              textDecoration: 'none',
+              display: 'block',
+            }}>
+              <article style={{
+                background: 'var(--bg-card)',
+                border: '1px solid var(--border-subtle)',
+                borderRadius: '20px',
+                padding: '3rem',
+                transition: 'all 0.4s ease',
+                cursor: 'pointer',
+                position: 'relative',
+                overflow: 'hidden',
               }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = 'translateX(0) translateY(0)';
-                e.currentTarget.style.borderColor = 'var(--border-subtle)';
-                e.currentTarget.style.boxShadow = 'none';
-              }}
-            >
-              <h2 style={{
-                fontFamily: 'var(--font-space-grotesk)',
-                fontSize: '2rem',
-                fontWeight: 700,
-                lineHeight: 1.25,
-                marginBottom: '1.5rem',
-                color: 'var(--text-primary)',
-                position: 'relative',
-                zIndex: 1,
-              }}>{featuredArticle?.title}</h2>
-              <p style={{
-                fontSize: '1rem',
-                color: 'var(--text-secondary)',
-                marginBottom: '1.5rem',
-                lineHeight: 1.7,
-                position: 'relative',
-                zIndex: 1,
-              }}>{featuredArticle?.description}</p>
-              <div style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '1rem',
-                fontFamily: 'var(--font-jetbrains-mono)',
-                position: 'relative',
-                zIndex: 1,
-              }}>
-                <span style={{
-                  padding: '0.5rem 1.3rem',
-                  background: 'rgba(0, 212, 255, 0.1)',
-                  color: 'var(--accent-cyan)',
-                  border: '1px solid rgba(0, 212, 255, 0.3)',
-                  borderRadius: '20px',
-                  fontSize: '0.75rem',
-                  fontWeight: 600,
-                }}>{featuredArticle?.category}</span>
-                <span style={{
-                  padding: '0.5rem 1.3rem',
-                  background: 'rgba(168, 85, 247, 0.1)',
-                  color: 'var(--accent-purple)',
-                  border: '1px solid rgba(168, 85, 247, 0.3)',
-                  borderRadius: '20px',
-                  fontSize: '0.75rem',
-                  fontWeight: 600,
-                }}>{featuredArticle?.readTime}</span>
-              </div>
-            </article>
-          </Link>
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = 'translateX(8px) translateY(-4px)';
+                  e.currentTarget.style.borderColor = 'rgba(0, 212, 255, 0.3)';
+                  e.currentTarget.style.boxShadow = '0 25px 70px rgba(0, 212, 255, 0.15)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = 'translateX(0) translateY(0)';
+                  e.currentTarget.style.borderColor = 'var(--border-subtle)';
+                  e.currentTarget.style.boxShadow = 'none';
+                }}
+              >
+                <h2 style={{
+                  fontFamily: 'var(--font-space-grotesk)',
+                  fontSize: '2rem',
+                  fontWeight: 700,
+                  lineHeight: 1.25,
+                  marginBottom: '1.5rem',
+                  color: 'var(--text-primary)',
+                  position: 'relative',
+                  zIndex: 1,
+                }}>{featuredArticle?.title}</h2>
+                <p style={{
+                  fontSize: '1rem',
+                  color: 'var(--text-secondary)',
+                  marginBottom: '1.5rem',
+                  lineHeight: 1.7,
+                  position: 'relative',
+                  zIndex: 1,
+                }}>{featuredArticle?.description}</p>
+                <div style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '1rem',
+                  fontFamily: 'var(--font-jetbrains-mono)',
+                  position: 'relative',
+                  zIndex: 1,
+                }}>
+                  <span style={{
+                    padding: '0.5rem 1.3rem',
+                    background: 'rgba(0, 212, 255, 0.1)',
+                    color: 'var(--accent-cyan)',
+                    border: '1px solid rgba(0, 212, 255, 0.3)',
+                    borderRadius: '20px',
+                    fontSize: '0.75rem',
+                    fontWeight: 600,
+                  }}>{featuredArticle?.category}</span>
+                  <span style={{
+                    padding: '0.5rem 1.3rem',
+                    background: 'rgba(168, 85, 247, 0.1)',
+                    color: 'var(--accent-purple)',
+                    border: '1px solid rgba(168, 85, 247, 0.3)',
+                    borderRadius: '20px',
+                    fontSize: '0.75rem',
+                    fontWeight: 600,
+                  }}>{featuredArticle?.readTime}</span>
+                </div>
+              </article>
+            </Link>
+          )}
         </div>
       </section>
 
