@@ -165,6 +165,37 @@ export default function Nav() {
               Tools
             </Link>
             <Link
+              href="/resources"
+              style={{
+                fontFamily: 'var(--font-nunito)',
+                fontSize: '0.9rem',
+                fontWeight: 600,
+                color: pathname.startsWith('/resources') ? 'var(--accent-cyan)' : 'var(--text-secondary)',
+                textDecoration: 'none',
+                padding: '0.6rem 1.3rem',
+                borderRadius: '25px',
+                transition: 'all 0.3s ease',
+              }}
+              onMouseEnter={(e) => {
+                if (!pathname.startsWith('/resources')) {
+                  e.currentTarget.style.background = 'rgba(0, 212, 255, 0.1)';
+                  e.currentTarget.style.color = 'var(--accent-cyan)';
+                  e.currentTarget.style.transform = 'translateY(-2px)';
+                  e.currentTarget.style.border = '1px solid rgba(0, 212, 255, 0.2)';
+                }
+              }}
+              onMouseLeave={(e) => {
+                if (!pathname.startsWith('/resources')) {
+                  e.currentTarget.style.background = 'transparent';
+                  e.currentTarget.style.color = 'var(--text-secondary)';
+                  e.currentTarget.style.transform = 'translateY(0)';
+                  e.currentTarget.style.border = 'none';
+                }
+              }}
+            >
+              Resources
+            </Link>
+            <Link
               href="/calculators"
               style={{
                 fontFamily: 'var(--font-nunito)',
