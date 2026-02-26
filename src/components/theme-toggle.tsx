@@ -31,7 +31,7 @@ export default function ThemeToggle() {
   return (
     <button
       onClick={toggleTheme}
-      className="p-2 rounded-full transition-all duration-300 hover:scale-110 border border-transparent hover:border-opacity-30"
+      className="p-2 rounded-full transition-all duration-300 hover:scale-110 border border-transparent hover:border-opacity-30 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent-cyan)]"
       style={{
         background: 'rgba(255, 255, 255, 0.05)',
         color: 'var(--text-secondary)',

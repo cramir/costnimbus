@@ -182,8 +182,7 @@ export default function CloudCompareCalculator() {
 
       {/* ── Hero ─────────────────────────────────────────────────────────── */}
       <section className="max-w-4xl mx-auto px-6 pt-4 pb-8 text-center">
-        <span className="inline-block mb-4 text-xs font-bold uppercase tracking-[0.2em] px-5 py-2 rounded-full"
-          style={{ color: 'var(--accent-cyan)', background: 'rgba(0,212,255,0.08)', border: '1px solid rgba(0,212,255,0.2)' }}>
+        <span className="inline-block mb-4 text-xs font-bold uppercase tracking-[0.2em] px-5 py-2 rounded-full calc-badge-cyan">
           Calculator
         </span>
         <h1 className="text-4xl sm:text-5xl font-extrabold leading-tight mb-4"
@@ -195,13 +194,13 @@ export default function CloudCompareCalculator() {
           }}>
           AWS vs Azure vs GCP
         </h1>
-        <p className="text-lg max-w-2xl mx-auto" style={{ color: 'var(--text-secondary)', lineHeight: 1.8 }}>
+        <p className="text-lg max-w-2xl mx-auto calc-hero-subtitle">
           Compare real monthly costs across all three major cloud providers for your actual workload.
           Compute, object storage, managed databases, and egress — side by side, no vendor spin.
         </p>
       </section>
 
-      <div className="max-w-6xl mx-auto px-6 grid lg:grid-cols-[1fr_420px] gap-8 items-start">
+      <div className="max-w-6xl mx-auto px-6 grid md:grid-cols-2 lg:grid-cols-[1fr_420px] gap-8 items-start">
 
         {/* ── Left: Inputs ───────────────────────────────────────────────── */}
         <div className="space-y-6">
@@ -227,7 +226,7 @@ export default function CloudCompareCalculator() {
           {activeTab === 'compute' && (
             <Panel accent="cyan" title="⚙️ Virtual Machines / Compute">
               <div className="mb-6">
-                <label className="text-sm font-semibold block mb-3" style={{ color: 'var(--text-primary)' }}>
+                <label className="text-sm font-semibold block mb-3 calc-text-primary">
                   Instance Size
                 </label>
                 <div className="grid sm:grid-cols-2 gap-2">
@@ -244,7 +243,7 @@ export default function CloudCompareCalculator() {
                         style={{ color: instanceTypeIdx === i ? 'var(--accent-cyan)' : 'var(--text-primary)' }}>
                         {it.label}
                       </div>
-                      <div className="flex gap-3 text-[10px]" style={{ color: 'var(--text-muted)' }}>
+                      <div className="flex gap-3 text-[10px] calc-text-muted">
                         <span style={{ color: '#FF9900' }}>AWS ${it.aws.hr.toFixed(4)}/hr</span>
                         <span style={{ color: '#00A4EF' }}>AZ ${it.azure.hr.toFixed(4)}/hr</span>
                         <span style={{ color: '#34A853' }}>GCP ${it.gcp.hr.toFixed(4)}/hr</span>
@@ -293,7 +292,7 @@ export default function CloudCompareCalculator() {
 
               <div className="mt-6 rounded-xl p-4 space-y-3"
                 style={{ background: 'rgba(0,212,255,0.04)', border: '1px solid rgba(0,212,255,0.12)' }}>
-                <div className="text-xs font-bold uppercase tracking-[0.15em] mb-2" style={{ color: 'var(--accent-cyan)' }}>
+                <div className="text-xs font-bold uppercase tracking-[0.15em] mb-2 calc-text-cyan">
                   Storage Pricing ($/GB-month)
                 </div>
                 {CLOUDS.map(c => (
@@ -307,10 +306,10 @@ export default function CloudCompareCalculator() {
                           opacity: 0.8,
                         }} />
                     </div>
-                    <span className="text-xs font-mono w-14 text-right" style={{ color: 'var(--text-secondary)' }}>
+                    <span className="text-xs font-mono w-14 text-right calc-text-secondary">
                       ${STORAGE_RATES[c.id].perGB.toFixed(4)}
                     </span>
-                    <span className="text-xs font-bold w-16 text-right" style={{ color: 'var(--text-primary)' }}>
+                    <span className="text-xs font-bold w-16 text-right calc-text-primary">
                       {fmt(costs.storage[c.id])}
                     </span>
                   </div>
@@ -319,8 +318,8 @@ export default function CloudCompareCalculator() {
 
               <div className="mt-4 rounded-xl p-4"
                 style={{ background: 'rgba(74,222,128,0.05)', border: '1px solid rgba(74,222,128,0.2)' }}>
-                <div className="text-xs font-bold mb-2" style={{ color: '#4ade80' }}>💡 Pro Tip</div>
-                <p className="text-xs leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
+                <div className="text-xs font-bold mb-2 calc-text-green">💡 Pro Tip</div>
+                <p className="text-xs leading-relaxed calc-text-secondary">
                   Azure Blob LRS is the cheapest at $0.018/GB, saving ~22% vs AWS S3. But don't forget
                   egress — Azure charges significantly more than AWS for data transfer out.
                   Run the Egress tab to see the full picture.
@@ -332,10 +331,10 @@ export default function CloudCompareCalculator() {
           {/* ── Database Tab ─────────────────────────────────────────────── */}
           {activeTab === 'database' && (
             <Panel accent="purple" title="🔌 Managed Relational Database">
-              <p className="text-sm mb-6" style={{ color: 'var(--text-muted)' }}>
-                Comparing equivalent configurations: <strong style={{ color: 'var(--text-secondary)' }}>AWS RDS db.m5.large</strong> ·{' '}
-                <strong style={{ color: 'var(--text-secondary)' }}>Azure MySQL Flex 2 vCPU GP</strong> ·{' '}
-                <strong style={{ color: 'var(--text-secondary)' }}>GCP Cloud SQL db-standard-2</strong>
+              <p className="text-sm mb-6 calc-text-muted">
+                Comparing equivalent configurations: <strong className="calc-text-secondary">AWS RDS db.m5.large</strong> ·{' '}
+                <strong className="calc-text-secondary">Azure MySQL Flex 2 vCPU GP</strong> ·{' '}
+                <strong className="calc-text-secondary">GCP Cloud SQL db-standard-2</strong>
               </p>
 
               <div className="space-y-6">
@@ -371,14 +370,13 @@ export default function CloudCompareCalculator() {
                   const computePart  = DB_RATES[c.id].computeHr * dbInstances * dbHrs;
                   const storagePart  = DB_RATES[c.id].storageGBMo * dbStorageGB * dbInstances;
                   return (
-                    <div key={c.id} className="grid grid-cols-5 text-xs px-4 py-3 items-center"
-                      style={{ borderTop: '1px solid var(--border-subtle)' }}>
+                    <div key={c.id} className="grid grid-cols-5 text-xs px-4 py-3 items-center calc-border-top">
                       <span className="font-bold" style={{ color: c.color }}>{c.label}</span>
-                      <span className="col-span-2 text-[11px]" style={{ color: 'var(--text-muted)' }}>
+                      <span className="col-span-2 text-[11px] calc-text-muted">
                         {DB_RATES[c.id].service}
                       </span>
-                      <span className="text-right font-mono" style={{ color: 'var(--text-secondary)' }}>{fmt(computePart)}</span>
-                      <span className="text-right font-mono" style={{ color: 'var(--text-secondary)' }}>{fmt(storagePart)}</span>
+                      <span className="text-right font-mono calc-text-secondary">{fmt(computePart)}</span>
+                      <span className="text-right font-mono calc-text-secondary">{fmt(storagePart)}</span>
                     </div>
                   );
                 })}
@@ -391,8 +389,8 @@ export default function CloudCompareCalculator() {
             <Panel accent="purple" title="🌐 Data Transfer Out (Egress to Internet)">
               <div className="rounded-xl p-4 mb-6"
                 style={{ background: 'rgba(239,68,68,0.06)', border: '1px solid rgba(239,68,68,0.2)' }}>
-                <div className="text-xs font-bold mb-1" style={{ color: '#f87171' }}>⚠️ The Silent Bill Killer</div>
-                <p className="text-xs leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
+                <div className="text-xs font-bold mb-1 calc-text-red">⚠️ The Silent Bill Killer</div>
+                <p className="text-xs leading-relaxed calc-text-secondary">
                   Egress is where cloud providers make up for cheap storage. AWS charges $0.09/GB,
                   GCP $0.12/GB. A startup streaming 10TB/month pays $900–$1,200 just to move data out.
                 </p>
@@ -410,11 +408,10 @@ export default function CloudCompareCalculator() {
                   <div key={c.id} className="rounded-xl p-4 text-center"
                     style={{ background: c.bg, border: `1px solid ${c.border}` }}>
                     <div className="text-xs font-bold mb-1" style={{ color: c.color }}>{c.label}</div>
-                    <div className="text-lg font-extrabold mb-1"
-                      style={{ fontFamily: 'var(--font-space-grotesk)', color: 'var(--text-primary)' }}>
+                    <div className="text-lg font-extrabold mb-1 calc-heading-primary">
                       {fmt(costs.egress[c.id])}
                     </div>
-                    <div className="text-[10px]" style={{ color: 'var(--text-muted)' }}>
+                    <div className="text-[10px] calc-text-muted">
                       ${STORAGE_RATES[c.id].egressPerGB}/GB · {STORAGE_RATES[c.id].freeTierGB}GB free
                     </div>
                   </div>
@@ -423,12 +420,12 @@ export default function CloudCompareCalculator() {
 
               <div className="mt-4 rounded-xl p-4"
                 style={{ background: 'rgba(74,222,128,0.05)', border: '1px solid rgba(74,222,128,0.2)' }}>
-                <div className="text-xs font-bold mb-2" style={{ color: '#4ade80' }}>💡 Escape Egress Entirely</div>
-                <p className="text-xs leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
-                  Cloudflare R2 and Backblaze B2 both charge <strong style={{ color: 'var(--text-primary)' }}>$0 for egress</strong>.
+                <div className="text-xs font-bold mb-2 calc-text-green">💡 Escape Egress Entirely</div>
+                <p className="text-xs leading-relaxed calc-text-secondary">
+                  Cloudflare R2 and Backblaze B2 both charge <strong className="calc-text-primary">$0 for egress</strong>.
                   If your workload is egress-heavy, migrating object storage to R2 alone can eliminate
                   thousands in monthly bills. See our{' '}
-                  <a href="/calculators/storage" className="underline" style={{ color: 'var(--accent-cyan)' }}>
+                  <a href="/calculators/storage" className="underline calc-text-cyan">
                     Storage Calculator
                   </a>{' '}
                   for the comparison.
@@ -442,7 +439,7 @@ export default function CloudCompareCalculator() {
         </div>
 
         {/* ── Right: Results (sticky) ────────────────────────────────────── */}
-        <div className="space-y-6 lg:sticky lg:top-28">
+        <div className="space-y-6 lg:sticky lg:top-28" aria-live="polite" role="region" aria-label="Calculation results">
 
           {/* Winner Banner */}
           <div className="rounded-2xl p-8 text-center relative overflow-hidden"
@@ -452,27 +449,27 @@ export default function CloudCompareCalculator() {
             }}>
             <div className="absolute -top-12 -right-12 w-28 h-28 rounded-full opacity-20 blur-3xl"
               style={{ background: cheapestCloud.color }} />
-            <div className="text-xs font-bold uppercase tracking-[0.2em] mb-2" style={{ color: 'var(--text-muted)' }}>
+            <div className="text-xs font-bold uppercase tracking-[0.2em] mb-2 calc-text-muted">
               Cheapest for Your Workload
             </div>
             <div className="text-5xl font-extrabold mb-1"
               style={{ fontFamily: 'var(--font-space-grotesk)', color: cheapestCloud.color }}>
               {cheapestCloud.label}
             </div>
-            <div className="text-2xl font-bold mb-1" style={{ color: 'var(--text-primary)' }}>
-              {fmt(minTotal)}<span className="text-sm font-normal ml-1" style={{ color: 'var(--text-muted)' }}>/mo</span>
+            <div className="text-2xl font-bold mb-1 calc-text-primary">
+              {fmt(minTotal)}<span className="text-sm font-normal ml-1 calc-text-muted">/mo</span>
             </div>
-            <div className="text-sm" style={{ color: '#4ade80' }}>
+            <div className="text-sm calc-text-green">
               saves {fmt(savings)}/mo vs most expensive
             </div>
-            <div className="text-xs mt-2" style={{ color: 'var(--text-muted)' }}>
+            <div className="text-xs mt-2 calc-text-muted">
               {fmt(savings * 12)}/year potential savings
             </div>
           </div>
 
           {/* Total Cost Bars */}
           <div className="rounded-2xl p-6 calc-panel">
-            <div className="text-xs font-bold uppercase tracking-[0.2em] mb-5" style={{ color: 'var(--text-muted)' }}>
+            <div className="text-xs font-bold uppercase tracking-[0.2em] mb-5 calc-text-muted">
               Total Monthly Cost
             </div>
             <div className="space-y-4">
@@ -492,7 +489,7 @@ export default function CloudCompareCalculator() {
                           </span>
                         )}
                       </div>
-                      <span className="text-sm font-bold" style={{ fontFamily: 'var(--font-space-grotesk)', color: 'var(--text-primary)' }}>
+                      <span className="text-sm font-bold calc-heading-primary">
                         {fmt(total)}
                       </span>
                     </div>
@@ -507,9 +504,9 @@ export default function CloudCompareCalculator() {
           </div>
 
           {/* Category Breakdown */}
-          <div className="rounded-2xl overflow-hidden" style={{ background: 'var(--bg-card)', border: '1px solid var(--border-subtle)' }}>
-            <div className="px-6 py-4" style={{ borderBottom: '1px solid var(--border-subtle)' }}>
-              <div className="text-xs font-bold uppercase tracking-[0.2em]" style={{ color: 'var(--text-muted)' }}>
+          <div className="rounded-2xl overflow-hidden calc-panel">
+            <div className="px-6 py-4 calc-border-row">
+              <div className="text-xs font-bold uppercase tracking-[0.2em] calc-text-muted">
                 Cost Breakdown by Category
               </div>
             </div>
@@ -517,9 +514,8 @@ export default function CloudCompareCalculator() {
               const catCosts = costs[cat];
               const maxCat   = Math.max(catCosts.aws, catCosts.azure, catCosts.gcp);
               return (
-                <div key={cat} className="px-6 py-4" style={{ borderBottom: '1px solid var(--border-subtle)' }}>
-                  <div className="text-[11px] font-bold uppercase tracking-[0.15em] mb-3 capitalize"
-                    style={{ color: 'var(--text-secondary)' }}>
+                <div key={cat} className="px-6 py-4 calc-border-row">
+                  <div className="text-[11px] font-bold uppercase tracking-[0.15em] mb-3 capitalize calc-text-secondary">
                     {cat === 'compute' ? '⚙️' : cat === 'storage' ? '🗄️' : cat === 'database' ? '🔌' : '🌐'} {cat}
                   </div>
                   <div className="space-y-1.5">
@@ -533,7 +529,7 @@ export default function CloudCompareCalculator() {
                             <div className="h-full rounded-full transition-all duration-500"
                               style={{ width: `${barPct}%`, background: c.color, opacity: 0.7 }} />
                           </div>
-                          <span className="text-[11px] font-mono w-14 text-right" style={{ color: 'var(--text-secondary)' }}>
+                          <span className="text-[11px] font-mono w-14 text-right calc-text-secondary">
                             {fmt(val)}
                           </span>
                         </div>
@@ -545,7 +541,7 @@ export default function CloudCompareCalculator() {
             })}
             {/* Annual Totals */}
             <div className="px-6 py-4">
-              <div className="text-[11px] font-bold uppercase tracking-[0.15em] mb-3" style={{ color: 'var(--text-muted)' }}>
+              <div className="text-[11px] font-bold uppercase tracking-[0.15em] mb-3 calc-text-muted">
                 📅 Annual Projection
               </div>
               <div className="grid grid-cols-3 gap-3">
@@ -553,10 +549,10 @@ export default function CloudCompareCalculator() {
                   <div key={c.id} className="rounded-xl p-3 text-center"
                     style={{ background: c.bg, border: `1px solid ${c.border}` }}>
                     <div className="text-[10px] font-bold mb-1" style={{ color: c.color }}>{c.label}</div>
-                    <div className="text-sm font-extrabold" style={{ color: 'var(--text-primary)' }}>
+                    <div className="text-sm font-extrabold calc-text-primary">
                       {fmt(costs.total[c.id] * 12)}
                     </div>
-                    <div className="text-[10px]" style={{ color: 'var(--text-muted)' }}>/year</div>
+                    <div className="text-[10px] calc-text-muted">/year</div>
                   </div>
                 ))}
               </div>
@@ -571,24 +567,24 @@ export default function CloudCompareCalculator() {
       {/* ── Pricing Notes ─────────────────────────────────────────────────── */}
       <section className="max-w-4xl mx-auto px-6 mt-16">
         <div className="rounded-2xl p-6 calc-panel">
-          <div className="text-xs font-bold uppercase tracking-[0.2em] mb-4" style={{ color: 'var(--text-muted)' }}>
+          <div className="text-xs font-bold uppercase tracking-[0.2em] mb-4 calc-text-muted">
             Pricing Methodology &amp; Notes
           </div>
-          <div className="grid md:grid-cols-2 gap-4 text-xs leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
+          <div className="grid md:grid-cols-2 gap-4 text-xs leading-relaxed calc-text-secondary">
             <div>
-              <strong style={{ color: 'var(--text-primary)' }}>Region:</strong> us-east-1 (AWS) · East US (Azure) · us-east1 (GCP).
+              <strong className="calc-text-primary">Region:</strong> us-east-1 (AWS) · East US (Azure) · us-east1 (GCP).
               Prices vary by region; EU/APAC typically 10–20% higher.
             </div>
             <div>
-              <strong style={{ color: 'var(--text-primary)' }}>Pricing type:</strong> On-demand / pay-as-you-go.
+              <strong className="calc-text-primary">Pricing type:</strong> On-demand / pay-as-you-go.
               Reserved instances / committed-use discounts can reduce compute 40–70%.
             </div>
             <div>
-              <strong style={{ color: 'var(--text-primary)' }}>Database:</strong> Equivalent-tier managed MySQL/PostgreSQL instances.
+              <strong className="calc-text-primary">Database:</strong> Equivalent-tier managed MySQL/PostgreSQL instances.
               Enterprise features (HA, backups) may add cost.
             </div>
             <div>
-              <strong style={{ color: 'var(--text-primary)' }}>Last updated:</strong> Q1 2026. Cloud pricing changes frequently —
+              <strong className="calc-text-primary">Last updated:</strong> Q1 2026. Cloud pricing changes frequently —
               verify current rates at each provider&rsquo;s pricing calculator.
             </div>
           </div>
@@ -606,7 +602,7 @@ function Panel({ accent, title, children }: { accent: 'cyan' | 'purple'; title: 
   const color    = accent === 'cyan'   ? 'var(--accent-cyan)'     : 'var(--accent-purple)';
   return (
     <div className="rounded-2xl p-[1px]" style={{ background: `linear-gradient(135deg, ${gradFrom}, ${gradTo})` }}>
-      <div className="rounded-2xl p-8" style={{ background: 'var(--bg-card)' }}>
+      <div className="rounded-2xl p-8 calc-bg-card">
         <div className="text-xs font-bold uppercase tracking-[0.2em] mb-6" style={{ color }}>{title}</div>
         {children}
       </div>
@@ -624,7 +620,7 @@ function SliderInput({
   return (
     <div>
       <div className="flex items-center justify-between mb-2">
-        <label className="text-sm font-semibold" style={{ color: 'var(--text-primary)' }}>{label}</label>
+        <label className="text-sm font-semibold calc-text-primary">{label}</label>
         <span className="text-sm font-bold font-mono px-3 py-1 rounded-lg"
           style={{ background: 'rgba(0,212,255,0.08)', color: accentColor, border: '1px solid rgba(0,212,255,0.15)' }}>
           {value.toLocaleString()} {unit}
@@ -633,12 +629,13 @@ function SliderInput({
       <input type="range" min={min} max={max} step={step} value={value}
         onChange={e => onChange(Number(e.target.value))}
         className="w-full h-2 rounded-full appearance-none cursor-pointer"
+        aria-label={label}
         style={{
           background: `linear-gradient(to right, ${accentColor} 0%, ${accentColor} ${pct}%, rgba(255,255,255,0.1) ${pct}%, rgba(255,255,255,0.1) 100%)`,
           accentColor,
         }}
       />
-      {hint && <div className="text-xs mt-2" style={{ color: 'var(--text-muted)' }}>{hint}</div>}
+      {hint && <div className="text-xs mt-2 calc-text-muted">{hint}</div>}
     </div>
   );
 }
@@ -693,13 +690,12 @@ function InsightCards({ cheapest }: { cheapest: (typeof CLOUDS)[number] }) {
   return (
     <div className="grid md:grid-cols-3 gap-5">
       {tips.map(t => (
-        <div key={t.title} className="rounded-2xl p-6"
-          style={{ background: 'var(--bg-card)', border: '1px solid var(--border-subtle)' }}>
+        <div key={t.title} className="rounded-2xl p-6 calc-panel">
           <div className="text-3xl mb-3">{t.icon}</div>
-          <h3 className="font-bold text-sm mb-2" style={{ fontFamily: 'var(--font-space-grotesk)', color: 'var(--text-primary)' }}>
+          <h3 className="font-bold text-sm mb-2 calc-heading-primary">
             {t.title}
           </h3>
-          <p className="text-xs leading-relaxed" style={{ color: 'var(--text-secondary)' }}>{t.body}</p>
+          <p className="text-xs leading-relaxed calc-text-secondary">{t.body}</p>
         </div>
       ))}
     </div>

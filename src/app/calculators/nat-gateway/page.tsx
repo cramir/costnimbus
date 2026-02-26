@@ -92,8 +92,7 @@ export default function NatGatewayCalculator() {
       </div>
       {/* Hero */}
       <section className="max-w-4xl mx-auto px-6 pt-4 pb-8 text-center">
-        <span className="inline-block mb-4 text-xs font-bold uppercase tracking-[0.2em] px-5 py-2 rounded-full"
-          style={{ color: 'var(--accent-cyan)', background: 'rgba(0,212,255,0.08)', border: '1px solid rgba(0,212,255,0.2)' }}>
+        <span className="inline-block mb-4 text-xs font-bold uppercase tracking-[0.2em] px-5 py-2 rounded-full calc-badge-cyan">
           Calculator
         </span>
         <h1 className="text-4xl sm:text-5xl font-extrabold leading-tight mb-4"
@@ -105,20 +104,20 @@ export default function NatGatewayCalculator() {
           }}>
           NAT Gateway Cost Calculator
         </h1>
-        <p className="text-lg max-w-2xl mx-auto" style={{ color: 'var(--text-secondary)', lineHeight: 1.8 }}>
+        <p className="text-lg max-w-2xl mx-auto calc-hero-subtitle">
           See how much you can save by replacing NAT Gateway with VPC endpoints for S3, DynamoDB, and other AWS services.
           Engineers routinely cut 80–91% off their NAT bills.
         </p>
       </section>
 
-      <div className="max-w-6xl mx-auto px-6 grid lg:grid-cols-[1fr_420px] gap-8 items-start">
+      <div className="max-w-6xl mx-auto px-6 grid md:grid-cols-2 lg:grid-cols-[1fr_420px] gap-8 items-start">
         {/* Left: Inputs */}
         <div className="space-y-6">
           {/* Current Setup */}
           <div className="rounded-2xl p-[1px]"
             style={{ background: 'linear-gradient(135deg, rgba(0,212,255,0.3), rgba(168,85,247,0.3))' }}>
-            <div className="rounded-2xl p-8" style={{ background: 'var(--bg-card)' }}>
-              <div className="text-xs font-bold uppercase tracking-[0.2em] mb-6" style={{ color: 'var(--accent-cyan)' }}>
+            <div className="rounded-2xl p-8 calc-bg-card">
+              <div className="text-xs font-bold uppercase tracking-[0.2em] mb-6 calc-text-cyan">
                 Current Setup
               </div>
 
@@ -152,13 +151,12 @@ export default function NatGatewayCalculator() {
           </div>
 
           {/* Traffic Breakdown */}
-          <div className="rounded-2xl p-[1px]"
-            style={{ background: 'linear-gradient(135deg, rgba(168,85,247,0.3), rgba(0,212,255,0.3))' }}>
-            <div className="rounded-2xl p-8" style={{ background: 'var(--bg-card)' }}>
-              <div className="text-xs font-bold uppercase tracking-[0.2em] mb-2" style={{ color: 'var(--accent-purple)' }}>
+          <div className="rounded-2xl p-[1px] calc-gradient-bar">
+            <div className="rounded-2xl p-8 calc-bg-card">
+              <div className="text-xs font-bold uppercase tracking-[0.2em] mb-2 calc-text-purple">
                 Traffic Breakdown
               </div>
-              <p className="text-sm mb-6" style={{ color: 'var(--text-muted)' }}>
+              <p className="text-sm mb-6 calc-text-muted">
                 What percentage of your NAT traffic goes to AWS services? Gateway endpoints (S3, DynamoDB) are free.
               </p>
 
@@ -192,12 +190,12 @@ export default function NatGatewayCalculator() {
                 />
                 <div className="rounded-xl p-4" style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid var(--border-subtle)' }}>
                   <div className="flex items-center justify-between text-sm">
-                    <span style={{ color: 'var(--text-muted)' }}>Remaining NAT traffic</span>
-                    <span className="font-bold" style={{ color: 'var(--text-primary)' }}>
+                    <span className="calc-text-muted">Remaining NAT traffic</span>
+                    <span className="font-bold calc-text-primary">
                       {Math.max(0, 100 - s3Traffic - dynTraffic - otherEndpointTraffic)}%
                     </span>
                   </div>
-                  <div className="text-xs mt-1" style={{ color: 'var(--text-muted)' }}>
+                  <div className="text-xs mt-1 calc-text-muted">
                     Still priced at $0.045/GB through NAT
                   </div>
                 </div>
@@ -215,7 +213,7 @@ export default function NatGatewayCalculator() {
         </div>
 
         {/* Right: Results */}
-        <div className="space-y-6 lg:sticky lg:top-28">
+        <div className="space-y-6 lg:sticky lg:top-28" aria-live="polite" role="region" aria-label="Calculation results">
           {/* Savings Banner */}
           <div className="rounded-2xl p-8 text-center relative overflow-hidden"
             style={{
@@ -226,7 +224,7 @@ export default function NatGatewayCalculator() {
             <div className="absolute -bottom-16 -left-16 w-32 h-32 rounded-full opacity-20 blur-3xl" style={{ background: 'var(--accent-purple)' }} />
 
             <div className="relative">
-              <div className="text-xs font-bold uppercase tracking-[0.2em] mb-2" style={{ color: 'var(--text-muted)' }}>
+              <div className="text-xs font-bold uppercase tracking-[0.2em] mb-2 calc-text-muted">
                 Estimated Monthly Savings
               </div>
               <div className="text-5xl font-extrabold mb-1"
@@ -238,17 +236,17 @@ export default function NatGatewayCalculator() {
                 }}>
                 {fmtK(results.savings)}
               </div>
-              <div className="text-2xl font-bold mb-4" style={{ color: '#4ade80' }}>
+              <div className="text-2xl font-bold mb-4 calc-text-green">
                 {results.savingsPercent.toFixed(0)}% reduction
               </div>
-              <div className="text-sm" style={{ color: 'var(--text-muted)' }}>
+              <div className="text-sm calc-text-muted">
                 {fmtK(results.savings * 12)}/year in avoided NAT costs
               </div>
             </div>
           </div>
 
           {/* Before/After */}
-          <div className="rounded-2xl overflow-hidden" style={{ border: '1px solid var(--border-subtle)', background: 'var(--bg-card)' }}>
+          <div className="rounded-2xl overflow-hidden calc-panel">
             <div className="grid grid-cols-2 divide-x" style={{ borderColor: 'var(--border-subtle)' }}>
               <CostColumn
                 label="Before"
@@ -275,7 +273,7 @@ export default function NatGatewayCalculator() {
 
           {/* Savings Bar */}
           <div className="rounded-2xl p-6 calc-panel">
-            <div className="text-xs font-bold uppercase tracking-[0.2em] mb-4" style={{ color: 'var(--text-muted)' }}>
+            <div className="text-xs font-bold uppercase tracking-[0.2em] mb-4 calc-text-muted">
               Savings Breakdown
             </div>
             <SavingsBar
@@ -287,7 +285,7 @@ export default function NatGatewayCalculator() {
 
           {/* Steps */}
           <div className="rounded-2xl p-6 calc-panel">
-            <div className="text-xs font-bold uppercase tracking-[0.2em] mb-4" style={{ color: 'var(--text-muted)' }}>
+            <div className="text-xs font-bold uppercase tracking-[0.2em] mb-4 calc-text-muted">
               How to Get There
             </div>
             <ol className="space-y-3">
@@ -302,7 +300,7 @@ export default function NatGatewayCalculator() {
                     style={{ background: 'rgba(0,212,255,0.1)', color }}>
                     {step}
                   </span>
-                  <span style={{ color: 'var(--text-secondary)' }}>{text}</span>
+                  <span className="calc-text-secondary">{text}</span>
                 </li>
               ))}
             </ol>
@@ -332,7 +330,7 @@ function SliderInput({
   return (
     <div>
       <div className="flex items-center justify-between mb-2">
-        <label className="text-sm font-semibold" style={{ color: 'var(--text-primary)' }}>{label}</label>
+        <label className="text-sm font-semibold calc-text-primary">{label}</label>
         <span className="text-sm font-bold font-mono px-3 py-1 rounded-lg"
           style={{ background: 'rgba(0,212,255,0.08)', color: accentColor, border: '1px solid rgba(0,212,255,0.15)' }}>
           {value.toLocaleString()} {unit}
@@ -342,12 +340,13 @@ function SliderInput({
         type="range" min={min} max={max} step={step} value={value}
         onChange={(e) => onChange(Number(e.target.value))}
         className="w-full h-2 rounded-full appearance-none cursor-pointer"
+        aria-label={label}
         style={{
           background: `linear-gradient(to right, ${accentColor} 0%, ${accentColor} ${((value - min) / (max - min)) * 100}%, rgba(255,255,255,0.1) ${((value - min) / (max - min)) * 100}%, rgba(255,255,255,0.1) 100%)`,
           accentColor,
         }}
       />
-      {hint && <div className="text-xs mt-2" style={{ color: 'var(--text-muted)' }}>{hint}</div>}
+      {hint && <div className="text-xs mt-2 calc-text-muted">{hint}</div>}
     </div>
   );
 }
@@ -357,16 +356,16 @@ function CostColumn({ label, total, rows, color, fmt }: {
 }) {
   return (
     <div className="p-6">
-      <div className="text-xs font-bold uppercase tracking-[0.15em] mb-4" style={{ color: 'var(--text-muted)' }}>{label}</div>
+      <div className="text-xs font-bold uppercase tracking-[0.15em] mb-4 calc-text-muted">{label}</div>
       <div className="text-2xl font-extrabold mb-4" style={{ fontFamily: 'var(--font-space-grotesk)', color }}>
         {fmt(total)}
-        <span className="text-xs font-normal ml-1" style={{ color: 'var(--text-muted)' }}>/mo</span>
+        <span className="text-xs font-normal ml-1 calc-text-muted">/mo</span>
       </div>
       <div className="space-y-2">
         {rows.map(({ label: l, value }) => (
-          <div key={l} className="flex justify-between text-xs" style={{ color: 'var(--text-muted)' }}>
+          <div key={l} className="flex justify-between text-xs calc-text-muted">
             <span>{l}</span>
-            <span className="font-medium" style={{ color: 'var(--text-secondary)' }}>{fmt(value)}</span>
+            <span className="font-medium calc-text-secondary">{fmt(value)}</span>
           </div>
         ))}
       </div>
@@ -392,8 +391,8 @@ function SavingsBar({ s3Pct, dynPct, otherPct, remainPct }: { s3Pct: number; dyn
         {items.map(({ label, pct, color }) => (
           <div key={label} className="flex items-center gap-2 text-xs">
             <span className="w-2.5 h-2.5 rounded-sm shrink-0" style={{ background: color }} />
-            <span style={{ color: 'var(--text-muted)' }}>{label}</span>
-            <span className="ml-auto font-semibold" style={{ color: 'var(--text-secondary)' }}>{pct}%</span>
+            <span className="calc-text-muted">{label}</span>
+            <span className="ml-auto font-semibold calc-text-secondary">{pct}%</span>
           </div>
         ))}
       </div>
@@ -403,14 +402,14 @@ function SavingsBar({ s3Pct, dynPct, otherPct, remainPct }: { s3Pct: number; dyn
 
 function ArchitectureDiagram({ s3Pct, dynPct, otherPct, remainPct }: { s3Pct: number; dynPct: number; otherPct: number; remainPct: number }) {
   return (
-    <div className="rounded-2xl p-8" style={{ background: 'var(--bg-card)', border: '1px solid var(--border-subtle)' }}>
-      <div className="text-xs font-bold uppercase tracking-[0.2em] mb-6" style={{ color: 'var(--text-muted)' }}>
+    <div className="rounded-2xl p-8 calc-panel">
+      <div className="text-xs font-bold uppercase tracking-[0.2em] mb-6 calc-text-muted">
         Optimized Architecture
       </div>
       <div className="space-y-3 text-sm font-mono">
         {/* VPC */}
         <div className="rounded-xl p-4 border-2 border-dashed" style={{ borderColor: 'rgba(0,212,255,0.3)' }}>
-          <div className="text-xs font-bold mb-3" style={{ color: 'var(--accent-cyan)' }}>VPC</div>
+          <div className="text-xs font-bold mb-3 calc-text-cyan">VPC</div>
           <div className="flex flex-wrap gap-2 mb-3">
             <Tag label="EC2 / Lambda" color="var(--text-secondary)" />
             <Tag label="ECS Tasks" color="var(--text-secondary)" />
@@ -422,7 +421,7 @@ function ArchitectureDiagram({ s3Pct, dynPct, otherPct, remainPct }: { s3Pct: nu
             {remainPct > 0 && <FlowArrow label="→ NAT Gateway" sub={`$0.045/GB`} color="#f87171" />}
           </div>
         </div>
-        <div className="text-xs text-center" style={{ color: 'var(--text-muted)' }}>
+        <div className="text-xs text-center calc-text-muted">
           {remainPct === 0 ? '🎉 100% traffic via endpoints — NAT can be removed!' :
             remainPct < 20 ? `✅ ${100 - remainPct}% of traffic avoiding NAT charges` :
               `⚡ ${100 - remainPct}% savings potential identified`}
@@ -445,7 +444,7 @@ function FlowArrow({ label, sub, color }: { label: string; sub: string; color: s
   return (
     <div className="rounded-lg px-3 py-2" style={{ background: `${color}15`, border: `1px solid ${color}40` }}>
       <div className="text-xs font-bold" style={{ color }}>{label}</div>
-      <div className="text-[10px]" style={{ color: 'var(--text-muted)' }}>{sub}</div>
+      <div className="text-[10px] calc-text-muted">{sub}</div>
     </div>
   );
 }
@@ -473,8 +472,8 @@ function InfoCards() {
       {cards.map(({ title, body, icon }) => (
         <div key={title} className="rounded-2xl p-6 calc-panel">
           <div className="text-3xl mb-4">{icon}</div>
-          <h3 className="font-bold mb-3" style={{ fontFamily: 'var(--font-space-grotesk)', color: 'var(--text-primary)' }}>{title}</h3>
-          <p className="text-sm leading-relaxed" style={{ color: 'var(--text-secondary)' }}>{body}</p>
+          <h3 className="font-bold mb-3 calc-heading-primary">{title}</h3>
+          <p className="text-sm leading-relaxed calc-text-secondary">{body}</p>
         </div>
       ))}
     </div>

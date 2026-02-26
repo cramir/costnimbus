@@ -152,7 +152,7 @@ export default function MethodologyPage() {
           {sources.map((provider) => (
             <div key={provider.provider} className="provider-card">
               <div className="provider-header">
-                <span className="text-xl">{provider.icon}</span>
+                <span className="text-xl" aria-hidden="true">{provider.icon}</span>
                 <h3 className="provider-name">{provider.provider}</h3>
                 <div className="w-8 h-[3px] rounded-sm ml-auto" style={{ background: provider.color }} />
               </div>

@@ -160,8 +160,7 @@ export default function SIEMCalculator() {
       </div>
       {/* Hero */}
       <section className="max-w-4xl mx-auto px-6 pt-4 pb-8 text-center">
-        <span className="inline-block mb-4 text-xs font-bold uppercase tracking-[0.2em] px-5 py-2 rounded-full"
-          style={{ color: 'var(--accent-purple)', background: 'rgba(168,85,247,0.08)', border: '1px solid rgba(168,85,247,0.2)' }}>
+        <span className="inline-block mb-4 text-xs font-bold uppercase tracking-[0.2em] px-5 py-2 rounded-full calc-badge-purple">
           Calculator
         </span>
         <h1 className="text-4xl sm:text-5xl font-extrabold leading-tight mb-4"
@@ -173,19 +172,18 @@ export default function SIEMCalculator() {
           }}>
           SIEM Total Cost Calculator
         </h1>
-        <p className="text-lg max-w-2xl mx-auto" style={{ color: 'var(--text-secondary)', lineHeight: 1.8 }}>
+        <p className="text-lg max-w-2xl mx-auto calc-hero-subtitle">
           Compare true monthly TCO across Splunk, Microsoft Sentinel, Elastic, and Wazuh — including hidden costs:
           compute, storage, and engineering time.
         </p>
       </section>
 
-      <div className="max-w-6xl mx-auto px-6 grid lg:grid-cols-[360px_1fr] gap-8 items-start">
+      <div className="max-w-6xl mx-auto px-6 grid md:grid-cols-2 lg:grid-cols-[360px_1fr] gap-8 items-start">
         {/* Left: Inputs */}
         <div className="space-y-6 lg:sticky lg:top-28">
-          <div className="rounded-2xl p-[1px]"
-            style={{ background: 'linear-gradient(135deg, rgba(168,85,247,0.3), rgba(0,212,255,0.3))' }}>
-            <div className="rounded-2xl p-8" style={{ background: 'var(--bg-card)' }}>
-              <div className="text-xs font-bold uppercase tracking-[0.2em] mb-6" style={{ color: 'var(--accent-purple)' }}>
+          <div className="rounded-2xl p-[1px] calc-gradient-bar">
+            <div className="rounded-2xl p-8 calc-bg-card">
+              <div className="text-xs font-bold uppercase tracking-[0.2em] mb-6 calc-text-purple">
                 Your Environment
               </div>
               <div className="space-y-6">
@@ -204,11 +202,11 @@ export default function SIEMCalculator() {
 
           {/* Engineering cost note */}
           <div className="rounded-2xl p-5 calc-panel">
-            <div className="text-xs font-bold uppercase tracking-[0.2em] mb-3" style={{ color: 'var(--text-muted)' }}>
+            <div className="text-xs font-bold uppercase tracking-[0.2em] mb-3 calc-text-muted">
               Engineering Cost Assumption
             </div>
-            <div className="text-sm" style={{ color: 'var(--text-secondary)' }}>
-              Engineer time valued at <span className="font-bold" style={{ color: 'var(--text-primary)' }}>$150/hr</span> — fully burdened.
+            <div className="text-sm calc-text-secondary">
+              Engineer time valued at <span className="font-bold calc-text-primary">$150/hr</span> — fully burdened.
               Wazuh requires more ops effort than managed SaaS.
             </div>
           </div>
@@ -219,17 +217,17 @@ export default function SIEMCalculator() {
               background: 'linear-gradient(135deg, rgba(74,222,128,0.06) 0%, rgba(74,222,128,0.02) 100%)',
               border: '1px solid rgba(74,222,128,0.2)',
             }}>
-            <div className="text-xs font-bold uppercase tracking-[0.2em] mb-2" style={{ color: '#4ade80' }}>🏆 Lowest TCO</div>
+            <div className="text-xs font-bold uppercase tracking-[0.2em] mb-2 calc-text-green">🏆 Lowest TCO</div>
             <div className="text-xl font-extrabold mb-1" style={{ fontFamily: 'var(--font-space-grotesk)', color: cheapest.color }}>
               {cheapest.name}
             </div>
-            <div className="text-2xl font-bold mb-2" style={{ color: '#4ade80' }}>
-              {fmtK(cheapest.tco.total)}<span className="text-sm font-normal" style={{ color: 'var(--text-muted)' }}>/mo</span>
+            <div className="text-2xl font-bold mb-2 calc-text-green">
+              {fmtK(cheapest.tco.total)}<span className="text-sm font-normal calc-text-muted">/mo</span>
             </div>
             {cheapest.name !== 'Splunk Enterprise' && (
-              <div className="text-xs" style={{ color: 'var(--text-secondary)' }}>
+              <div className="text-xs calc-text-secondary">
                 Saves {fmtK(splunkCost - cheapest.tco.total)}/mo vs Splunk
-                <span className="ml-2 font-bold" style={{ color: '#4ade80' }}>
+                <span className="ml-2 font-bold calc-text-green">
                   ({splunkCost > 0 ? ((1 - cheapest.tco.total / splunkCost) * 100).toFixed(0) : 0}% less)
                 </span>
               </div>
@@ -238,7 +236,7 @@ export default function SIEMCalculator() {
         </div>
 
         {/* Right: Results */}
-        <div className="space-y-5">
+        <div className="space-y-5" aria-live="polite" role="region" aria-label="Calculation results">
           {results.map((r) => {
             const isWinner = r.name === cheapest.name;
             const expanded = showHidden === r.name;
@@ -250,7 +248,7 @@ export default function SIEMCalculator() {
                     ? 'linear-gradient(135deg, #4ade80, var(--accent-cyan))'
                     : 'var(--border-subtle)',
                 }}>
-                <div className="rounded-2xl p-6" style={{ background: 'var(--bg-card)' }}>
+                <div className="rounded-2xl p-6 calc-bg-card">
                   {/* Header row */}
                   <div className="flex items-start justify-between mb-5">
                     <div className="flex items-center gap-3">
@@ -259,7 +257,7 @@ export default function SIEMCalculator() {
                         <div className="font-bold text-lg" style={{ fontFamily: 'var(--font-space-grotesk)', color: r.color }}>
                           {r.name}
                         </div>
-                        <div className="text-xs mt-0.5" style={{ color: 'var(--text-muted)' }}>{r.tagline}</div>
+                        <div className="text-xs mt-0.5 calc-text-muted">{r.tagline}</div>
                       </div>
                     </div>
                     <div className="text-right">
@@ -269,8 +267,8 @@ export default function SIEMCalculator() {
                       }}>
                         {fmtK(r.tco.total)}
                       </div>
-                      <div className="text-xs" style={{ color: 'var(--text-muted)' }}>/month TCO</div>
-                      <div className="text-xs font-semibold mt-1" style={{ color: 'var(--text-muted)' }}>
+                      <div className="text-xs calc-text-muted">/month TCO</div>
+                      <div className="text-xs font-semibold mt-1 calc-text-muted">
                         {fmtK(r.tco.total * 12)}/year
                       </div>
                     </div>
@@ -320,14 +318,14 @@ export default function SIEMCalculator() {
                   </button>
 
                   {expanded && (
-                    <div className="mt-4 pt-4" style={{ borderTop: '1px solid var(--border-subtle)' }}>
-                      <div className="text-[10px] font-bold uppercase tracking-[0.2em] mb-3" style={{ color: '#f87171' }}>
+                    <div className="mt-4 pt-4 calc-border-top">
+                      <div className="text-[10px] font-bold uppercase tracking-[0.2em] mb-3 calc-text-red">
                         ⚠ Hidden / Often-Missed Costs
                       </div>
                       <ul className="space-y-2">
                         {r.hiddenCosts.map((c, i) => (
-                          <li key={i} className="text-xs flex items-start gap-2" style={{ color: 'var(--text-secondary)' }}>
-                            <span style={{ color: '#f87171' }}>⚠</span> {c}
+                          <li key={i} className="text-xs flex items-start gap-2 calc-text-secondary">
+                            <span className="calc-text-red">⚠</span> {c}
                           </li>
                         ))}
                       </ul>
@@ -339,17 +337,17 @@ export default function SIEMCalculator() {
           })}
 
           {/* Comparison table */}
-          <div className="rounded-2xl overflow-hidden" style={{ border: '1px solid var(--border-subtle)', background: 'var(--bg-card)' }}>
+          <div className="rounded-2xl overflow-hidden calc-panel">
             <div className="px-6 py-4" style={{ borderBottom: '1px solid var(--border-subtle)', background: 'rgba(0,212,255,0.03)' }}>
-              <div className="text-xs font-bold uppercase tracking-[0.2em]" style={{ color: 'var(--text-muted)' }}>
+              <div className="text-xs font-bold uppercase tracking-[0.2em] calc-text-muted">
                 TCO at Scale
               </div>
             </div>
             <div className="overflow-x-auto">
               <table className="w-full text-sm">
                 <thead>
-                  <tr style={{ borderBottom: '1px solid var(--border-subtle)' }}>
-                    <th className="px-4 py-3 text-left text-xs font-semibold" style={{ color: 'var(--text-muted)' }}>Scenario</th>
+                  <tr className="calc-border-row">
+                    <th className="px-4 py-3 text-left text-xs font-semibold calc-text-muted">Scenario</th>
                     {PLATFORMS.map(p => (
                       <th key={p.name} className="px-4 py-3 text-right text-xs font-semibold" style={{ color: p.color }}>
                         {p.name.split(' ')[0]}
@@ -367,8 +365,8 @@ export default function SIEMCalculator() {
                     const rowCosts = PLATFORMS.map(p => calcTCO(p, gb, ag, ret));
                     const minCost = Math.min(...rowCosts.map(c => c.total));
                     return (
-                      <tr key={label} style={{ borderBottom: '1px solid var(--border-subtle)' }}>
-                        <td className="px-4 py-3 text-xs" style={{ color: 'var(--text-secondary)' }}>{label}</td>
+                      <tr key={label} className="calc-border-row">
+                        <td className="px-4 py-3 text-xs calc-text-secondary">{label}</td>
                         {rowCosts.map((c, i) => (
                           <td key={i} className="px-4 py-3 text-right font-semibold text-xs"
                             style={{ color: c.total === minCost ? '#4ade80' : 'var(--text-primary)' }}>
@@ -395,7 +393,7 @@ export default function SIEMCalculator() {
                 <div className="font-bold text-sm mb-3" style={{ color }}>{title}</div>
                 <ul className="space-y-1.5">
                   {points.map(p => (
-                    <li key={p} className="text-xs flex items-start gap-2" style={{ color: 'var(--text-secondary)' }}>
+                    <li key={p} className="text-xs flex items-start gap-2 calc-text-secondary">
                       <span style={{ color }}>✓</span> {p}
                     </li>
                   ))}
@@ -420,7 +418,7 @@ function SliderInput({
   return (
     <div>
       <div className="flex items-center justify-between mb-2">
-        <label className="text-sm font-semibold" style={{ color: 'var(--text-primary)' }}>{label}</label>
+        <label className="text-sm font-semibold calc-text-primary">{label}</label>
         <span className="text-sm font-bold font-mono px-3 py-1 rounded-lg"
           style={{ background: 'rgba(168,85,247,0.08)', color: accentColor, border: '1px solid rgba(168,85,247,0.15)' }}>
           {value.toLocaleString()} {unit}
@@ -430,9 +428,10 @@ function SliderInput({
         type="range" min={min} max={max} step={step} value={value}
         onChange={(e) => onChange(Number(e.target.value))}
         className="w-full h-2 rounded-full appearance-none cursor-pointer"
+        aria-label={label}
         style={{ accentColor }}
       />
-      {hint && <div className="text-xs mt-2" style={{ color: 'var(--text-muted)' }}>{hint}</div>}
+      {hint && <div className="text-xs mt-2 calc-text-muted">{hint}</div>}
     </div>
   );
 }
@@ -440,12 +439,12 @@ function SliderInput({
 function CostTile({ label, value, color, note }: { label: string; value: string; color: string; note?: string }) {
   return (
     <div className="rounded-xl p-3 text-center" style={{ background: `${color}0d`, border: `1px solid ${color}25` }}>
-      <div className="text-[10px] font-bold uppercase tracking-wider mb-1" style={{ color: 'var(--text-muted)' }}>{label}</div>
+      <div className="text-[10px] font-bold uppercase tracking-wider mb-1 calc-text-muted">{label}</div>
       <div className="font-bold text-sm" style={{ color: note === 'FREE' || note === 'Managed' ? '#4ade80' : color }}>
         {note === 'FREE' ? 'FREE' : note === 'Managed' ? 'Managed' : value}
       </div>
       {note && note !== 'FREE' && note !== 'Managed' && (
-        <div className="text-[10px] mt-0.5" style={{ color: 'var(--text-muted)' }}>{note}</div>
+        <div className="text-[10px] mt-0.5 calc-text-muted">{note}</div>
       )}
     </div>
   );

@@ -91,7 +91,7 @@ export default function HomeContent({ articles }: { articles: Article[] }) {
               <Link key={c.href} href={c.href} style={{ textDecoration: 'none', display: 'block' }}>
                 <div className="card" style={{ height: '100%', cursor: 'pointer' }}>
                   <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: '1rem' }}>
-                    <span style={{ fontSize: '1.75rem' }}>{c.icon}</span>
+                    <span style={{ fontSize: '1.75rem' }} aria-hidden="true">{c.icon}</span>
                     <span style={{
                       fontSize: '0.65rem',
                       fontWeight: 700,

@@ -10,7 +10,7 @@ export default function Footer({ animationDelay = '0.4s' }: { animationDelay?: s
         <div>
           <Link href="/" style={{ textDecoration: 'none' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', marginBottom: '1rem' }}>
-              <span className="nav-logo-symbol" style={{ fontSize: '1.2rem', fontWeight: 700 }}>$</span>
+              <span className="nav-logo-symbol" style={{ fontSize: '1.2rem', fontWeight: 700 }} aria-hidden="true">$</span>
               <span style={{
                 fontFamily: 'var(--font-space-grotesk)',
                 fontSize: '1.2rem',

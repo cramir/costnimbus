@@ -210,8 +210,7 @@ export default function EBSStorageCalculator() {
 
         {/* Header */}
         <div className="mb-10 mt-6">
-          <span className="inline-block mb-4 text-xs font-bold uppercase tracking-[0.2em] px-4 py-1.5 rounded-full"
-            style={{ color: 'var(--accent-purple)', background: 'rgba(168,85,247,0.08)', border: '1px solid rgba(168,85,247,0.2)' }}>
+          <span className="inline-block mb-4 text-xs font-bold uppercase tracking-[0.2em] px-4 py-1.5 rounded-full calc-badge-purple">
             💾 EBS Storage Calculator
           </span>
           <h1 className="text-4xl sm:text-5xl font-extrabold mb-4 leading-tight"
@@ -229,21 +228,22 @@ export default function EBSStorageCalculator() {
           </p>
         </div>
 
-        <div className="grid lg:grid-cols-5 gap-8 items-start">
+        <div className="grid md:grid-cols-2 lg:grid-cols-5 gap-8 items-start">
           {/* Left: Inputs */}
-          <div className="lg:col-span-2 space-y-5">
+          <div className="md:col-span-1 lg:col-span-2 space-y-5">
             {/* Storage Size */}
             <div className="rounded-2xl p-5 calc-panel">
               <div className="flex justify-between items-center mb-3">
-                <label className="text-xs font-bold uppercase tracking-widest" style={{ color: 'var(--text-muted)' }}>
+                <label className="text-xs font-bold uppercase tracking-widest calc-text-muted">
                   Storage Size
                 </label>
-                <span className="text-sm font-bold font-mono" style={{ color: 'var(--accent-cyan)' }}>
+                <span className="text-sm font-bold font-mono calc-text-cyan">
                   {sizeGB.toLocaleString()} GB
                 </span>
               </div>
               <input type="range" min={10} max={16000} step={10} value={sizeGB} onChange={e => setSizeGB(+e.target.value)}
-                className="w-full accent-cyan-400 mb-2" />
+                className="w-full accent-cyan-400 mb-2"
+                aria-label="Storage size in gigabytes" />
               <div className="grid grid-cols-4 gap-1.5">
                 {[100, 500, 2000, 8000].map(v => (
                   <button key={v} onClick={() => setSizeGB(v)}
@@ -262,15 +262,16 @@ export default function EBSStorageCalculator() {
             {/* IOPS */}
             <div className="rounded-2xl p-5 calc-panel">
               <div className="flex justify-between items-center mb-3">
-                <label className="text-xs font-bold uppercase tracking-widest" style={{ color: 'var(--text-muted)' }}>
+                <label className="text-xs font-bold uppercase tracking-widest calc-text-muted">
                   Provisioned IOPS
                 </label>
-                <span className="text-sm font-bold font-mono" style={{ color: 'var(--accent-purple)' }}>
+                <span className="text-sm font-bold font-mono calc-text-purple">
                   {iops.toLocaleString()}
                 </span>
               </div>
               <input type="range" min={100} max={64000} step={100} value={iops} onChange={e => setIops(+e.target.value)}
-                className="w-full accent-purple-400 mb-2" />
+                className="w-full accent-purple-400 mb-2"
+                aria-label="Provisioned IOPS" />
               <div className="grid grid-cols-4 gap-1.5">
                 {[3000, 8000, 16000, 64000].map(v => (
                   <button key={v} onClick={() => setIops(v)}
@@ -284,7 +285,7 @@ export default function EBSStorageCalculator() {
                   </button>
                 ))}
               </div>
-              <p className="text-[10px] mt-2" style={{ color: 'var(--text-muted)' }}>
+              <p className="text-[10px] mt-2 calc-text-muted">
                 gp3: 3K–16K adjustable · gp2: 3×GB (auto) · io2: up to 64K · HDD types: fixed
               </p>
             </div>
@@ -292,15 +293,16 @@ export default function EBSStorageCalculator() {
             {/* Throughput */}
             <div className="rounded-2xl p-5 calc-panel">
               <div className="flex justify-between items-center mb-3">
-                <label className="text-xs font-bold uppercase tracking-widest" style={{ color: 'var(--text-muted)' }}>
+                <label className="text-xs font-bold uppercase tracking-widest calc-text-muted">
                   Throughput (MB/s)
                 </label>
-                <span className="text-sm font-bold font-mono" style={{ color: 'var(--accent-cyan)' }}>
+                <span className="text-sm font-bold font-mono calc-text-cyan">
                   {throughputMBs} MB/s
                 </span>
               </div>
               <input type="range" min={12} max={1200} step={1} value={throughputMBs} onChange={e => setThroughputMBs(+e.target.value)}
-                className="w-full accent-cyan-400 mb-2" />
+                className="w-full accent-cyan-400 mb-2"
+                aria-label="Throughput in megabytes per second" />
               <div className="grid grid-cols-4 gap-1.5">
                 {[125, 250, 500, 1000].map(v => (
                   <button key={v} onClick={() => setThroughputMBs(v)}
@@ -314,7 +316,7 @@ export default function EBSStorageCalculator() {
                   </button>
                 ))}
               </div>
-              <p className="text-[10px] mt-2" style={{ color: 'var(--text-muted)' }}>
+              <p className="text-[10px] mt-2 calc-text-muted">
                 gp3: 125–1,000 adjustable · Azure Premium v2: 125–1,200 · Others: fixed
               </p>
             </div>
@@ -322,15 +324,16 @@ export default function EBSStorageCalculator() {
             {/* Number of Volumes */}
             <div className="rounded-2xl p-5 calc-panel">
               <div className="flex justify-between items-center mb-3">
-                <label className="text-xs font-bold uppercase tracking-widest" style={{ color: 'var(--text-muted)' }}>
+                <label className="text-xs font-bold uppercase tracking-widest calc-text-muted">
                   Number of Volumes
                 </label>
-                <span className="text-sm font-bold font-mono" style={{ color: 'var(--accent-purple)' }}>
+                <span className="text-sm font-bold font-mono calc-text-purple">
                   {volumes}x
                 </span>
               </div>
               <input type="range" min={1} max={100} step={1} value={volumes} onChange={e => setVolumes(+e.target.value)}
-                className="w-full accent-purple-400 mb-2" />
+                className="w-full accent-purple-400 mb-2"
+                aria-label="Number of volumes" />
               <div className="grid grid-cols-4 gap-1.5">
                 {[1, 5, 10, 50].map(v => (
                   <button key={v} onClick={() => setVolumes(v)}
@@ -349,15 +352,16 @@ export default function EBSStorageCalculator() {
             {/* Hours/month */}
             <div className="rounded-2xl p-5 calc-panel">
               <div className="flex justify-between items-center mb-3">
-                <label className="text-xs font-bold uppercase tracking-widest" style={{ color: 'var(--text-muted)' }}>
+                <label className="text-xs font-bold uppercase tracking-widest calc-text-muted">
                   Hours / Month
                 </label>
-                <span className="text-sm font-bold font-mono" style={{ color: 'var(--accent-cyan)' }}>
+                <span className="text-sm font-bold font-mono calc-text-cyan">
                   {hours}h
                 </span>
               </div>
               <input type="range" min={1} max={730} step={1} value={hours} onChange={e => setHours(+e.target.value)}
-                className="w-full accent-cyan-400 mb-2" />
+                className="w-full accent-cyan-400 mb-2"
+                aria-label="Hours per month" />
               <div className="grid grid-cols-3 gap-1.5">
                 {[160, 480, 730].map(v => (
                   <button key={v} onClick={() => setHours(v)}
@@ -375,7 +379,7 @@ export default function EBSStorageCalculator() {
 
             {/* Config summary */}
             <div className="rounded-2xl p-5 calc-highlight">
-              <div className="text-xs font-bold uppercase tracking-widest mb-2" style={{ color: 'var(--accent-cyan)' }}>
+              <div className="text-xs font-bold uppercase tracking-widest mb-2 calc-text-cyan">
                 Configuration
               </div>
               <div className="grid grid-cols-2 gap-2 text-xs">
@@ -388,8 +392,8 @@ export default function EBSStorageCalculator() {
                   ['Total Storage', `${(sizeGB * volumes / 1000).toFixed(1)} TB`],
                 ].map(([label, val]) => (
                   <div key={String(label)}>
-                    <span style={{ color: 'var(--text-muted)' }}>{label}: </span>
-                    <span className="font-bold" style={{ color: 'var(--text-primary)' }}>{val}</span>
+                    <span className="calc-text-muted">{label}: </span>
+                    <span className="font-bold calc-text-primary">{val}</span>
                   </div>
                 ))}
               </div>
@@ -397,7 +401,7 @@ export default function EBSStorageCalculator() {
           </div>
 
           {/* Right: Results */}
-          <div className="lg:col-span-3 space-y-6 lg:sticky lg:top-28">
+          <div className="md:col-span-1 lg:col-span-3 space-y-6 lg:sticky lg:top-28" aria-live="polite" role="region" aria-label="Calculation results">
             {/* gp3 vs gp2 callout */}
             {results.gp3VsGp2Savings > 0 && (
               <div className="rounded-2xl p-6 relative overflow-hidden"
@@ -409,11 +413,11 @@ export default function EBSStorageCalculator() {
                 <div className="relative flex items-center gap-4">
                   <span className="text-3xl">💡</span>
                   <div>
-                    <div className="text-sm font-bold mb-1" style={{ color: '#4ade80' }}>
+                    <div className="text-sm font-bold mb-1 calc-text-green">
                       gp3 saves {results.gp3VsGp2Savings.toFixed(1)}% vs gp2
                     </div>
-                    <div className="text-xs" style={{ color: 'var(--text-secondary)' }}>
-                      You&apos;d save <span className="font-bold" style={{ color: '#4ade80' }}>{fmt((results.gp2.total - results.gp3.total) * 12)}/year</span> by
+                    <div className="text-xs calc-text-secondary">
+                      You&apos;d save <span className="font-bold calc-text-green">{fmt((results.gp2.total - results.gp3.total) * 12)}/year</span> by
                       switching from gp2 to gp3. gp3 is cheaper at baseline with independently adjustable IOPS and throughput.
                     </div>
                   </div>
@@ -425,15 +429,15 @@ export default function EBSStorageCalculator() {
             <div className="rounded-2xl p-4 calc-highlight">
               <div className="flex items-center gap-3">
                 <span className="text-xl">📌</span>
-                <div className="text-xs" style={{ color: 'var(--text-secondary)' }}>
-                  <span className="font-bold" style={{ color: 'var(--accent-cyan)' }}>io2 vs io1:</span> Same price per GB and IOPS, but io2 offers 99.999% durability (vs 99.8–99.9% for io1). Always pick io2 over io1 for new deployments.
+                <div className="text-xs calc-text-secondary">
+                  <span className="font-bold calc-text-cyan">io2 vs io1:</span> Same price per GB and IOPS, but io2 offers 99.999% durability (vs 99.8–99.9% for io1). Always pick io2 over io1 for new deployments.
                 </div>
               </div>
             </div>
 
             {/* Sorted bar chart */}
             <div className="rounded-2xl p-6 calc-panel">
-              <h3 className="text-xs font-bold uppercase tracking-[0.2em] mb-5" style={{ color: 'var(--text-muted)' }}>
+              <h3 className="text-xs font-bold uppercase tracking-[0.2em] mb-5 calc-text-muted">
                 Monthly Cost by Volume Type (sorted cheapest first)
               </h3>
               <div className="space-y-3">
@@ -462,7 +466,7 @@ export default function EBSStorageCalculator() {
                         <div className="h-full rounded-full transition-all duration-700"
                           style={{ width: `${Math.max(2, pct)}%`, background: isCheapest ? '#4ade80' : barColor + 'AA' }} />
                       </div>
-                      <div className="flex justify-between mt-1 text-[10px]" style={{ color: 'var(--text-muted)' }}>
+                      <div className="flex justify-between mt-1 text-[10px] calc-text-muted">
                         <span>{vol.effectiveIops.toLocaleString()} IOPS · {vol.effectiveThroughput} MB/s</span>
                         <span>{fmt(vol.annual)}/yr</span>
                       </div>
@@ -474,15 +478,15 @@ export default function EBSStorageCalculator() {
 
             {/* Annual projection by provider */}
             <div className="rounded-2xl p-6 calc-panel">
-              <h3 className="text-xs font-bold uppercase tracking-[0.2em] mb-4" style={{ color: 'var(--text-muted)' }}>
+              <h3 className="text-xs font-bold uppercase tracking-[0.2em] mb-4 calc-text-muted">
                 Annual Projection by Provider
               </h3>
               <div className="overflow-x-auto">
                 <table className="w-full text-xs">
                   <thead>
-                    <tr style={{ borderBottom: '1px solid var(--border-subtle)' }}>
+                    <tr className="calc-border-row">
                       {['Volume Type', 'Provider', '/mo', 'Annual'].map(h => (
-                        <th key={h} className="pb-3 text-left font-bold uppercase tracking-wider" style={{ color: 'var(--text-muted)' }}>{h}</th>
+                        <th key={h} className="pb-3 text-left font-bold uppercase tracking-wider calc-text-muted">{h}</th>
                       ))}
                     </tr>
                   </thead>
@@ -490,13 +494,13 @@ export default function EBSStorageCalculator() {
                     {results.costs.map((vol, i) => {
                       const barColor = vol.provider === 'AWS' ? '#FF9900' : vol.provider === 'Azure' ? '#0078D4' : '#4285F4';
                       return (
-                        <tr key={vol.key} style={{ borderBottom: '1px solid var(--border-subtle)' }}>
+                        <tr key={vol.key} className="calc-border-row">
                           <td className="py-2.5 font-semibold" style={{ color: i === 0 ? '#4ade80' : 'var(--text-primary)' }}>
                             {i === 0 && '🏆 '}{vol.key}
                           </td>
                           <td className="py-2.5" style={{ color: barColor }}>{vol.provider}</td>
-                          <td className="py-2.5 font-mono font-bold" style={{ color: 'var(--text-primary)' }}>{fmt(vol.total)}</td>
-                          <td className="py-2.5 font-mono" style={{ color: 'var(--text-secondary)' }}>{fmt(vol.annual)}</td>
+                          <td className="py-2.5 font-mono font-bold calc-text-primary">{fmt(vol.total)}</td>
+                          <td className="py-2.5 font-mono calc-text-secondary">{fmt(vol.annual)}</td>
                         </tr>
                       );
                     })}
@@ -507,7 +511,7 @@ export default function EBSStorageCalculator() {
 
             {/* Decision guide */}
             <div className="rounded-2xl p-6 calc-panel">
-              <h3 className="text-xs font-bold uppercase tracking-[0.2em] mb-4" style={{ color: 'var(--text-muted)' }}>
+              <h3 className="text-xs font-bold uppercase tracking-[0.2em] mb-4 calc-text-muted">
                 Best For... Decision Guide
               </h3>
               <div className="space-y-3">
@@ -523,7 +527,7 @@ export default function EBSStorageCalculator() {
                     <div className="w-2.5 h-2.5 rounded-full mt-1 flex-shrink-0" style={{ background: item.color }} />
                     <div>
                       <span className="text-xs font-bold" style={{ color: item.color }}>{item.label}: </span>
-                      <span className="text-xs" style={{ color: 'var(--text-secondary)' }}>{item.text}</span>
+                      <span className="text-xs calc-text-secondary">{item.text}</span>
                     </div>
                   </div>
                 ))}
@@ -538,10 +542,10 @@ export default function EBSStorageCalculator() {
 
             {/* Pricing notes */}
             <div className="rounded-2xl p-5 calc-panel">
-              <div className="text-xs font-bold uppercase tracking-widest mb-2" style={{ color: 'var(--text-muted)' }}>
+              <div className="text-xs font-bold uppercase tracking-widest mb-2 calc-text-muted">
                 Pricing Notes
               </div>
-              <ul className="text-xs space-y-1.5" style={{ color: 'var(--text-muted)' }}>
+              <ul className="text-xs space-y-1.5 calc-text-muted">
                 <li>• AWS prices: us-east-1 region. Azure/GCP: US equivalent regions</li>
                 <li>• gp2 IOPS calculated as min(3 × GB, 16,000) — included in base price</li>
                 <li>• io2 IOPS pricing: $0.065/IOPS up to 32K, $0.046/IOPS above 32K</li>
@@ -554,8 +558,8 @@ export default function EBSStorageCalculator() {
         </div>
 
         {/* Related */}
-        <section className="mt-16 pt-10" style={{ borderTop: '1px solid var(--border-subtle)' }}>
-          <h2 className="text-lg font-bold mb-5" style={{ fontFamily: 'var(--font-space-grotesk)', color: 'var(--text-secondary)' }}>
+        <section className="mt-16 pt-10 calc-border-top">
+          <h2 className="text-lg font-bold mb-5 calc-related-heading">
             Related Calculators
           </h2>
           <div className="grid sm:grid-cols-3 gap-4">
@@ -565,13 +569,11 @@ export default function EBSStorageCalculator() {
               { href: '/calculators/ec2-pricing', icon: '💰', title: 'EC2 Pricing Calculator', desc: 'On-Demand vs Reserved vs Spot pricing' },
             ].map(r => (
               <Link key={r.href} href={r.href}
-                className="group rounded-xl p-4 flex items-start gap-3 transition-all hover:-translate-y-0.5"
-                style={{ background: 'var(--bg-card)', border: '1px solid var(--border-subtle)' }}>
+                className="group rounded-xl p-4 flex items-start gap-3 transition-all hover:-translate-y-0.5 calc-panel">
                 <span className="text-2xl">{r.icon}</span>
                 <div>
-                  <div className="text-sm font-semibold mb-0.5 group-hover:text-cyan-400 transition-colors"
-                    style={{ color: 'var(--text-primary)' }}>{r.title}</div>
-                  <div className="text-xs" style={{ color: 'var(--text-muted)' }}>{r.desc}</div>
+                  <div className="text-sm font-semibold mb-0.5 group-hover:text-cyan-400 transition-colors calc-text-primary">{r.title}</div>
+                  <div className="text-xs calc-text-muted">{r.desc}</div>
                 </div>
               </Link>
             ))}

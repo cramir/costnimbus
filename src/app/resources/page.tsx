@@ -238,7 +238,7 @@ export default function ResourcesPage() {
         {/* External links */}
         <section>
           <div className="flex items-center gap-4 mb-8">
-            <span className="text-2xl">🔗</span>
+            <span className="text-2xl" aria-hidden="true">🔗</span>
             <div>
               <h2 className="text-xl font-bold" style={{ fontFamily: 'var(--font-space-grotesk)', color: 'var(--text-primary)' }}>
                 More Resources
@@ -251,7 +251,7 @@ export default function ResourcesPage() {
               <a key={label} href={url} target="_blank" rel="noopener noreferrer"
                 className="group flex items-start gap-3 rounded-xl p-4 transition-all hover:-translate-y-0.5"
                 style={{ background: 'var(--bg-card)', border: '1px solid var(--border-subtle)' }}>
-                <svg className="mt-0.5 shrink-0 transition-transform group-hover:translate-x-0.5" width="14" height="14" viewBox="0 0 16 16" fill="none">
+                <svg className="mt-0.5 shrink-0 transition-transform group-hover:translate-x-0.5" width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
                   <path d="M5 3h8v8M13 3L3 13" stroke="var(--accent-cyan)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                 </svg>
                 <div>
@@ -302,7 +302,7 @@ function CategorySection({ category: cat }: { category: Category }) {
     <section>
       {/* Category header */}
       <div className="flex items-start gap-4 mb-8">
-        <span className="text-3xl">{cat.icon}</span>
+        <span className="text-3xl" aria-hidden="true">{cat.icon}</span>
         <div>
           <div className="flex items-center gap-3 mb-1">
             <h2 className="text-2xl font-bold" style={{ fontFamily: 'var(--font-space-grotesk)', color: 'var(--text-primary)' }}>
@@ -375,7 +375,7 @@ function ResourceCard({ resource: r, accentColor }: { resource: Resource; accent
             </span>
           ))}
         </div>
-        <svg className="shrink-0 transition-transform group-hover:translate-x-1" width="14" height="14" viewBox="0 0 16 16" fill="none">
+        <svg className="shrink-0 transition-transform group-hover:translate-x-1" width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
           <path d="M3 8h10M9 4l4 4-4 4" stroke={accentColor} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
         </svg>
       </div>

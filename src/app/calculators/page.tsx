@@ -143,8 +143,7 @@ export default function CalculatorsPage() {
       />
       {/* Hero */}
       <section className="max-w-4xl mx-auto px-6 pt-10 pb-12 text-center">
-        <span className="inline-block mb-4 text-xs font-bold uppercase tracking-[0.2em] px-5 py-2 rounded-full"
-          style={{ color: 'var(--accent-cyan)', background: 'rgba(0,212,255,0.08)', border: '1px solid rgba(0,212,255,0.2)' }}>
+        <span className="inline-block mb-4 text-xs font-bold uppercase tracking-[0.2em] px-5 py-2 rounded-full calc-badge-cyan">
           Free Tools
         </span>
         <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold leading-tight mb-5"
@@ -156,7 +155,7 @@ export default function CalculatorsPage() {
           }}>
           Cloud Cost Calculators
         </h1>
-        <p className="text-lg max-w-2xl mx-auto" style={{ color: 'var(--text-secondary)', lineHeight: 1.8 }}>
+        <p className="text-lg max-w-2xl mx-auto calc-hero-subtitle">
           Real numbers. No vendor BS. Built by engineers who&apos;ve actually cut these bills.
           Enter your numbers and see exactly where your money goes — and how to keep more of it.
         </p>
@@ -212,7 +211,7 @@ function CalculatorCard({
       </h2>
 
       {/* Description */}
-      <p className="text-sm leading-relaxed mb-4 flex-1" style={{ color: 'var(--text-secondary)' }}>
+      <p className="text-sm leading-relaxed mb-4 flex-1 calc-text-secondary">
         {description}
       </p>
 
@@ -227,13 +226,12 @@ function CalculatorCard({
       </div>
 
       {/* Footer */}
-      <div className="flex items-center justify-between pt-4" style={{ borderTop: '1px solid var(--border-subtle)' }}>
+      <div className="flex items-center justify-between pt-4 calc-border-top">
         <span className="text-xs font-semibold" style={{ color: disabled ? 'var(--text-muted)' : '#4ade80' }}>
           {savings}
         </span>
         {!disabled && (
-          <span className="text-xs flex items-center gap-1.5 font-semibold transition-all group-hover:gap-2.5"
-            style={{ color: 'var(--accent-cyan)' }}>
+          <span className="text-xs flex items-center gap-1.5 font-semibold transition-all group-hover:gap-2.5 calc-text-cyan">
             Open Calculator
             <svg width="12" height="12" viewBox="0 0 16 16" fill="none">
               <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>

@@ -175,8 +175,7 @@ export default function EC2PricingCalculator() {
 
         {/* Header */}
         <div className="mb-10 mt-6">
-          <span className="inline-block mb-4 text-xs font-bold uppercase tracking-[0.2em] px-4 py-1.5 rounded-full"
-            style={{ color: 'var(--accent-purple)', background: 'rgba(168,85,247,0.08)', border: '1px solid rgba(168,85,247,0.2)' }}>
+          <span className="inline-block mb-4 text-xs font-bold uppercase tracking-[0.2em] px-4 py-1.5 rounded-full calc-badge-purple">
             💰 EC2 Pricing Calculator
           </span>
           <h1 className="text-4xl sm:text-5xl font-extrabold mb-4 leading-tight"
@@ -194,12 +193,12 @@ export default function EC2PricingCalculator() {
           </p>
         </div>
 
-        <div className="grid lg:grid-cols-5 gap-8 items-start">
+        <div className="grid md:grid-cols-2 lg:grid-cols-5 gap-8 items-start">
           {/* Left: Inputs */}
-          <div className="lg:col-span-2 space-y-5">
+          <div className="md:col-span-1 lg:col-span-2 space-y-5">
             {/* Instance Family */}
             <div className="rounded-2xl p-5 calc-panel">
-              <label className="text-xs font-bold uppercase tracking-widest block mb-3" style={{ color: 'var(--text-muted)' }}>
+              <label className="text-xs font-bold uppercase tracking-widest block mb-3 calc-text-muted">
                 Instance Family
               </label>
               <div className="space-y-1.5">
@@ -223,7 +222,7 @@ export default function EC2PricingCalculator() {
 
             {/* Instance Size */}
             <div className="rounded-2xl p-5 calc-panel">
-              <label className="text-xs font-bold uppercase tracking-widest block mb-3" style={{ color: 'var(--text-muted)' }}>
+              <label className="text-xs font-bold uppercase tracking-widest block mb-3 calc-text-muted">
                 Instance Size
               </label>
               <div className="space-y-2">
@@ -239,13 +238,13 @@ export default function EC2PricingCalculator() {
                         style={{ color: selectedInstance.name === inst.name ? 'var(--accent-cyan)' : 'var(--text-primary)' }}>
                         {inst.name}
                       </span>
-                      <span className="text-xs font-semibold" style={{ color: 'var(--text-muted)' }}>
+                      <span className="text-xs font-semibold calc-text-muted">
                         {fmt(inst.onDemand, 4)}/hr
                       </span>
                     </div>
-                    <div className="text-xs mt-1" style={{ color: 'var(--text-muted)' }}>
+                    <div className="text-xs mt-1 calc-text-muted">
                       {inst.vcpus} vCPU · {inst.ramGB}GB RAM
-                      {inst.note && <span className="ml-2" style={{ color: '#4ade80' }}>✓ {inst.note}</span>}
+                      {inst.note && <span className="ml-2 calc-text-green">✓ {inst.note}</span>}
                     </div>
                   </button>
                 ))}
@@ -255,15 +254,16 @@ export default function EC2PricingCalculator() {
             {/* Count */}
             <div className="rounded-2xl p-5 calc-panel">
               <div className="flex justify-between items-center mb-3">
-                <label className="text-xs font-bold uppercase tracking-widest" style={{ color: 'var(--text-muted)' }}>
+                <label className="text-xs font-bold uppercase tracking-widest calc-text-muted">
                   Number of Instances
                 </label>
-                <span className="text-sm font-bold font-mono" style={{ color: 'var(--accent-cyan)' }}>
+                <span className="text-sm font-bold font-mono calc-text-cyan">
                   {count}x
                 </span>
               </div>
               <input type="range" min={1} max={100} step={1} value={count} onChange={e => setCount(+e.target.value)}
-                className="w-full accent-cyan-400 mb-2" />
+                className="w-full accent-cyan-400 mb-2"
+                aria-label="Number of instances" />
               <div className="grid grid-cols-4 gap-1.5">
                 {[1, 5, 10, 25].map(v => (
                   <button key={v} onClick={() => setCount(v)}
@@ -282,15 +282,16 @@ export default function EC2PricingCalculator() {
             {/* Hours/month */}
             <div className="rounded-2xl p-5 calc-panel">
               <div className="flex justify-between items-center mb-3">
-                <label className="text-xs font-bold uppercase tracking-widest" style={{ color: 'var(--text-muted)' }}>
+                <label className="text-xs font-bold uppercase tracking-widest calc-text-muted">
                   Hours / Month
                 </label>
-                <span className="text-sm font-bold font-mono" style={{ color: 'var(--accent-purple)' }}>
+                <span className="text-sm font-bold font-mono calc-text-purple">
                   {hoursPerMonth}h
                 </span>
               </div>
               <input type="range" min={1} max={730} step={1} value={hoursPerMonth} onChange={e => setHoursPerMonth(+e.target.value)}
-                className="w-full accent-purple-400 mb-2" />
+                className="w-full accent-purple-400 mb-2"
+                aria-label="Hours per month" />
               <div className="grid grid-cols-3 gap-1.5">
                 {[160, 480, 730].map(v => (
                   <button key={v} onClick={() => setHoursPerMonth(v)}
@@ -308,7 +309,7 @@ export default function EC2PricingCalculator() {
 
             {/* Instance summary */}
             <div className="rounded-2xl p-5 calc-highlight">
-              <div className="text-xs font-bold uppercase tracking-widest mb-2" style={{ color: 'var(--accent-cyan)' }}>
+              <div className="text-xs font-bold uppercase tracking-widest mb-2 calc-text-cyan">
                 Selected: {selectedInstance.name}
               </div>
               <div className="grid grid-cols-2 gap-2 text-xs">
@@ -319,19 +320,19 @@ export default function EC2PricingCalculator() {
                   ['Spot (avg)', `${fmt(selectedInstance.spot, 4)}/hr`],
                 ].map(([label, val]) => (
                   <div key={String(label)}>
-                    <span style={{ color: 'var(--text-muted)' }}>{label}: </span>
-                    <span className="font-bold" style={{ color: 'var(--text-primary)' }}>{val}</span>
+                    <span className="calc-text-muted">{label}: </span>
+                    <span className="font-bold calc-text-primary">{val}</span>
                   </div>
                 ))}
               </div>
               {selectedInstance.note && (
-                <div className="text-xs mt-2" style={{ color: '#4ade80' }}>✓ {selectedInstance.note}</div>
+                <div className="text-xs mt-2 calc-text-green">✓ {selectedInstance.note}</div>
               )}
             </div>
           </div>
 
           {/* Right: Results */}
-          <div className="lg:col-span-3 space-y-6 lg:sticky lg:top-28">
+          <div className="md:col-span-1 lg:col-span-3 space-y-6 lg:sticky lg:top-28" aria-live="polite" role="region" aria-label="Calculation results">
             {/* Headline savings */}
             <div className="rounded-2xl p-6 relative overflow-hidden"
               style={{
@@ -341,17 +342,17 @@ export default function EC2PricingCalculator() {
               <div className="absolute -top-10 -right-10 w-40 h-40 rounded-full blur-3xl opacity-20" style={{ background: 'var(--accent-purple)' }} />
               <div className="relative grid grid-cols-3 gap-4">
                 <div className="text-center">
-                  <div className="text-xs font-bold uppercase tracking-widest mb-1" style={{ color: 'var(--text-muted)' }}>On-Demand</div>
-                  <div className="text-2xl font-black" style={{ color: '#f87171' }}>{fmt(results.onDemandMonthly)}</div>
-                  <div className="text-xs" style={{ color: 'var(--text-muted)' }}>per month</div>
+                  <div className="text-xs font-bold uppercase tracking-widest mb-1 calc-text-muted">On-Demand</div>
+                  <div className="text-2xl font-black calc-text-red">{fmt(results.onDemandMonthly)}</div>
+                  <div className="text-xs calc-text-muted">per month</div>
                 </div>
                 <div className="text-center">
-                  <div className="text-xs font-bold uppercase tracking-widest mb-1" style={{ color: 'var(--text-muted)' }}>Spot (avg)</div>
+                  <div className="text-xs font-bold uppercase tracking-widest mb-1 calc-text-muted">Spot (avg)</div>
                   <div className="text-2xl font-black" style={{ color: '#facc15' }}>{fmt(results.spotMonthly)}</div>
                   <div className="text-xs" style={{ color: '#facc15' }}>~{Math.round((1 - selectedInstance.spot / selectedInstance.onDemand) * 100)}% off</div>
                 </div>
                 <div className="text-center">
-                  <div className="text-xs font-bold uppercase tracking-widest mb-1" style={{ color: 'var(--text-muted)' }}>3yr RI (best)</div>
+                  <div className="text-xs font-bold uppercase tracking-widest mb-1 calc-text-muted">3yr RI (best)</div>
                   <div className="text-2xl font-black" style={{ color: '#c084fc' }}>{fmt(results.ri3yrBestMonthly)}</div>
                   <div className="text-xs" style={{ color: '#c084fc' }}>~{Math.round((1 - selectedInstance.ri3yrAllUp / selectedInstance.onDemand) * 100)}% off</div>
                 </div>
@@ -360,7 +361,7 @@ export default function EC2PricingCalculator() {
 
             {/* All pricing modes bar chart */}
             <div className="rounded-2xl p-6 calc-panel">
-              <h3 className="text-xs font-bold uppercase tracking-[0.2em] mb-5" style={{ color: 'var(--text-muted)' }}>
+              <h3 className="text-xs font-bold uppercase tracking-[0.2em] mb-5 calc-text-muted">
                 Monthly Cost by Pricing Mode
               </h3>
               <div className="space-y-3">
@@ -369,10 +370,10 @@ export default function EC2PricingCalculator() {
                   return (
                     <div key={mode.key}>
                       <div className="flex items-center justify-between mb-1.5">
-                        <span className="text-sm font-semibold" style={{ color: 'var(--text-primary)' }}>{mode.label}</span>
+                        <span className="text-sm font-semibold calc-text-primary">{mode.label}</span>
                         <div className="flex items-center gap-3">
                           {mode.savings > 0 && (
-                            <span className="text-xs font-bold" style={{ color: '#4ade80' }}>
+                            <span className="text-xs font-bold calc-text-green">
                               -{Math.round(mode.savings * 100)}%
                             </span>
                           )}
@@ -393,25 +394,25 @@ export default function EC2PricingCalculator() {
 
             {/* Annual savings table */}
             <div className="rounded-2xl p-6 calc-panel">
-              <h3 className="text-xs font-bold uppercase tracking-[0.2em] mb-4" style={{ color: 'var(--text-muted)' }}>
+              <h3 className="text-xs font-bold uppercase tracking-[0.2em] mb-4 calc-text-muted">
                 Annual Savings vs On-Demand ({count}x {selectedInstance.name})
               </h3>
               <div className="overflow-x-auto">
                 <table className="w-full text-xs">
                   <thead>
-                    <tr style={{ borderBottom: '1px solid var(--border-subtle)' }}>
+                    <tr className="calc-border-row">
                       {['Pricing Mode', '/hr rate', '/mo', 'Annual', 'Saved/yr'].map(h => (
-                        <th key={h} className="pb-3 text-left font-bold uppercase tracking-wider" style={{ color: 'var(--text-muted)' }}>{h}</th>
+                        <th key={h} className="pb-3 text-left font-bold uppercase tracking-wider calc-text-muted">{h}</th>
                       ))}
                     </tr>
                   </thead>
                   <tbody>
                     {results.modes.map((mode, i) => (
-                      <tr key={mode.key} style={{ borderBottom: '1px solid var(--border-subtle)' }}>
+                      <tr key={mode.key} className="calc-border-row">
                         <td className="py-2.5 font-semibold" style={{ color: mode.color }}>{mode.label}</td>
-                        <td className="py-2.5 font-mono" style={{ color: 'var(--text-secondary)' }}>{fmt(mode.rate, 4)}</td>
-                        <td className="py-2.5 font-mono font-bold" style={{ color: 'var(--text-primary)' }}>{fmt(mode.monthly)}</td>
-                        <td className="py-2.5 font-mono" style={{ color: 'var(--text-secondary)' }}>{fmt(mode.annual)}</td>
+                        <td className="py-2.5 font-mono calc-text-secondary">{fmt(mode.rate, 4)}</td>
+                        <td className="py-2.5 font-mono font-bold calc-text-primary">{fmt(mode.monthly)}</td>
+                        <td className="py-2.5 font-mono calc-text-secondary">{fmt(mode.annual)}</td>
                         <td className="py-2.5 font-bold" style={{ color: i === 0 ? 'var(--text-muted)' : '#4ade80' }}>
                           {i === 0 ? '—' : `+${fmt(results.annualSavingsVsOnDemand.find(s => s.key === mode.key)!.saving)}`}
                         </td>
@@ -424,7 +425,7 @@ export default function EC2PricingCalculator() {
 
             {/* Decision guide */}
             <div className="rounded-2xl p-6 calc-panel">
-              <h3 className="text-xs font-bold uppercase tracking-[0.2em] mb-4" style={{ color: 'var(--text-muted)' }}>
+              <h3 className="text-xs font-bold uppercase tracking-[0.2em] mb-4 calc-text-muted">
                 Which Pricing Mode Should You Use?
               </h3>
               <div className="space-y-3">
@@ -433,7 +434,7 @@ export default function EC2PricingCalculator() {
                     <div className="w-2.5 h-2.5 rounded-full mt-1 flex-shrink-0" style={{ background: mode.color }} />
                     <div>
                       <span className="text-xs font-bold" style={{ color: mode.color }}>{mode.label}: </span>
-                      <span className="text-xs" style={{ color: 'var(--text-secondary)' }}>{mode.bestFor}</span>
+                      <span className="text-xs calc-text-secondary">{mode.bestFor}</span>
                     </div>
                   </div>
                 ))}
@@ -443,10 +444,10 @@ export default function EC2PricingCalculator() {
             {/* Pro tips */}
             <div className="rounded-2xl p-6"
               style={{ background: 'rgba(0,212,255,0.04)', border: '1px solid rgba(0,212,255,0.2)' }}>
-              <h3 className="text-xs font-bold uppercase tracking-[0.2em] mb-4" style={{ color: 'var(--accent-cyan)' }}>
+              <h3 className="text-xs font-bold uppercase tracking-[0.2em] mb-4 calc-text-cyan">
                 💡 Pro Tips to Maximize Savings
               </h3>
-              <div className="space-y-3 text-xs" style={{ color: 'var(--text-secondary)' }}>
+              <div className="space-y-3 text-xs calc-text-secondary">
                 {[
                   { tip: 'Switch to Graviton (arm64)', detail: 'M7g/C7g instances cost 20-40% less than equivalent Intel. Most workloads run without code changes.' },
                   { tip: 'Mix On-Demand + Spot', detail: 'Run 70% baseline as Reserved, 30% burstable as Spot. Spot Fleet handles interruptions automatically.' },
@@ -455,8 +456,8 @@ export default function EC2PricingCalculator() {
                   { tip: 'Right-size before committing', detail: 'Check CPU/memory utilization with CloudWatch for 2+ weeks before buying Reserved Instances. Committing to an oversized instance wastes money.' },
                 ].map(({ tip, detail }) => (
                   <div key={tip} className="flex items-start gap-2">
-                    <span style={{ color: 'var(--accent-cyan)' }}>→</span>
-                    <div><span className="font-bold" style={{ color: 'var(--text-primary)' }}>{tip}: </span>{detail}</div>
+                    <span className="calc-text-cyan">→</span>
+                    <div><span className="font-bold calc-text-primary">{tip}: </span>{detail}</div>
                   </div>
                 ))}
               </div>
@@ -470,10 +471,10 @@ export default function EC2PricingCalculator() {
 
             {/* Pricing notes */}
             <div className="rounded-2xl p-5 calc-panel">
-              <div className="text-xs font-bold uppercase tracking-widest mb-2" style={{ color: 'var(--text-muted)' }}>
+              <div className="text-xs font-bold uppercase tracking-widest mb-2 calc-text-muted">
                 Pricing Notes
               </div>
-              <ul className="text-xs space-y-1.5" style={{ color: 'var(--text-muted)' }}>
+              <ul className="text-xs space-y-1.5 calc-text-muted">
                 <li>• All prices: us-east-1, Linux, on-demand / standard RI pricing</li>
                 <li>• Spot prices are 30-day averages — actual prices fluctuate by AZ and time</li>
                 <li>• RI pricing shows effective hourly rate (blends upfront + hourly for partial/all upfront)</li>
@@ -487,8 +488,8 @@ export default function EC2PricingCalculator() {
         </div>
 
         {/* Related */}
-        <section className="mt-16 pt-10" style={{ borderTop: '1px solid var(--border-subtle)' }}>
-          <h2 className="text-lg font-bold mb-5" style={{ fontFamily: 'var(--font-space-grotesk)', color: 'var(--text-secondary)' }}>
+        <section className="mt-16 pt-10 calc-border-top">
+          <h2 className="text-lg font-bold mb-5 calc-related-heading">
             Related Calculators
           </h2>
           <div className="grid sm:grid-cols-3 gap-4">
@@ -498,13 +499,11 @@ export default function EC2PricingCalculator() {
               { href: '/calculators/managed-db', icon: '🗃️', title: 'Managed Database Calculator', desc: 'RDS vs Aurora vs PlanetScale vs Neon' },
             ].map(r => (
               <Link key={r.href} href={r.href}
-                className="group rounded-xl p-4 flex items-start gap-3 transition-all hover:-translate-y-0.5"
-                style={{ background: 'var(--bg-card)', border: '1px solid var(--border-subtle)' }}>
+                className="group rounded-xl p-4 flex items-start gap-3 transition-all hover:-translate-y-0.5 calc-panel">
                 <span className="text-2xl">{r.icon}</span>
                 <div>
-                  <div className="text-sm font-semibold mb-0.5 group-hover:text-cyan-400 transition-colors"
-                    style={{ color: 'var(--text-primary)' }}>{r.title}</div>
-                  <div className="text-xs" style={{ color: 'var(--text-muted)' }}>{r.desc}</div>
+                  <div className="text-sm font-semibold mb-0.5 group-hover:text-cyan-400 transition-colors calc-text-primary">{r.title}</div>
+                  <div className="text-xs calc-text-muted">{r.desc}</div>
                 </div>
               </Link>
             ))}

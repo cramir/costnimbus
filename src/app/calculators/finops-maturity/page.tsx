@@ -887,7 +887,7 @@ export default function FinOpsMaturityPage() {
 
         {/* Results */}
         {step === 6 && (
-          <div>
+          <div aria-live="polite" role="region" aria-label="Assessment results">
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '2rem', flexWrap: 'wrap', gap: '1rem' }}>
               <h2 style={{ fontFamily: 'var(--font-space-grotesk)', fontSize: '1.75rem', fontWeight: 800, color: 'var(--text-primary)', margin: 0 }}>
                 Your FinOps Assessment

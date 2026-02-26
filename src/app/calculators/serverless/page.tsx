@@ -269,8 +269,7 @@ export default function ServerlessCostCalculator() {
 
         {/* Header */}
         <div className="mb-10 mt-6">
-          <span className="inline-block mb-4 text-xs font-bold uppercase tracking-[0.2em] px-4 py-1.5 rounded-full"
-            style={{ color: 'var(--accent-cyan)', background: 'rgba(0,212,255,0.08)', border: '1px solid rgba(0,212,255,0.2)' }}>
+          <span className="inline-block mb-4 text-xs font-bold uppercase tracking-[0.2em] px-4 py-1.5 rounded-full calc-badge-cyan">
             ⚡ Serverless Cost Calculator
           </span>
           <h1 className="text-4xl sm:text-5xl font-extrabold mb-4 leading-tight"
@@ -287,9 +286,9 @@ export default function ServerlessCostCalculator() {
           </p>
         </div>
 
-        <div className="grid lg:grid-cols-5 gap-8 items-start">
+        <div className="grid md:grid-cols-2 lg:grid-cols-5 gap-8 items-start">
           {/* Left: Inputs */}
-          <div className="lg:col-span-2 space-y-6">
+          <div className="md:col-span-1 lg:col-span-2 space-y-6">
             {/* Tab bar */}
             <div className="flex rounded-xl p-1 gap-1" style={{ background: 'var(--bg-secondary)' }}>
               {(['inputs', 'breakdown'] as const).map(tab => (
@@ -310,16 +309,17 @@ export default function ServerlessCostCalculator() {
                 {/* Requests/month */}
                 <div className="rounded-2xl p-5 calc-panel">
                   <div className="flex justify-between items-center mb-3">
-                    <label className="text-xs font-bold uppercase tracking-widest" style={{ color: 'var(--text-muted)' }}>
+                    <label className="text-xs font-bold uppercase tracking-widest calc-text-muted">
                       Requests / Month
                     </label>
-                    <span className="text-sm font-bold font-mono" style={{ color: 'var(--accent-cyan)' }}>
+                    <span className="text-sm font-bold font-mono calc-text-cyan">
                       {fmtReq(requestsPerMonth)}
                     </span>
                   </div>
                   <input type="range" min={100_000} max={5_000_000_000} step={100_000}
                     value={requestsPerMonth} onChange={e => setRequestsPerMonth(+e.target.value)}
-                    className="w-full accent-cyan-400 mb-3" />
+                    className="w-full accent-cyan-400 mb-3"
+                    aria-label="Requests per month" />
                   <div className="grid grid-cols-4 gap-1.5">
                     {[1_000_000, 10_000_000, 100_000_000, 1_000_000_000].map(v => (
                       <button key={v} onClick={() => setRequestsPerMonth(v)}
@@ -338,16 +338,17 @@ export default function ServerlessCostCalculator() {
                 {/* Duration */}
                 <div className="rounded-2xl p-5 calc-panel">
                   <div className="flex justify-between items-center mb-3">
-                    <label className="text-xs font-bold uppercase tracking-widest" style={{ color: 'var(--text-muted)' }}>
+                    <label className="text-xs font-bold uppercase tracking-widest calc-text-muted">
                       Avg Duration (ms)
                     </label>
-                    <span className="text-sm font-bold font-mono" style={{ color: 'var(--accent-purple)' }}>
+                    <span className="text-sm font-bold font-mono calc-text-purple">
                       {durationMs}ms
                     </span>
                   </div>
                   <input type="range" min={1} max={15000} step={10}
                     value={durationMs} onChange={e => setDurationMs(+e.target.value)}
-                    className="w-full accent-purple-400 mb-3" />
+                    className="w-full accent-purple-400 mb-3"
+                    aria-label="Average duration in milliseconds" />
                   <div className="grid grid-cols-4 gap-1.5">
                     {[50, 250, 1000, 5000].map(v => (
                       <button key={v} onClick={() => setDurationMs(v)}
@@ -365,7 +366,7 @@ export default function ServerlessCostCalculator() {
 
                 {/* Memory */}
                 <div className="rounded-2xl p-5 calc-panel">
-                  <label className="text-xs font-bold uppercase tracking-widest block mb-3" style={{ color: 'var(--text-muted)' }}>
+                  <label className="text-xs font-bold uppercase tracking-widest block mb-3 calc-text-muted">
                     Memory Allocation
                   </label>
                   <div className="grid grid-cols-3 gap-2">
@@ -385,7 +386,7 @@ export default function ServerlessCostCalculator() {
 
                 {/* Architecture */}
                 <div className="rounded-2xl p-5 calc-panel">
-                  <label className="text-xs font-bold uppercase tracking-widest block mb-3" style={{ color: 'var(--text-muted)' }}>
+                  <label className="text-xs font-bold uppercase tracking-widest block mb-3 calc-text-muted">
                     Lambda Architecture
                   </label>
                   <div className="grid grid-cols-2 gap-2">
@@ -402,7 +403,7 @@ export default function ServerlessCostCalculator() {
                     ))}
                   </div>
                   {arch === 'arm' && (
-                    <p className="mt-2 text-xs" style={{ color: '#4ade80' }}>
+                    <p className="mt-2 text-xs calc-text-green">
                       ✓ 20% cheaper compute, same free tier
                     </p>
                   )}
@@ -412,8 +413,8 @@ export default function ServerlessCostCalculator() {
                 <div className="rounded-2xl p-5 calc-panel">
                   <div className="flex items-center justify-between">
                     <div>
-                      <div className="text-sm font-semibold" style={{ color: 'var(--text-primary)' }}>Include Free Tier</div>
-                      <div className="text-xs mt-0.5" style={{ color: 'var(--text-muted)' }}>AWS/Azure: 1M req + 400K GB-sec free</div>
+                      <div className="text-sm font-semibold calc-text-primary">Include Free Tier</div>
+                      <div className="text-xs mt-0.5 calc-text-muted">AWS/Azure: 1M req + 400K GB-sec free</div>
                     </div>
                     <button onClick={() => setIncludeFree(!includeFree)}
                       className="w-12 h-6 rounded-full transition-all relative"
@@ -441,20 +442,20 @@ export default function ServerlessCostCalculator() {
                     <div className="space-y-2">
                       {provider.breakdown.map(b => (
                         <div key={b.label} className="flex justify-between text-xs">
-                          <span style={{ color: 'var(--text-muted)' }}>{b.label}</span>
-                          <span style={{ color: 'var(--text-secondary)' }}>{fmt(b.value)}</span>
+                          <span className="calc-text-muted">{b.label}</span>
+                          <span className="calc-text-secondary">{fmt(b.value)}</span>
                         </div>
                       ))}
-                      <div className="flex justify-between text-sm font-bold pt-2" style={{ borderTop: '1px solid var(--border-subtle)' }}>
-                        <span style={{ color: 'var(--text-primary)' }}>Total / month</span>
+                      <div className="flex justify-between text-sm font-bold pt-2 calc-border-top">
+                        <span className="calc-text-primary">Total / month</span>
                         <span style={{ color: provider.color }}>{fmt(provider.total)}</span>
                       </div>
                     </div>
                     {provider.note && (
-                      <p className="text-xs mt-2 italic" style={{ color: 'var(--text-muted)' }}>{provider.note}</p>
+                      <p className="text-xs mt-2 italic calc-text-muted">{provider.note}</p>
                     )}
                     {provider.freeTierNote && (
-                      <p className="text-xs mt-1" style={{ color: '#4ade80' }}>✓ {provider.freeTierNote}</p>
+                      <p className="text-xs mt-1 calc-text-green">✓ {provider.freeTierNote}</p>
                     )}
                   </div>
                 ))}
@@ -463,7 +464,7 @@ export default function ServerlessCostCalculator() {
           </div>
 
           {/* Right: Results */}
-          <div className="lg:col-span-3 space-y-6 lg:sticky lg:top-28">
+          <div className="md:col-span-1 lg:col-span-3 space-y-6 lg:sticky lg:top-28" aria-live="polite" role="region" aria-label="Calculation results">
             {/* Winner banner */}
             <div className="rounded-2xl p-6 relative overflow-hidden"
               style={{
@@ -473,24 +474,24 @@ export default function ServerlessCostCalculator() {
               <div className="absolute -top-10 -right-10 w-40 h-40 rounded-full blur-3xl opacity-20"
                 style={{ background: results.winner.color }} />
               <div className="relative">
-                <div className="text-xs font-bold uppercase tracking-[0.2em] mb-2" style={{ color: 'var(--text-muted)' }}>
+                <div className="text-xs font-bold uppercase tracking-[0.2em] mb-2 calc-text-muted">
                   Cheapest for your workload
                 </div>
                 <div className="text-3xl font-extrabold mb-1" style={{ fontFamily: 'var(--font-space-grotesk)', color: results.winner.color }}>
                   {results.winner.name}
                 </div>
-                <div className="text-4xl font-black" style={{ color: 'var(--text-primary)' }}>
+                <div className="text-4xl font-black calc-text-primary">
                   {fmt(results.winner.total)}<span className="text-lg font-normal text-secondary ml-1">/mo</span>
                 </div>
                 {results.winner.note && (
-                  <p className="text-sm mt-2" style={{ color: 'var(--text-secondary)' }}>{results.winner.note}</p>
+                  <p className="text-sm mt-2 calc-text-secondary">{results.winner.note}</p>
                 )}
               </div>
             </div>
 
             {/* Cost comparison bars */}
             <div className="rounded-2xl p-6 calc-panel">
-              <h3 className="text-xs font-bold uppercase tracking-[0.2em] mb-5" style={{ color: 'var(--text-muted)' }}>
+              <h3 className="text-xs font-bold uppercase tracking-[0.2em] mb-5 calc-text-muted">
                 Monthly Cost Comparison
               </h3>
               <div className="space-y-4">
@@ -503,13 +504,13 @@ export default function ServerlessCostCalculator() {
                         <div className="flex items-center gap-2">
                           {i === 0 && <span className="text-[10px] px-2 py-0.5 rounded-full font-bold"
                             style={{ background: '#4ade8020', color: '#4ade80', border: '1px solid #4ade8040' }}>CHEAPEST</span>}
-                          <span className="text-sm font-semibold" style={{ color: 'var(--text-primary)' }}>
+                          <span className="text-sm font-semibold calc-text-primary">
                             {provider.shortName}
                           </span>
                         </div>
                         <div className="flex items-center gap-3">
                           {i > 0 && (
-                            <span className="text-xs" style={{ color: '#f87171' }}>
+                            <span className="text-xs calc-text-red">
                               +{fmt(provider.total - results.winner.total)}/mo
                             </span>
                           )}
@@ -535,11 +536,11 @@ export default function ServerlessCostCalculator() {
                 <div className="flex items-start gap-3">
                   <span className="text-xl">💡</span>
                   <div>
-                    <div className="text-sm font-bold mb-1" style={{ color: 'var(--accent-cyan)' }}>
+                    <div className="text-sm font-bold mb-1 calc-text-cyan">
                       Switch to arm64 and save {Math.round((1 - results.lambdaArm.total / results.providers.find(p => p.shortName === 'Lambda')!.total) * 100)}%
                     </div>
-                    <div className="text-xs" style={{ color: 'var(--text-secondary)' }}>
-                      Lambda arm64 (Graviton2) costs <strong style={{ color: 'var(--text-primary)' }}>{fmt(results.lambdaArm.total)}/mo</strong> vs {fmt(results.providers.find(p => p.shortName === 'Lambda')!.total)}/mo for x86.
+                    <div className="text-xs calc-text-secondary">
+                      Lambda arm64 (Graviton2) costs <strong className="calc-text-primary">{fmt(results.lambdaArm.total)}/mo</strong> vs {fmt(results.providers.find(p => p.shortName === 'Lambda')!.total)}/mo for x86.
                       Same free tier, 20% cheaper compute. Most runtimes are fully supported (Node.js, Python, Java, Go).
                     </div>
                   </div>
@@ -549,7 +550,7 @@ export default function ServerlessCostCalculator() {
 
             {/* Annual projection */}
             <div className="rounded-2xl p-6 calc-panel">
-              <h3 className="text-xs font-bold uppercase tracking-[0.2em] mb-4" style={{ color: 'var(--text-muted)' }}>
+              <h3 className="text-xs font-bold uppercase tracking-[0.2em] mb-4 calc-text-muted">
                 Annual Cost Projection
               </h3>
               <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
@@ -565,7 +566,7 @@ export default function ServerlessCostCalculator() {
                     <div className="text-lg font-black" style={{ color: i === 0 ? p.color : 'var(--text-secondary)' }}>
                       {fmt(p.total * 12)}
                     </div>
-                    <div className="text-[10px]" style={{ color: 'var(--text-muted)' }}>per year</div>
+                    <div className="text-[10px] calc-text-muted">per year</div>
                   </div>
                 ))}
               </div>
@@ -573,7 +574,7 @@ export default function ServerlessCostCalculator() {
 
             {/* Use case guide */}
             <div className="rounded-2xl p-6 calc-panel">
-              <h3 className="text-xs font-bold uppercase tracking-[0.2em] mb-4" style={{ color: 'var(--text-muted)' }}>
+              <h3 className="text-xs font-bold uppercase tracking-[0.2em] mb-4 calc-text-muted">
                 When to Use Each Platform
               </h3>
               <div className="space-y-3">
@@ -588,7 +589,7 @@ export default function ServerlessCostCalculator() {
                     <span>{item.icon}</span>
                     <div>
                       <span className="text-xs font-bold" style={{ color: item.color }}>{item.name}: </span>
-                      <span className="text-xs" style={{ color: 'var(--text-secondary)' }}>{item.when}</span>
+                      <span className="text-xs calc-text-secondary">{item.when}</span>
                     </div>
                   </div>
                 ))}
@@ -603,10 +604,10 @@ export default function ServerlessCostCalculator() {
 
             {/* Pricing notes */}
             <div className="rounded-2xl p-5 calc-panel">
-              <div className="text-xs font-bold uppercase tracking-widest mb-2" style={{ color: 'var(--text-muted)' }}>
+              <div className="text-xs font-bold uppercase tracking-widest mb-2 calc-text-muted">
                 Pricing Notes
               </div>
-              <ul className="text-xs space-y-1.5" style={{ color: 'var(--text-muted)' }}>
+              <ul className="text-xs space-y-1.5 calc-text-muted">
                 <li>• AWS/Azure/GCP: us-east-1 / East US / us-east1 region, on-demand pricing</li>
                 <li>• Lambda duration billed in 1ms increments (rounded up)</li>
                 <li>• GCP Cloud Functions 2nd Gen: CPU + memory billed separately</li>
@@ -620,8 +621,8 @@ export default function ServerlessCostCalculator() {
         </div>
 
         {/* Related calculators */}
-        <section className="mt-16 pt-10" style={{ borderTop: '1px solid var(--border-subtle)' }}>
-          <h2 className="text-lg font-bold mb-5" style={{ fontFamily: 'var(--font-space-grotesk)', color: 'var(--text-secondary)' }}>
+        <section className="mt-16 pt-10 calc-border-top">
+          <h2 className="text-lg font-bold mb-5 calc-related-heading">
             Related Calculators
           </h2>
           <div className="grid sm:grid-cols-3 gap-4">
@@ -631,13 +632,11 @@ export default function ServerlessCostCalculator() {
               { href: '/calculators/nat-gateway', icon: '🔀', title: 'NAT Gateway Calculator', desc: 'Save 80–91% with VPC endpoints' },
             ].map(r => (
               <Link key={r.href} href={r.href}
-                className="group rounded-xl p-4 flex items-start gap-3 transition-all hover:-translate-y-0.5"
-                style={{ background: 'var(--bg-card)', border: '1px solid var(--border-subtle)' }}>
+                className="group rounded-xl p-4 flex items-start gap-3 transition-all hover:-translate-y-0.5 calc-panel">
                 <span className="text-2xl">{r.icon}</span>
                 <div>
-                  <div className="text-sm font-semibold mb-0.5 group-hover:text-cyan-400 transition-colors"
-                    style={{ color: 'var(--text-primary)' }}>{r.title}</div>
-                  <div className="text-xs" style={{ color: 'var(--text-muted)' }}>{r.desc}</div>
+                  <div className="text-sm font-semibold mb-0.5 group-hover:text-cyan-400 transition-colors calc-text-primary">{r.title}</div>
+                  <div className="text-xs calc-text-muted">{r.desc}</div>
                 </div>
               </Link>
             ))}

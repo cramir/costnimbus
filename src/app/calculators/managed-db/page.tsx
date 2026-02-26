@@ -196,8 +196,7 @@ export default function ManagedDBCalculator() {
       </div>
       {/* Hero */}
       <section className="max-w-4xl mx-auto px-6 pt-4 pb-8 text-center">
-        <span className="inline-block mb-4 text-xs font-bold uppercase tracking-[0.2em] px-5 py-2 rounded-full"
-          style={{ color: 'var(--accent-purple)', background: 'rgba(168,85,247,0.08)', border: '1px solid rgba(168,85,247,0.2)' }}>
+        <span className="inline-block mb-4 text-xs font-bold uppercase tracking-[0.2em] px-5 py-2 rounded-full calc-badge-purple">
           Calculator
         </span>
         <h1 className="text-4xl sm:text-5xl font-extrabold leading-tight mb-4"
@@ -209,24 +208,24 @@ export default function ManagedDBCalculator() {
           }}>
           Managed Database Cost Calculator
         </h1>
-        <p className="text-lg max-w-2xl mx-auto" style={{ color: 'var(--text-secondary)', lineHeight: 1.8 }}>
-          Compare real monthly costs: <strong style={{ color: 'var(--text-primary)' }}>RDS vs Aurora vs Aurora Serverless vs PlanetScale vs Neon.</strong> {' '}
+        <p className="text-lg max-w-2xl mx-auto calc-hero-subtitle">
+          Compare real monthly costs: <strong className="calc-text-primary">RDS vs Aurora vs Aurora Serverless vs PlanetScale vs Neon.</strong> {' '}
           See which managed database is actually cheapest for your workload.
         </p>
         {/* Breadcrumb */}
-        <div className="flex items-center justify-center gap-2 mt-4 text-xs" style={{ color: 'var(--text-muted)' }}>
+        <div className="flex items-center justify-center gap-2 mt-4 text-xs calc-text-muted">
           <Link href="/calculators" className="hover:text-cyan-400 transition-colors">← All Calculators</Link>
         </div>
       </section>
 
       {/* Main Layout */}
-      <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-[1fr_400px] gap-8">
+      <div className="max-w-7xl mx-auto px-6 grid md:grid-cols-2 lg:grid-cols-[1fr_400px] gap-8">
 
         {/* Left — Inputs */}
         <div className="space-y-6">
 
           {/* Tab toggle */}
-          <div className="flex gap-2 p-1 rounded-xl w-fit" style={{ background: 'var(--bg-card)', border: '1px solid var(--border-subtle)' }}>
+          <div className="flex gap-2 p-1 rounded-xl w-fit calc-panel">
             {(['inputs', 'breakdown'] as const).map(tab => (
               <button key={tab} onClick={() => setActiveTab(tab)}
                 className="px-5 py-2 rounded-lg text-sm font-semibold capitalize transition-all"
@@ -244,7 +243,7 @@ export default function ManagedDBCalculator() {
             <div className="space-y-5">
               {/* Instance Size */}
               <div className="rounded-2xl p-6 calc-panel">
-                <h3 className="text-sm font-bold uppercase tracking-[0.15em] mb-4" style={{ color: 'var(--accent-purple)' }}>
+                <h3 className="text-sm font-bold uppercase tracking-[0.15em] mb-4 calc-text-purple">
                   Instance Size
                 </h3>
                 <div className="space-y-2">
@@ -257,7 +256,7 @@ export default function ManagedDBCalculator() {
                         color: tierIdx === i ? 'var(--text-primary)' : 'var(--text-secondary)',
                       }}>
                       <span className="font-mono text-xs">{t.label}</span>
-                      <span className="float-right text-xs" style={{ color: 'var(--text-muted)' }}>
+                      <span className="float-right text-xs calc-text-muted">
                         RDS: {fmtD(t.rds)}/hr
                       </span>
                     </button>
@@ -267,7 +266,7 @@ export default function ManagedDBCalculator() {
 
               {/* Infrastructure Settings */}
               <div className="rounded-2xl p-6 calc-panel">
-                <h3 className="text-sm font-bold uppercase tracking-[0.15em] mb-5" style={{ color: 'var(--accent-purple)' }}>
+                <h3 className="text-sm font-bold uppercase tracking-[0.15em] mb-5 calc-text-purple">
                   Infrastructure Settings
                 </h3>
                 <div className="space-y-6">
@@ -275,7 +274,7 @@ export default function ManagedDBCalculator() {
                   {/* Storage */}
                   <div>
                     <div className="flex justify-between items-center mb-2">
-                      <label className="text-sm font-semibold" style={{ color: 'var(--text-secondary)' }}>Storage</label>
+                      <label className="text-sm font-semibold calc-text-secondary">Storage</label>
                       <span className="text-sm font-bold" style={{ color: 'var(--accent-purple)', fontFamily: 'var(--font-jetbrains-mono)' }}>
                         {storageGB} GB
                       </span>
@@ -283,8 +282,9 @@ export default function ManagedDBCalculator() {
                     <input type="range" min={10} max={10000} step={10} value={storageGB}
                       onChange={e => setStorageGB(+e.target.value)}
                       className={sliderClass}
+                      aria-label="Storage in gigabytes"
                       style={{ background: `linear-gradient(to right, var(--accent-purple) ${(storageGB - 10) / (10000 - 10) * 100}%, rgba(255,255,255,0.1) 0%)` }} />
-                    <div className="flex justify-between text-[10px] mt-1" style={{ color: 'var(--text-muted)' }}>
+                    <div className="flex justify-between text-[10px] mt-1 calc-text-muted">
                       <span>10 GB</span><span>10 TB</span>
                     </div>
                   </div>
@@ -292,7 +292,7 @@ export default function ManagedDBCalculator() {
                   {/* Hours */}
                   <div>
                     <div className="flex justify-between items-center mb-2">
-                      <label className="text-sm font-semibold" style={{ color: 'var(--text-secondary)' }}>Hours / Month</label>
+                      <label className="text-sm font-semibold calc-text-secondary">Hours / Month</label>
                       <span className="text-sm font-bold" style={{ color: 'var(--accent-purple)', fontFamily: 'var(--font-jetbrains-mono)' }}>
                         {hoursMonth} hrs
                       </span>
@@ -300,8 +300,9 @@ export default function ManagedDBCalculator() {
                     <input type="range" min={1} max={730} step={1} value={hoursMonth}
                       onChange={e => setHoursMonth(+e.target.value)}
                       className={sliderClass}
+                      aria-label="Hours per month"
                       style={{ background: `linear-gradient(to right, var(--accent-purple) ${(hoursMonth - 1) / 729 * 100}%, rgba(255,255,255,0.1) 0%)` }} />
-                    <div className="flex justify-between text-[10px] mt-1" style={{ color: 'var(--text-muted)' }}>
+                    <div className="flex justify-between text-[10px] mt-1 calc-text-muted">
                       <span>1 hr</span><span>730 hrs (full month)</span>
                     </div>
                   </div>
@@ -309,7 +310,7 @@ export default function ManagedDBCalculator() {
                   {/* Read Replicas */}
                   <div>
                     <div className="flex justify-between items-center mb-2">
-                      <label className="text-sm font-semibold" style={{ color: 'var(--text-secondary)' }}>Read Replicas</label>
+                      <label className="text-sm font-semibold calc-text-secondary">Read Replicas</label>
                       <span className="text-sm font-bold" style={{ color: 'var(--accent-purple)', fontFamily: 'var(--font-jetbrains-mono)' }}>
                         {replicaCount}
                       </span>
@@ -317,8 +318,9 @@ export default function ManagedDBCalculator() {
                     <input type="range" min={0} max={5} step={1} value={replicaCount}
                       onChange={e => setReplicaCount(+e.target.value)}
                       className={sliderClass}
+                      aria-label="Number of read replicas"
                       style={{ background: `linear-gradient(to right, var(--accent-purple) ${replicaCount / 5 * 100}%, rgba(255,255,255,0.1) 0%)` }} />
-                    <div className="flex justify-between text-[10px] mt-1" style={{ color: 'var(--text-muted)' }}>
+                    <div className="flex justify-between text-[10px] mt-1 calc-text-muted">
                       <span>0</span><span>5</span>
                     </div>
                   </div>
@@ -326,7 +328,7 @@ export default function ManagedDBCalculator() {
                   {/* I/O Millions */}
                   <div>
                     <div className="flex justify-between items-center mb-2">
-                      <label className="text-sm font-semibold" style={{ color: 'var(--text-secondary)' }}>I/O Requests</label>
+                      <label className="text-sm font-semibold calc-text-secondary">I/O Requests</label>
                       <span className="text-sm font-bold" style={{ color: 'var(--accent-purple)', fontFamily: 'var(--font-jetbrains-mono)' }}>
                         {ioMillions.toLocaleString()}M / month
                       </span>
@@ -334,17 +336,18 @@ export default function ManagedDBCalculator() {
                     <input type="range" min={1} max={2000} step={10} value={ioMillions}
                       onChange={e => setIoMillions(+e.target.value)}
                       className={sliderClass}
+                      aria-label="I/O requests in millions per month"
                       style={{ background: `linear-gradient(to right, var(--accent-purple) ${(ioMillions - 1) / 1999 * 100}%, rgba(255,255,255,0.1) 0%)` }} />
-                    <div className="flex justify-between text-[10px] mt-1" style={{ color: 'var(--text-muted)' }}>
+                    <div className="flex justify-between text-[10px] mt-1 calc-text-muted">
                       <span>1M</span><span>2,000M</span>
                     </div>
                   </div>
 
                   {/* Multi-AZ toggle */}
-                  <div className="flex items-center justify-between pt-2" style={{ borderTop: '1px solid var(--border-subtle)' }}>
+                  <div className="flex items-center justify-between pt-2 calc-border-top">
                     <div>
-                      <div className="text-sm font-semibold" style={{ color: 'var(--text-secondary)' }}>Multi-AZ Deployment</div>
-                      <div className="text-xs mt-0.5" style={{ color: 'var(--text-muted)' }}>High availability, 2× compute for RDS</div>
+                      <div className="text-sm font-semibold calc-text-secondary">Multi-AZ Deployment</div>
+                      <div className="text-xs mt-0.5 calc-text-muted">High availability, 2× compute for RDS</div>
                     </div>
                     <button onClick={() => setMultiAZ(!multiAZ)}
                       className="relative w-12 h-6 rounded-full transition-all flex-shrink-0"
@@ -361,29 +364,31 @@ export default function ManagedDBCalculator() {
                 <h3 className="text-sm font-bold uppercase tracking-[0.15em] mb-1" style={{ color: '#22c55e' }}>
                   PlanetScale Inputs
                 </h3>
-                <p className="text-xs mb-5" style={{ color: 'var(--text-muted)' }}>PlanetScale charges per row reads/writes, not compute time.</p>
+                <p className="text-xs mb-5 calc-text-muted">PlanetScale charges per row reads/writes, not compute time.</p>
                 <div className="space-y-5">
                   <div>
                     <div className="flex justify-between items-center mb-2">
-                      <label className="text-sm font-semibold" style={{ color: 'var(--text-secondary)' }}>Row Reads</label>
+                      <label className="text-sm font-semibold calc-text-secondary">Row Reads</label>
                       <span className="text-sm font-bold font-mono" style={{ color: '#22c55e' }}>{psRowReadsB}B / month</span>
                     </div>
                     <input type="range" min={1} max={1000} step={1} value={psRowReadsB}
                       onChange={e => setPsRowReadsB(+e.target.value)}
                       className={sliderClass}
+                      aria-label="PlanetScale row reads in billions per month"
                       style={{ background: `linear-gradient(to right, #22c55e ${(psRowReadsB - 1) / 999 * 100}%, rgba(255,255,255,0.1) 0%)` }} />
-                    <div className="flex justify-between text-[10px] mt-1" style={{ color: 'var(--text-muted)' }}><span>1B</span><span>1,000B</span></div>
+                    <div className="flex justify-between text-[10px] mt-1 calc-text-muted"><span>1B</span><span>1,000B</span></div>
                   </div>
                   <div>
                     <div className="flex justify-between items-center mb-2">
-                      <label className="text-sm font-semibold" style={{ color: 'var(--text-secondary)' }}>Row Writes</label>
+                      <label className="text-sm font-semibold calc-text-secondary">Row Writes</label>
                       <span className="text-sm font-bold font-mono" style={{ color: '#22c55e' }}>{psRowWritesM.toLocaleString()}M / month</span>
                     </div>
                     <input type="range" min={1} max={200000} step={100} value={psRowWritesM}
                       onChange={e => setPsRowWritesM(+e.target.value)}
                       className={sliderClass}
+                      aria-label="PlanetScale row writes in millions per month"
                       style={{ background: `linear-gradient(to right, #22c55e ${(psRowWritesM - 1) / 199999 * 100}%, rgba(255,255,255,0.1) 0%)` }} />
-                    <div className="flex justify-between text-[10px] mt-1" style={{ color: 'var(--text-muted)' }}><span>1M</span><span>200,000M</span></div>
+                    <div className="flex justify-between text-[10px] mt-1 calc-text-muted"><span>1M</span><span>200,000M</span></div>
                   </div>
                 </div>
               </div>
@@ -450,7 +455,7 @@ export default function ManagedDBCalculator() {
         </div>
 
         {/* Right — Results (sticky) */}
-        <div className="space-y-5 lg:self-start lg:sticky lg:top-28">
+        <div className="space-y-5 lg:self-start lg:sticky lg:top-28" aria-live="polite" role="region" aria-label="Calculation results">
           {/* Winner Banner */}
           <div className="rounded-2xl p-6 relative overflow-hidden"
             style={{
@@ -458,18 +463,18 @@ export default function ManagedDBCalculator() {
               border: `1px solid ${results.winner.color}40`,
             }}>
             <div className="absolute -top-8 -right-8 w-32 h-32 rounded-full blur-2xl opacity-20" style={{ background: results.winner.color }} />
-            <div className="text-xs font-bold uppercase tracking-[0.2em] mb-2" style={{ color: 'var(--text-muted)' }}>Cheapest For Your Workload</div>
+            <div className="text-xs font-bold uppercase tracking-[0.2em] mb-2 calc-text-muted">Cheapest For Your Workload</div>
             <div className="text-2xl font-extrabold mb-1 relative" style={{ fontFamily: 'var(--font-space-grotesk)', color: results.winner.color }}>
               {results.winner.name}
             </div>
-            <div className="text-3xl font-black relative" style={{ fontFamily: 'var(--font-space-grotesk)', color: 'var(--text-primary)' }}>
-              {fmt(results.winner.total)}<span className="text-base font-normal ml-1" style={{ color: 'var(--text-muted)' }}>/mo</span>
+            <div className="text-3xl font-black relative calc-heading-primary">
+              {fmt(results.winner.total)}<span className="text-base font-normal ml-1 calc-text-muted">/mo</span>
             </div>
           </div>
 
           {/* Bar Chart */}
           <div className="rounded-2xl p-6 calc-panel">
-            <h3 className="text-xs font-bold uppercase tracking-[0.15em] mb-4" style={{ color: 'var(--text-muted)' }}>
+            <h3 className="text-xs font-bold uppercase tracking-[0.15em] mb-4 calc-text-muted">
               Monthly Cost Comparison
             </h3>
             <div className="space-y-3">
@@ -503,12 +508,12 @@ export default function ManagedDBCalculator() {
 
           {/* Annual Projection */}
           <div className="rounded-2xl p-5 calc-panel">
-            <h3 className="text-xs font-bold uppercase tracking-[0.15em] mb-4" style={{ color: 'var(--text-muted)' }}>Annual Cost</h3>
+            <h3 className="text-xs font-bold uppercase tracking-[0.15em] mb-4 calc-text-muted">Annual Cost</h3>
             <div className="grid grid-cols-2 gap-3">
               {providers.map(p => (
                 <div key={p.name} className="rounded-xl p-3 text-center"
                   style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid var(--border-subtle)' }}>
-                  <div className="text-[10px] mb-1" style={{ color: 'var(--text-muted)' }}>{p.name.split(' ')[0]}</div>
+                  <div className="text-[10px] mb-1 calc-text-muted">{p.name.split(' ')[0]}</div>
                   <div className="text-sm font-bold" style={{ color: p.color, fontFamily: 'var(--font-jetbrains-mono)' }}>
                     {fmt(p.total * 12)}
                   </div>
@@ -519,7 +524,7 @@ export default function ManagedDBCalculator() {
 
           {/* Use Case Guide */}
           <div className="rounded-2xl p-5 calc-panel">
-            <h3 className="text-xs font-bold uppercase tracking-[0.15em] mb-4" style={{ color: 'var(--text-muted)' }}>When to Use Each</h3>
+            <h3 className="text-xs font-bold uppercase tracking-[0.15em] mb-4 calc-text-muted">When to Use Each</h3>
             <div className="space-y-2 text-xs calc-desc">
               <div><span style={{ color: '#f97316' }}>● RDS</span> — Stable load, broad engine support, lift-and-shift. Best if you need Oracle, MSSQL.</div>
               <div><span style={{ color: '#a855f7' }}>● Aurora</span> — 5× faster than RDS MySQL, global clusters, demanding OLTP workloads.</div>
@@ -534,8 +539,8 @@ export default function ManagedDBCalculator() {
             className="block rounded-2xl p-5"
             style={{ background: 'rgba(168,85,247,0.06)', border: '1px solid rgba(168,85,247,0.2)', textDecoration: 'none', transition: 'all 0.2s ease' }}>
             <div className="text-xs font-bold uppercase tracking-[0.15em] mb-1" style={{ color: '#a855f7' }}>DEEP DIVE</div>
-            <div className="text-sm font-semibold mb-1" style={{ color: 'var(--text-primary)' }}>RDS vs Aurora: The Real Cost Difference</div>
-            <div className="text-xs" style={{ color: 'var(--text-muted)' }}>
+            <div className="text-sm font-semibold mb-1 calc-text-primary">RDS vs Aurora: The Real Cost Difference</div>
+            <div className="text-xs calc-text-muted">
               When Aurora saves money vs when RDS wins — with real Q1 2026 pricing and I/O math →
             </div>
           </Link>
@@ -547,7 +552,7 @@ export default function ManagedDBCalculator() {
           />
 
           {/* Pricing note */}
-          <p className="text-[10px] leading-relaxed" style={{ color: 'var(--text-muted)' }}>
+          <p className="text-[10px] leading-relaxed calc-text-muted">
             Prices: Q1 2026, us-east-1 / on-demand. RDS gp2 storage. Aurora I/O pricing mode.
             PlanetScale Scaler Pro. Neon Scale plan. Egress not included.{' '}
             <Link href="/resources" className="hover:text-cyan-400 underline transition-colors">Methodology →</Link>
@@ -578,14 +583,14 @@ function CostBreakdownCard({
           <span className="font-bold text-sm" style={{ color, fontFamily: 'var(--font-space-grotesk)' }}>{name}</span>
         </div>
         <span className="text-lg font-black" style={{ color, fontFamily: 'var(--font-jetbrains-mono)' }}>
-          {fmt(total)}<span className="text-xs font-normal ml-1" style={{ color: 'var(--text-muted)' }}>/mo</span>
+          {fmt(total)}<span className="text-xs font-normal ml-1 calc-text-muted">/mo</span>
         </span>
       </div>
-      {note && <p className="text-xs mb-3 italic" style={{ color: 'var(--text-muted)' }}>{note}</p>}
+      {note && <p className="text-xs mb-3 italic calc-text-muted">{note}</p>}
       <div className="space-y-1">
         {rows.map(r => (
-          <div key={r.label} className="flex justify-between items-center text-xs py-1" style={{ borderBottom: '1px solid var(--border-subtle)' }}>
-            <span style={{ color: 'var(--text-secondary)' }}>{r.label}</span>
+          <div key={r.label} className="flex justify-between items-center text-xs py-1 calc-border-row">
+            <span className="calc-text-secondary">{r.label}</span>
             <span style={{ color: r.value === 0 ? 'var(--text-muted)' : 'var(--text-primary)', fontFamily: 'var(--font-jetbrains-mono)' }}>
               {r.value === 0 ? 'free' : fmt(r.value)}
             </span>

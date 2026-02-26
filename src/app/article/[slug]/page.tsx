@@ -107,10 +107,10 @@ export default async function ArticlePage({ params }: PageProps) {
         <header style={{ marginBottom: '4rem' }}>
           <h1 className="article-title">{article.title}</h1>
           <p className="article-description">{article.description}</p>
-          <div className="article-meta">
-            <span className="article-meta-badge article-meta-badge-cyan">{article.readTime} read</span>
-            <span className="article-meta-badge article-meta-badge-purple">{article.category}</span>
-          </div>
+          <ul className="article-meta" role="list">
+            <li className="article-meta-badge article-meta-badge-cyan">{article.readTime} read</li>
+            <li className="article-meta-badge article-meta-badge-purple">{article.category}</li>
+          </ul>
         </header>
 
         <TableOfContents markdown={article.content} />
