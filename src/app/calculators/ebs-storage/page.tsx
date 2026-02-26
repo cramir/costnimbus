@@ -179,7 +179,7 @@ export default function EBSStorageCalculator() {
   const maxCost = Math.max(...results.costs.map(c => c.total));
 
   return (
-    <main className="min-h-screen pt-28 pb-20" style={{ background: 'var(--bg-primary)' }}>
+    <main className="min-h-screen pt-28 pb-20 calc-main">
       <div className="max-w-7xl mx-auto px-6">
         <Breadcrumb items={[
           { label: 'Calculators', href: '/calculators' },
@@ -201,7 +201,7 @@ export default function EBSStorageCalculator() {
             }}>
             gp3 vs gp2 vs io2 vs Azure vs GCP
           </h1>
-          <p className="text-lg max-w-2xl" style={{ color: 'var(--text-secondary)', lineHeight: 1.7 }}>
+          <p className="text-lg max-w-2xl calc-desc">
             Compare monthly costs across AWS EBS volume types, Azure Managed Disks, and GCP Persistent Disks.
             gp3 saves ~20% vs gp2 at baseline — enter your specs and see your exact number.
           </p>
@@ -211,7 +211,7 @@ export default function EBSStorageCalculator() {
           {/* Left: Inputs */}
           <div className="lg:col-span-2 space-y-5">
             {/* Storage Size */}
-            <div className="rounded-2xl p-5" style={{ background: 'var(--bg-card)', border: '1px solid var(--border-subtle)' }}>
+            <div className="rounded-2xl p-5 calc-panel">
               <div className="flex justify-between items-center mb-3">
                 <label className="text-xs font-bold uppercase tracking-widest" style={{ color: 'var(--text-muted)' }}>
                   Storage Size
@@ -238,7 +238,7 @@ export default function EBSStorageCalculator() {
             </div>
 
             {/* IOPS */}
-            <div className="rounded-2xl p-5" style={{ background: 'var(--bg-card)', border: '1px solid var(--border-subtle)' }}>
+            <div className="rounded-2xl p-5 calc-panel">
               <div className="flex justify-between items-center mb-3">
                 <label className="text-xs font-bold uppercase tracking-widest" style={{ color: 'var(--text-muted)' }}>
                   Provisioned IOPS
@@ -268,7 +268,7 @@ export default function EBSStorageCalculator() {
             </div>
 
             {/* Throughput */}
-            <div className="rounded-2xl p-5" style={{ background: 'var(--bg-card)', border: '1px solid var(--border-subtle)' }}>
+            <div className="rounded-2xl p-5 calc-panel">
               <div className="flex justify-between items-center mb-3">
                 <label className="text-xs font-bold uppercase tracking-widest" style={{ color: 'var(--text-muted)' }}>
                   Throughput (MB/s)
@@ -298,7 +298,7 @@ export default function EBSStorageCalculator() {
             </div>
 
             {/* Number of Volumes */}
-            <div className="rounded-2xl p-5" style={{ background: 'var(--bg-card)', border: '1px solid var(--border-subtle)' }}>
+            <div className="rounded-2xl p-5 calc-panel">
               <div className="flex justify-between items-center mb-3">
                 <label className="text-xs font-bold uppercase tracking-widest" style={{ color: 'var(--text-muted)' }}>
                   Number of Volumes
@@ -325,7 +325,7 @@ export default function EBSStorageCalculator() {
             </div>
 
             {/* Hours/month */}
-            <div className="rounded-2xl p-5" style={{ background: 'var(--bg-card)', border: '1px solid var(--border-subtle)' }}>
+            <div className="rounded-2xl p-5 calc-panel">
               <div className="flex justify-between items-center mb-3">
                 <label className="text-xs font-bold uppercase tracking-widest" style={{ color: 'var(--text-muted)' }}>
                   Hours / Month
@@ -352,7 +352,7 @@ export default function EBSStorageCalculator() {
             </div>
 
             {/* Config summary */}
-            <div className="rounded-2xl p-5" style={{ background: 'rgba(0,212,255,0.04)', border: '1px solid rgba(0,212,255,0.15)' }}>
+            <div className="rounded-2xl p-5 calc-highlight">
               <div className="text-xs font-bold uppercase tracking-widest mb-2" style={{ color: 'var(--accent-cyan)' }}>
                 Configuration
               </div>
@@ -400,8 +400,7 @@ export default function EBSStorageCalculator() {
             )}
 
             {/* io2 vs io1 note */}
-            <div className="rounded-2xl p-4"
-              style={{ background: 'rgba(0,212,255,0.04)', border: '1px solid rgba(0,212,255,0.15)' }}>
+            <div className="rounded-2xl p-4 calc-highlight">
               <div className="flex items-center gap-3">
                 <span className="text-xl">📌</span>
                 <div className="text-xs" style={{ color: 'var(--text-secondary)' }}>
@@ -411,7 +410,7 @@ export default function EBSStorageCalculator() {
             </div>
 
             {/* Sorted bar chart */}
-            <div className="rounded-2xl p-6" style={{ background: 'var(--bg-card)', border: '1px solid var(--border-subtle)' }}>
+            <div className="rounded-2xl p-6 calc-panel">
               <h3 className="text-xs font-bold uppercase tracking-[0.2em] mb-5" style={{ color: 'var(--text-muted)' }}>
                 Monthly Cost by Volume Type (sorted cheapest first)
               </h3>
@@ -437,7 +436,7 @@ export default function EBSStorageCalculator() {
                           {fmt(vol.total)}/mo
                         </span>
                       </div>
-                      <div className="h-2.5 rounded-full overflow-hidden" style={{ background: 'var(--bg-tertiary)' }}>
+                      <div className="h-2.5 rounded-full overflow-hidden calc-bar-bg">
                         <div className="h-full rounded-full transition-all duration-700"
                           style={{ width: `${Math.max(2, pct)}%`, background: isCheapest ? '#4ade80' : barColor + 'AA' }} />
                       </div>
@@ -452,7 +451,7 @@ export default function EBSStorageCalculator() {
             </div>
 
             {/* Annual projection by provider */}
-            <div className="rounded-2xl p-6" style={{ background: 'var(--bg-card)', border: '1px solid var(--border-subtle)' }}>
+            <div className="rounded-2xl p-6 calc-panel">
               <h3 className="text-xs font-bold uppercase tracking-[0.2em] mb-4" style={{ color: 'var(--text-muted)' }}>
                 Annual Projection by Provider
               </h3>
@@ -485,7 +484,7 @@ export default function EBSStorageCalculator() {
             </div>
 
             {/* Decision guide */}
-            <div className="rounded-2xl p-6" style={{ background: 'var(--bg-card)', border: '1px solid var(--border-subtle)' }}>
+            <div className="rounded-2xl p-6 calc-panel">
               <h3 className="text-xs font-bold uppercase tracking-[0.2em] mb-4" style={{ color: 'var(--text-muted)' }}>
                 Best For... Decision Guide
               </h3>
@@ -498,8 +497,7 @@ export default function EBSStorageCalculator() {
                   { color: '#0078D4', label: 'Azure Premium v2', text: 'Azure workloads needing flexible IOPS/throughput tuning, like gp3 on AWS.' },
                   { color: '#4285F4', label: 'GCP PD-Balanced', text: 'GCP general purpose with solid included IOPS. Good default choice.' },
                 ].map(item => (
-                  <div key={item.label} className="flex items-start gap-3 p-3 rounded-xl"
-                    style={{ background: 'var(--bg-tertiary)' }}>
+                  <div key={item.label} className="flex items-start gap-3 p-3 rounded-xl calc-bar-bg">
                     <div className="w-2.5 h-2.5 rounded-full mt-1 flex-shrink-0" style={{ background: item.color }} />
                     <div>
                       <span className="text-xs font-bold" style={{ color: item.color }}>{item.label}: </span>
@@ -517,7 +515,7 @@ export default function EBSStorageCalculator() {
             />
 
             {/* Pricing notes */}
-            <div className="rounded-2xl p-5" style={{ background: 'var(--bg-card)', border: '1px solid var(--border-subtle)' }}>
+            <div className="rounded-2xl p-5 calc-panel">
               <div className="text-xs font-bold uppercase tracking-widest mb-2" style={{ color: 'var(--text-muted)' }}>
                 Pricing Notes
               </div>

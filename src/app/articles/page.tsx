@@ -11,7 +11,7 @@ export default function ArticlesPage() {
   const articles = getAllArticles(); // already sorted newest first
 
   return (
-    <main className="min-h-screen pt-28 pb-20" style={{ background: 'var(--bg-primary)' }}>
+    <main className="calc-main min-h-screen pt-28 pb-20">
       {/* Hero */}
       <section className="max-w-4xl mx-auto px-6 pt-10 pb-12 text-center">
         <span

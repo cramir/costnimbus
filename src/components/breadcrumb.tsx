@@ -11,60 +11,42 @@ interface BreadcrumbProps {
   items: BreadcrumbItem[];
 }
 
+function buildJsonLd(items: BreadcrumbItem[]) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: items.map((item, idx) => ({
+      '@type': 'ListItem',
+      position: idx + 1,
+      name: item.label,
+      ...(item.href ? { item: `https://costnimbus.com${item.href}` } : {}),
+    })),
+  };
+}
+
 export default function Breadcrumb({ items }: BreadcrumbProps) {
   return (
-    <nav
-      aria-label="Breadcrumb"
-      style={{
-        display: 'flex',
-        alignItems: 'center',
-        gap: '0.35rem',
-        flexWrap: 'wrap',
-        marginBottom: '1.5rem',
-      }}
-    >
-      {items.map((item, idx) => (
-        <span key={idx} style={{ display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
-          {idx > 0 && (
-            <span style={{
-              color: 'var(--text-muted)',
-              fontSize: '0.75rem',
-              userSelect: 'none',
-            }}>›</span>
-          )}
-          {item.href ? (
-            <Link
-              href={item.href}
-              style={{
-                fontFamily: 'var(--font-nunito)',
-                fontSize: '0.8rem',
-                fontWeight: 600,
-                color: 'var(--text-muted)',
-                textDecoration: 'none',
-                transition: 'color 0.2s ease',
-                letterSpacing: '0.02em',
-              }}
-              onMouseEnter={(e) => e.currentTarget.style.color = 'var(--accent-cyan)'}
-              onMouseLeave={(e) => e.currentTarget.style.color = 'var(--text-muted)'}
-            >
-              {item.label}
-            </Link>
-          ) : (
-            <span
-              style={{
-                fontFamily: 'var(--font-nunito)',
-                fontSize: '0.8rem',
-                fontWeight: 600,
-                color: 'var(--text-secondary)',
-                letterSpacing: '0.02em',
-              }}
-              aria-current="page"
-            >
-              {item.label}
-            </span>
-          )}
-        </span>
-      ))}
-    </nav>
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(buildJsonLd(items)) }}
+      />
+      <nav aria-label="Breadcrumb" className="breadcrumb">
+        {items.map((item, idx) => (
+          <span key={idx} style={{ display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
+            {idx > 0 && <span className="breadcrumb-separator">›</span>}
+            {item.href ? (
+              <Link href={item.href} className="breadcrumb-link">
+                {item.label}
+              </Link>
+            ) : (
+              <span className="breadcrumb-current" aria-current="page">
+                {item.label}
+              </span>
+            )}
+          </span>
+        ))}
+      </nav>
+    </>
   );
 }

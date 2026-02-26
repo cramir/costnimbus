@@ -64,7 +64,7 @@ export default function NatGatewayCalculator() {
   const fmtK = (n: number) => n >= 1000 ? `$${(n / 1000).toFixed(1)}k` : fmt(n);
 
   return (
-    <main className="min-h-screen pt-28 pb-20" style={{ background: 'var(--bg-primary)' }}>
+    <main className="min-h-screen pt-28 pb-20 calc-main">
       <div className="max-w-4xl mx-auto px-6 pt-6">
         <Breadcrumb items={[{ label: 'Home', href: '/' }, { label: 'Calculators', href: '/calculators' }, { label: 'NAT Gateway' }]} />
       </div>
@@ -252,7 +252,7 @@ export default function NatGatewayCalculator() {
           </div>
 
           {/* Savings Bar */}
-          <div className="rounded-2xl p-6" style={{ background: 'var(--bg-card)', border: '1px solid var(--border-subtle)' }}>
+          <div className="rounded-2xl p-6 calc-panel">
             <div className="text-xs font-bold uppercase tracking-[0.2em] mb-4" style={{ color: 'var(--text-muted)' }}>
               Savings Breakdown
             </div>
@@ -264,7 +264,7 @@ export default function NatGatewayCalculator() {
           </div>
 
           {/* Steps */}
-          <div className="rounded-2xl p-6" style={{ background: 'var(--bg-card)', border: '1px solid var(--border-subtle)' }}>
+          <div className="rounded-2xl p-6 calc-panel">
             <div className="text-xs font-bold uppercase tracking-[0.2em] mb-4" style={{ color: 'var(--text-muted)' }}>
               How to Get There
             </div>
@@ -449,7 +449,7 @@ function InfoCards() {
   return (
     <div className="grid md:grid-cols-3 gap-6">
       {cards.map(({ title, body, icon }) => (
-        <div key={title} className="rounded-2xl p-6" style={{ background: 'var(--bg-card)', border: '1px solid var(--border-subtle)' }}>
+        <div key={title} className="rounded-2xl p-6 calc-panel">
           <div className="text-3xl mb-4">{icon}</div>
           <h3 className="font-bold mb-3" style={{ fontFamily: 'var(--font-space-grotesk)', color: 'var(--text-primary)' }}>{title}</h3>
           <p className="text-sm leading-relaxed" style={{ color: 'var(--text-secondary)' }}>{body}</p>

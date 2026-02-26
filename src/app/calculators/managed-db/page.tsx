@@ -168,7 +168,7 @@ export default function ManagedDBCalculator() {
   const sliderClass = "w-full h-1.5 rounded-full appearance-none cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-cyan-400 [&::-webkit-slider-thumb]:cursor-pointer";
 
   return (
-    <main className="min-h-screen pt-28 pb-20" style={{ background: 'var(--bg-primary)' }}>
+    <main className="min-h-screen pt-28 pb-20 calc-main">
       <div className="max-w-4xl mx-auto px-6 pt-6">
         <Breadcrumb items={[{ label: 'Home', href: '/' }, { label: 'Calculators', href: '/calculators' }, { label: 'Managed Database' }]} />
       </div>
@@ -221,7 +221,7 @@ export default function ManagedDBCalculator() {
           {activeTab === 'inputs' && (
             <div className="space-y-5">
               {/* Instance Size */}
-              <div className="rounded-2xl p-6" style={{ background: 'var(--bg-card)', border: '1px solid var(--border-subtle)' }}>
+              <div className="rounded-2xl p-6 calc-panel">
                 <h3 className="text-sm font-bold uppercase tracking-[0.15em] mb-4" style={{ color: 'var(--accent-purple)' }}>
                   Instance Size
                 </h3>
@@ -244,7 +244,7 @@ export default function ManagedDBCalculator() {
               </div>
 
               {/* Infrastructure Settings */}
-              <div className="rounded-2xl p-6" style={{ background: 'var(--bg-card)', border: '1px solid var(--border-subtle)' }}>
+              <div className="rounded-2xl p-6 calc-panel">
                 <h3 className="text-sm font-bold uppercase tracking-[0.15em] mb-5" style={{ color: 'var(--accent-purple)' }}>
                   Infrastructure Settings
                 </h3>
@@ -446,7 +446,7 @@ export default function ManagedDBCalculator() {
           </div>
 
           {/* Bar Chart */}
-          <div className="rounded-2xl p-6" style={{ background: 'var(--bg-card)', border: '1px solid var(--border-subtle)' }}>
+          <div className="rounded-2xl p-6 calc-panel">
             <h3 className="text-xs font-bold uppercase tracking-[0.15em] mb-4" style={{ color: 'var(--text-muted)' }}>
               Monthly Cost Comparison
             </h3>
@@ -480,7 +480,7 @@ export default function ManagedDBCalculator() {
           </div>
 
           {/* Annual Projection */}
-          <div className="rounded-2xl p-5" style={{ background: 'var(--bg-card)', border: '1px solid var(--border-subtle)' }}>
+          <div className="rounded-2xl p-5 calc-panel">
             <h3 className="text-xs font-bold uppercase tracking-[0.15em] mb-4" style={{ color: 'var(--text-muted)' }}>Annual Cost</h3>
             <div className="grid grid-cols-2 gap-3">
               {providers.map(p => (
@@ -496,9 +496,9 @@ export default function ManagedDBCalculator() {
           </div>
 
           {/* Use Case Guide */}
-          <div className="rounded-2xl p-5" style={{ background: 'var(--bg-card)', border: '1px solid var(--border-subtle)' }}>
+          <div className="rounded-2xl p-5 calc-panel">
             <h3 className="text-xs font-bold uppercase tracking-[0.15em] mb-4" style={{ color: 'var(--text-muted)' }}>When to Use Each</h3>
-            <div className="space-y-2 text-xs" style={{ color: 'var(--text-secondary)', lineHeight: 1.7 }}>
+            <div className="space-y-2 text-xs calc-desc">
               <div><span style={{ color: '#f97316' }}>● RDS</span> — Stable load, broad engine support, lift-and-shift. Best if you need Oracle, MSSQL.</div>
               <div><span style={{ color: '#a855f7' }}>● Aurora</span> — 5× faster than RDS MySQL, global clusters, demanding OLTP workloads.</div>
               <div><span style={{ color: '#8b5cf6' }}>● Aurora Serverless</span> — Variable/bursty traffic, dev environments, scale-to-zero need.</div>

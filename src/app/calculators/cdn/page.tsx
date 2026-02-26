@@ -240,7 +240,7 @@ export default function CDNCostCalculator() {
   }
 
   return (
-    <main className="min-h-screen pt-28 pb-20" style={{ background: 'var(--bg-primary)' }}>
+    <main className="min-h-screen pt-28 pb-20 calc-main">
       <div className="max-w-7xl mx-auto px-6">
         <Breadcrumb items={[
           { label: 'Calculators', href: '/calculators' },
@@ -262,7 +262,7 @@ export default function CDNCostCalculator() {
             }}>
             CloudFront vs Cloudflare vs BunnyCDN
           </h1>
-          <p className="text-lg max-w-2xl" style={{ color: 'var(--text-secondary)', lineHeight: 1.7 }}>
+          <p className="text-lg max-w-2xl calc-desc">
             Compare monthly CDN costs across 6 providers. Cloudflare&apos;s zero-egress model
             changes the math at scale — enter your bandwidth and see exactly when.
           </p>
@@ -272,7 +272,7 @@ export default function CDNCostCalculator() {
           {/* Left: Inputs */}
           <div className="lg:col-span-2 space-y-5">
             {/* Quick-pick presets */}
-            <div className="rounded-2xl p-5" style={{ background: 'var(--bg-card)', border: '1px solid var(--border-subtle)' }}>
+            <div className="rounded-2xl p-5 calc-panel">
               <label className="text-xs font-bold uppercase tracking-widest block mb-3" style={{ color: 'var(--text-muted)' }}>
                 Quick Presets
               </label>
@@ -295,7 +295,7 @@ export default function CDNCostCalculator() {
             </div>
 
             {/* Monthly Bandwidth */}
-            <div className="rounded-2xl p-5" style={{ background: 'var(--bg-card)', border: '1px solid var(--border-subtle)' }}>
+            <div className="rounded-2xl p-5 calc-panel">
               <div className="flex justify-between items-center mb-3">
                 <label className="text-xs font-bold uppercase tracking-widest" style={{ color: 'var(--text-muted)' }}>
                   Monthly Bandwidth
@@ -314,7 +314,7 @@ export default function CDNCostCalculator() {
             </div>
 
             {/* HTTP Requests */}
-            <div className="rounded-2xl p-5" style={{ background: 'var(--bg-card)', border: '1px solid var(--border-subtle)' }}>
+            <div className="rounded-2xl p-5 calc-panel">
               <div className="flex justify-between items-center mb-3">
                 <label className="text-xs font-bold uppercase tracking-widest" style={{ color: 'var(--text-muted)' }}>
                   HTTP Requests / Month
@@ -333,7 +333,7 @@ export default function CDNCostCalculator() {
             </div>
 
             {/* Cache Hit Ratio */}
-            <div className="rounded-2xl p-5" style={{ background: 'var(--bg-card)', border: '1px solid var(--border-subtle)' }}>
+            <div className="rounded-2xl p-5 calc-panel">
               <div className="flex justify-between items-center mb-3">
                 <label className="text-xs font-bold uppercase tracking-widest" style={{ color: 'var(--text-muted)' }}>
                   Cache Hit Ratio
@@ -364,7 +364,7 @@ export default function CDNCostCalculator() {
             </div>
 
             {/* Config summary */}
-            <div className="rounded-2xl p-5" style={{ background: 'rgba(0,212,255,0.04)', border: '1px solid rgba(0,212,255,0.15)' }}>
+            <div className="rounded-2xl p-5 calc-highlight">
               <div className="text-xs font-bold uppercase tracking-widest mb-2" style={{ color: 'var(--accent-cyan)' }}>
                 Configuration
               </div>
@@ -426,7 +426,7 @@ export default function CDNCostCalculator() {
             )}
 
             {/* Sorted bar chart */}
-            <div className="rounded-2xl p-6" style={{ background: 'var(--bg-card)', border: '1px solid var(--border-subtle)' }}>
+            <div className="rounded-2xl p-6 calc-panel">
               <h3 className="text-xs font-bold uppercase tracking-[0.2em] mb-5" style={{ color: 'var(--text-muted)' }}>
                 Monthly CDN Cost (sorted cheapest first)
               </h3>
@@ -447,7 +447,7 @@ export default function CDNCostCalculator() {
                           {fmt(provider.monthly)}/mo
                         </span>
                       </div>
-                      <div className="h-2.5 rounded-full overflow-hidden" style={{ background: 'var(--bg-tertiary)' }}>
+                      <div className="h-2.5 rounded-full overflow-hidden calc-bar-bg">
                         <div className="h-full rounded-full transition-all duration-700"
                           style={{ width: `${Math.max(2, pct)}%`, background: isCheapest ? '#4ade80' : provider.color + 'AA' }} />
                       </div>
@@ -466,7 +466,7 @@ export default function CDNCostCalculator() {
             </div>
 
             {/* Annual projection grid */}
-            <div className="rounded-2xl p-6" style={{ background: 'var(--bg-card)', border: '1px solid var(--border-subtle)' }}>
+            <div className="rounded-2xl p-6 calc-panel">
               <h3 className="text-xs font-bold uppercase tracking-[0.2em] mb-4" style={{ color: 'var(--text-muted)' }}>
                 Annual Cost Projection
               </h3>
@@ -498,14 +498,13 @@ export default function CDNCostCalculator() {
             </div>
 
             {/* When to use guide */}
-            <div className="rounded-2xl p-6" style={{ background: 'var(--bg-card)', border: '1px solid var(--border-subtle)' }}>
+            <div className="rounded-2xl p-6 calc-panel">
               <h3 className="text-xs font-bold uppercase tracking-[0.2em] mb-4" style={{ color: 'var(--text-muted)' }}>
                 When to Use Each Provider
               </h3>
               <div className="space-y-3">
                 {results.providers.map(p => (
-                  <div key={p.name} className="flex items-start gap-3 p-3 rounded-xl"
-                    style={{ background: 'var(--bg-tertiary)' }}>
+                  <div key={p.name} className="flex items-start gap-3 p-3 rounded-xl calc-bar-bg">
                     <div className="w-2.5 h-2.5 rounded-full mt-1 flex-shrink-0" style={{ background: p.color }} />
                     <div>
                       <span className="text-xs font-bold" style={{ color: p.color }}>{p.name}: </span>
@@ -544,7 +543,7 @@ export default function CDNCostCalculator() {
             />
 
             {/* Pricing notes */}
-            <div className="rounded-2xl p-5" style={{ background: 'var(--bg-card)', border: '1px solid var(--border-subtle)' }}>
+            <div className="rounded-2xl p-5 calc-panel">
               <div className="text-xs font-bold uppercase tracking-widest mb-2" style={{ color: 'var(--text-muted)' }}>
                 Pricing Notes
               </div>

@@ -238,7 +238,7 @@ export default function ServerlessCostCalculator() {
   const maxCost = Math.max(...results.providers.map(p => p.total));
 
   return (
-    <main className="min-h-screen pt-28 pb-20" style={{ background: 'var(--bg-primary)' }}>
+    <main className="min-h-screen pt-28 pb-20 calc-main">
       <div className="max-w-7xl mx-auto px-6">
         <Breadcrumb items={[
           { label: 'Calculators', href: '/calculators' },
@@ -260,7 +260,7 @@ export default function ServerlessCostCalculator() {
             }}>
             AWS Lambda vs Azure Functions<br />vs GCP vs Cloudflare Workers
           </h1>
-          <p className="text-lg max-w-2xl" style={{ color: 'var(--text-secondary)', lineHeight: 1.7 }}>
+          <p className="text-lg max-w-2xl calc-desc">
             Real monthly cost comparison across all major serverless platforms. Enter your workload and see which provider wins for your specific invocation + duration mix.
           </p>
         </div>
@@ -286,7 +286,7 @@ export default function ServerlessCostCalculator() {
             {activeTab === 'inputs' && (
               <div className="space-y-5">
                 {/* Requests/month */}
-                <div className="rounded-2xl p-5" style={{ background: 'var(--bg-card)', border: '1px solid var(--border-subtle)' }}>
+                <div className="rounded-2xl p-5 calc-panel">
                   <div className="flex justify-between items-center mb-3">
                     <label className="text-xs font-bold uppercase tracking-widest" style={{ color: 'var(--text-muted)' }}>
                       Requests / Month
@@ -314,7 +314,7 @@ export default function ServerlessCostCalculator() {
                 </div>
 
                 {/* Duration */}
-                <div className="rounded-2xl p-5" style={{ background: 'var(--bg-card)', border: '1px solid var(--border-subtle)' }}>
+                <div className="rounded-2xl p-5 calc-panel">
                   <div className="flex justify-between items-center mb-3">
                     <label className="text-xs font-bold uppercase tracking-widest" style={{ color: 'var(--text-muted)' }}>
                       Avg Duration (ms)
@@ -342,7 +342,7 @@ export default function ServerlessCostCalculator() {
                 </div>
 
                 {/* Memory */}
-                <div className="rounded-2xl p-5" style={{ background: 'var(--bg-card)', border: '1px solid var(--border-subtle)' }}>
+                <div className="rounded-2xl p-5 calc-panel">
                   <label className="text-xs font-bold uppercase tracking-widest block mb-3" style={{ color: 'var(--text-muted)' }}>
                     Memory Allocation
                   </label>
@@ -362,7 +362,7 @@ export default function ServerlessCostCalculator() {
                 </div>
 
                 {/* Architecture */}
-                <div className="rounded-2xl p-5" style={{ background: 'var(--bg-card)', border: '1px solid var(--border-subtle)' }}>
+                <div className="rounded-2xl p-5 calc-panel">
                   <label className="text-xs font-bold uppercase tracking-widest block mb-3" style={{ color: 'var(--text-muted)' }}>
                     Lambda Architecture
                   </label>
@@ -387,7 +387,7 @@ export default function ServerlessCostCalculator() {
                 </div>
 
                 {/* Free tier toggle */}
-                <div className="rounded-2xl p-5" style={{ background: 'var(--bg-card)', border: '1px solid var(--border-subtle)' }}>
+                <div className="rounded-2xl p-5 calc-panel">
                   <div className="flex items-center justify-between">
                     <div>
                       <div className="text-sm font-semibold" style={{ color: 'var(--text-primary)' }}>Include Free Tier</div>
@@ -467,7 +467,7 @@ export default function ServerlessCostCalculator() {
             </div>
 
             {/* Cost comparison bars */}
-            <div className="rounded-2xl p-6" style={{ background: 'var(--bg-card)', border: '1px solid var(--border-subtle)' }}>
+            <div className="rounded-2xl p-6 calc-panel">
               <h3 className="text-xs font-bold uppercase tracking-[0.2em] mb-5" style={{ color: 'var(--text-muted)' }}>
                 Monthly Cost Comparison
               </h3>
@@ -496,7 +496,7 @@ export default function ServerlessCostCalculator() {
                           </span>
                         </div>
                       </div>
-                      <div className="h-2.5 rounded-full overflow-hidden" style={{ background: 'var(--bg-tertiary)' }}>
+                      <div className="h-2.5 rounded-full overflow-hidden calc-bar-bg">
                         <div className="h-full rounded-full transition-all duration-700"
                           style={{ width: `${Math.max(2, pct)}%`, background: i === 0 ? provider.color : `${provider.color}80` }} />
                       </div>
@@ -526,7 +526,7 @@ export default function ServerlessCostCalculator() {
             )}
 
             {/* Annual projection */}
-            <div className="rounded-2xl p-6" style={{ background: 'var(--bg-card)', border: '1px solid var(--border-subtle)' }}>
+            <div className="rounded-2xl p-6 calc-panel">
               <h3 className="text-xs font-bold uppercase tracking-[0.2em] mb-4" style={{ color: 'var(--text-muted)' }}>
                 Annual Cost Projection
               </h3>
@@ -550,7 +550,7 @@ export default function ServerlessCostCalculator() {
             </div>
 
             {/* Use case guide */}
-            <div className="rounded-2xl p-6" style={{ background: 'var(--bg-card)', border: '1px solid var(--border-subtle)' }}>
+            <div className="rounded-2xl p-6 calc-panel">
               <h3 className="text-xs font-bold uppercase tracking-[0.2em] mb-4" style={{ color: 'var(--text-muted)' }}>
                 When to Use Each Platform
               </h3>
@@ -580,7 +580,7 @@ export default function ServerlessCostCalculator() {
             />
 
             {/* Pricing notes */}
-            <div className="rounded-2xl p-5" style={{ background: 'var(--bg-card)', border: '1px solid var(--border-subtle)' }}>
+            <div className="rounded-2xl p-5 calc-panel">
               <div className="text-xs font-bold uppercase tracking-widest mb-2" style={{ color: 'var(--text-muted)' }}>
                 Pricing Notes
               </div>

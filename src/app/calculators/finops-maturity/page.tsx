@@ -754,7 +754,7 @@ export default function FinOpsMaturityPage() {
   }, [answers]);
 
   return (
-    <main style={{ background: 'var(--bg-primary)', minHeight: '100vh', paddingTop: '7rem', paddingBottom: '5rem' }}>
+    <main className="calc-main" style={{ minHeight: '100vh', paddingTop: '7rem', paddingBottom: '5rem' }}>
       <div style={{ maxWidth: '760px', margin: '0 auto', padding: '0 1.5rem' }}>
         <Breadcrumb items={[{ label: 'Calculators', href: '/calculators' }, { label: 'FinOps Maturity Assessment' }]} />
 

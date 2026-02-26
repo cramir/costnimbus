@@ -2,10 +2,39 @@ import { notFound } from 'next/navigation';
 import { getArticle, getAllArticles } from '@/lib/articles';
 import InnerHeader from '@/components/inner-header';
 import Newsletter from '@/components/newsletter';
+import TableOfContents from '@/components/table-of-contents';
+import RelatedArticles from '@/components/related-articles';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import rehypeHighlight from 'rehype-highlight';
 import 'highlight.js/styles/github-dark.css';
+
+function slugify(text: string): string {
+  return text
+    .toLowerCase()
+    .replace(/[^\w\s-]/g, '')
+    .replace(/\s+/g, '-');
+}
+
+function getTextContent(children: React.ReactNode): string {
+  if (typeof children === 'string') return children;
+  if (Array.isArray(children)) return children.map(getTextContent).join('');
+  if (children && typeof children === 'object' && 'props' in children) {
+    return getTextContent((children as React.ReactElement<{ children?: React.ReactNode }>).props.children);
+  }
+  return '';
+}
+
+const headingComponents = {
+  h2: ({ children, ...props }: React.ComponentProps<'h2'>) => {
+    const id = slugify(getTextContent(children));
+    return <h2 id={id} {...props}>{children}</h2>;
+  },
+  h3: ({ children, ...props }: React.ComponentProps<'h3'>) => {
+    const id = slugify(getTextContent(children));
+    return <h3 id={id} {...props}>{children}</h3>;
+  },
+};
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -46,6 +75,11 @@ export default async function ArticlePage({ params }: PageProps) {
     notFound();
   }
 
+  const allArticles = getAllArticles();
+  const relatedArticles = allArticles
+    .filter((a) => a.slug !== slug && a.category === article.category)
+    .slice(0, 3);
+
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'Article',
@@ -69,79 +103,31 @@ export default async function ArticlePage({ params }: PageProps) {
       />
       <InnerHeader />
 
-      {/* Article */}
-      <article style={{
-        padding: '10rem 2rem 6rem',
-        maxWidth: '900px',
-        margin: '0 auto',
-        position: 'relative',
-        zIndex: 1,
-        animation: 'fadeInUp 0.9s ease-out 0.2s both',
-      }}>
+      <article className="article-wrapper">
         <header style={{ marginBottom: '4rem' }}>
-          <h1 style={{
-            fontFamily: 'var(--font-space-grotesk)',
-            fontSize: 'clamp(2rem, 5vw, 3rem)',
-            fontWeight: 700,
-            lineHeight: 1.2,
-            marginBottom: '1.5rem',
-            color: 'var(--text-primary)',
-          }}>
-            {article.title}
-          </h1>
-          <p style={{
-            fontSize: '1.15rem',
-            color: 'var(--text-secondary)',
-            marginBottom: '1.5rem',
-            lineHeight: 1.8,
-          }}>
-            {article.description}
-          </p>
-          <div style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: '1rem',
-            fontSize: '0.85rem',
-            color: 'var(--text-muted)',
-            fontFamily: 'var(--font-jetbrains-mono)',
-          }}>
-            <span style={{
-              padding: '0.4rem 1rem',
-              background: 'rgba(0, 212, 255, 0.1)',
-              color: 'var(--accent-cyan)',
-              border: '1px solid rgba(0, 212, 255, 0.2)',
-              borderRadius: '20px',
-            }}>{article.readTime} read</span>
-            <span style={{
-              padding: '0.4rem 1rem',
-              background: 'rgba(168, 85, 247, 0.1)',
-              color: 'var(--accent-purple)',
-              border: '1px solid rgba(168, 85, 247, 0.2)',
-              borderRadius: '20px',
-            }}>{article.category}</span>
+          <h1 className="article-title">{article.title}</h1>
+          <p className="article-description">{article.description}</p>
+          <div className="article-meta">
+            <span className="article-meta-badge article-meta-badge-cyan">{article.readTime} read</span>
+            <span className="article-meta-badge article-meta-badge-purple">{article.category}</span>
           </div>
         </header>
 
-        <div
-          className="article-content"
-          style={{
-            lineHeight: 1.8,
-            color: 'var(--text-primary)',
-            fontSize: '1.05rem',
-          }}
-        >
+        <TableOfContents markdown={article.content} />
+
+        <div className="article-content article-body">
           <ReactMarkdown
             remarkPlugins={[remarkGfm]}
             rehypePlugins={[rehypeHighlight]}
+            components={headingComponents}
           >
             {article.content}
           </ReactMarkdown>
         </div>
 
-        {/* Newsletter CTA */}
         <Newsletter wrapInSection={false} />
+        <RelatedArticles articles={relatedArticles} />
       </article>
-
     </>
   );
 }

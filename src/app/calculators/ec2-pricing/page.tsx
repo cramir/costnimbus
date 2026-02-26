@@ -144,7 +144,7 @@ export default function EC2PricingCalculator() {
   const instancesInFamily = INSTANCES.filter(i => i.family === selectedFamily);
 
   return (
-    <main className="min-h-screen pt-28 pb-20" style={{ background: 'var(--bg-primary)' }}>
+    <main className="min-h-screen pt-28 pb-20 calc-main">
       <div className="max-w-7xl mx-auto px-6">
         <Breadcrumb items={[
           { label: 'Calculators', href: '/calculators' },
@@ -166,7 +166,7 @@ export default function EC2PricingCalculator() {
             }}>
             On-Demand vs Reserved vs Spot
           </h1>
-          <p className="text-lg max-w-2xl" style={{ color: 'var(--text-secondary)', lineHeight: 1.7 }}>
+          <p className="text-lg max-w-2xl calc-desc">
             See the real cost difference across all EC2 purchasing options. Reserved Instances can cut your bill by 60%+.
             Enter your workload and find the optimal pricing strategy.
           </p>
@@ -176,7 +176,7 @@ export default function EC2PricingCalculator() {
           {/* Left: Inputs */}
           <div className="lg:col-span-2 space-y-5">
             {/* Instance Family */}
-            <div className="rounded-2xl p-5" style={{ background: 'var(--bg-card)', border: '1px solid var(--border-subtle)' }}>
+            <div className="rounded-2xl p-5 calc-panel">
               <label className="text-xs font-bold uppercase tracking-widest block mb-3" style={{ color: 'var(--text-muted)' }}>
                 Instance Family
               </label>
@@ -200,7 +200,7 @@ export default function EC2PricingCalculator() {
             </div>
 
             {/* Instance Size */}
-            <div className="rounded-2xl p-5" style={{ background: 'var(--bg-card)', border: '1px solid var(--border-subtle)' }}>
+            <div className="rounded-2xl p-5 calc-panel">
               <label className="text-xs font-bold uppercase tracking-widest block mb-3" style={{ color: 'var(--text-muted)' }}>
                 Instance Size
               </label>
@@ -231,7 +231,7 @@ export default function EC2PricingCalculator() {
             </div>
 
             {/* Count */}
-            <div className="rounded-2xl p-5" style={{ background: 'var(--bg-card)', border: '1px solid var(--border-subtle)' }}>
+            <div className="rounded-2xl p-5 calc-panel">
               <div className="flex justify-between items-center mb-3">
                 <label className="text-xs font-bold uppercase tracking-widest" style={{ color: 'var(--text-muted)' }}>
                   Number of Instances
@@ -258,7 +258,7 @@ export default function EC2PricingCalculator() {
             </div>
 
             {/* Hours/month */}
-            <div className="rounded-2xl p-5" style={{ background: 'var(--bg-card)', border: '1px solid var(--border-subtle)' }}>
+            <div className="rounded-2xl p-5 calc-panel">
               <div className="flex justify-between items-center mb-3">
                 <label className="text-xs font-bold uppercase tracking-widest" style={{ color: 'var(--text-muted)' }}>
                   Hours / Month
@@ -285,7 +285,7 @@ export default function EC2PricingCalculator() {
             </div>
 
             {/* Instance summary */}
-            <div className="rounded-2xl p-5" style={{ background: 'rgba(0,212,255,0.04)', border: '1px solid rgba(0,212,255,0.15)' }}>
+            <div className="rounded-2xl p-5 calc-highlight">
               <div className="text-xs font-bold uppercase tracking-widest mb-2" style={{ color: 'var(--accent-cyan)' }}>
                 Selected: {selectedInstance.name}
               </div>
@@ -337,7 +337,7 @@ export default function EC2PricingCalculator() {
             </div>
 
             {/* All pricing modes bar chart */}
-            <div className="rounded-2xl p-6" style={{ background: 'var(--bg-card)', border: '1px solid var(--border-subtle)' }}>
+            <div className="rounded-2xl p-6 calc-panel">
               <h3 className="text-xs font-bold uppercase tracking-[0.2em] mb-5" style={{ color: 'var(--text-muted)' }}>
                 Monthly Cost by Pricing Mode
               </h3>
@@ -359,7 +359,7 @@ export default function EC2PricingCalculator() {
                           </span>
                         </div>
                       </div>
-                      <div className="h-2.5 rounded-full overflow-hidden" style={{ background: 'var(--bg-tertiary)' }}>
+                      <div className="h-2.5 rounded-full overflow-hidden calc-bar-bg">
                         <div className="h-full rounded-full transition-all duration-700"
                           style={{ width: `${Math.max(2, pct)}%`, background: i === 0 ? mode.color : mode.color + 'CC' }} />
                       </div>
@@ -370,7 +370,7 @@ export default function EC2PricingCalculator() {
             </div>
 
             {/* Annual savings table */}
-            <div className="rounded-2xl p-6" style={{ background: 'var(--bg-card)', border: '1px solid var(--border-subtle)' }}>
+            <div className="rounded-2xl p-6 calc-panel">
               <h3 className="text-xs font-bold uppercase tracking-[0.2em] mb-4" style={{ color: 'var(--text-muted)' }}>
                 Annual Savings vs On-Demand ({count}x {selectedInstance.name})
               </h3>
@@ -401,14 +401,13 @@ export default function EC2PricingCalculator() {
             </div>
 
             {/* Decision guide */}
-            <div className="rounded-2xl p-6" style={{ background: 'var(--bg-card)', border: '1px solid var(--border-subtle)' }}>
+            <div className="rounded-2xl p-6 calc-panel">
               <h3 className="text-xs font-bold uppercase tracking-[0.2em] mb-4" style={{ color: 'var(--text-muted)' }}>
                 Which Pricing Mode Should You Use?
               </h3>
               <div className="space-y-3">
                 {results.modes.map(mode => (
-                  <div key={mode.key} className="flex items-start gap-3 p-3 rounded-xl"
-                    style={{ background: 'var(--bg-tertiary)' }}>
+                  <div key={mode.key} className="flex items-start gap-3 p-3 rounded-xl calc-bar-bg">
                     <div className="w-2.5 h-2.5 rounded-full mt-1 flex-shrink-0" style={{ background: mode.color }} />
                     <div>
                       <span className="text-xs font-bold" style={{ color: mode.color }}>{mode.label}: </span>
@@ -448,7 +447,7 @@ export default function EC2PricingCalculator() {
             />
 
             {/* Pricing notes */}
-            <div className="rounded-2xl p-5" style={{ background: 'var(--bg-card)', border: '1px solid var(--border-subtle)' }}>
+            <div className="rounded-2xl p-5 calc-panel">
               <div className="text-xs font-bold uppercase tracking-widest mb-2" style={{ color: 'var(--text-muted)' }}>
                 Pricing Notes
               </div>

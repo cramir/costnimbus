@@ -22,52 +22,12 @@ export default function Nav() {
     exact ? pathname === href : pathname.startsWith(href);
 
   return (
-    <nav style={{
-      position: 'fixed',
-      top: 0,
-      left: 0,
-      right: 0,
-      background: 'var(--nav-bg)',
-      backdropFilter: 'blur(20px)',
-      padding: '1rem 2rem',
-      zIndex: 100,
-      boxShadow: '0 2px 30px rgba(0, 0, 0, 0.3)',
-      animation: 'slideDown 0.7s ease-out',
-    }}>
-      <div style={{
-        maxWidth: '1100px',
-        margin: '0 auto',
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-      }}>
-        <Link href="/" style={{
-          fontFamily: 'var(--font-space-grotesk)',
-          fontSize: '1.4rem',
-          fontWeight: 700,
-          color: 'var(--text-primary)',
-          textDecoration: 'none',
-          display: 'flex',
-          alignItems: 'center',
-          gap: '0.5rem',
-        }}>
-          <span style={{
-            fontFamily: 'var(--font-jetbrains-mono)',
-            color: 'var(--accent-cyan)',
-            fontSize: '1.3rem',
-          }}>$</span>
+    <nav className="site-nav">
+      <div className="site-nav-inner">
+        <Link href="/" className="nav-logo">
+          <span className="nav-logo-symbol">$</span>
           Cost Nimbus
-          <span className="nav-badge" style={{
-            fontFamily: 'var(--font-nunito)',
-            fontSize: '0.7rem',
-            color: 'var(--text-muted)',
-            marginLeft: '1rem',
-            padding: '0.4rem 1rem',
-            background: 'rgba(0, 212, 255, 0.08)',
-            borderRadius: '20px',
-            fontWeight: 600,
-            border: '1px solid rgba(0, 212, 255, 0.15)',
-          }}>Cloud Cost Intelligence</span>
+          <span className="nav-badge">Cloud Cost Intelligence</span>
         </Link>
 
         <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>

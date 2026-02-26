@@ -132,7 +132,7 @@ export default function SIEMCalculator() {
   const fmtK = (n: number) => n >= 1000 ? `$${(n / 1000).toFixed(1)}k` : fmt(n);
 
   return (
-    <main className="min-h-screen pt-28 pb-20" style={{ background: 'var(--bg-primary)' }}>
+    <main className="min-h-screen pt-28 pb-20 calc-main">
       <div className="max-w-4xl mx-auto px-6 pt-6">
         <Breadcrumb items={[{ label: 'Home', href: '/' }, { label: 'Calculators', href: '/calculators' }, { label: 'SIEM TCO' }]} />
       </div>
@@ -181,7 +181,7 @@ export default function SIEMCalculator() {
           </div>
 
           {/* Engineering cost note */}
-          <div className="rounded-2xl p-5" style={{ background: 'var(--bg-card)', border: '1px solid var(--border-subtle)' }}>
+          <div className="rounded-2xl p-5 calc-panel">
             <div className="text-xs font-bold uppercase tracking-[0.2em] mb-3" style={{ color: 'var(--text-muted)' }}>
               Engineering Cost Assumption
             </div>

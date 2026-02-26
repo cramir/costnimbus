@@ -1,5 +1,3 @@
-'use client';
-
 import Link from 'next/link';
 
 const sources = [
@@ -91,141 +89,40 @@ const assumptions = [
 
 export default function MethodologyPage() {
   return (
-    <main style={{
-      minHeight: '100vh',
-      background: 'var(--bg-primary)',
-      paddingTop: '5rem',
-    }}>
+    <main className="calc-main min-h-screen pt-20">
       {/* Hero */}
-      <section style={{
-        maxWidth: '900px',
-        margin: '0 auto',
-        padding: '4rem 2rem 3rem',
-        borderBottom: '1px solid var(--border-subtle)',
-      }}>
-        <div style={{
-          display: 'inline-flex',
-          alignItems: 'center',
-          gap: '0.5rem',
-          padding: '0.4rem 1rem',
-          borderRadius: '20px',
-          background: 'rgba(0, 212, 255, 0.08)',
-          border: '1px solid rgba(0, 212, 255, 0.2)',
-          marginBottom: '1.5rem',
-        }}>
-          <span style={{ fontSize: '0.75rem', color: 'var(--accent-cyan)', fontFamily: 'var(--font-space-grotesk)', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}>Transparent by design</span>
-        </div>
-        <h1 style={{
-          fontFamily: 'var(--font-space-grotesk)',
-          fontSize: 'clamp(2rem, 5vw, 3.2rem)',
-          fontWeight: 800,
-          color: 'var(--text-primary)',
-          lineHeight: 1.15,
-          marginBottom: '1.25rem',
-        }}>
-          Pricing Methodology
-        </h1>
-        <p style={{
-          fontFamily: 'var(--font-nunito)',
-          fontSize: '1.15rem',
-          color: 'var(--text-secondary)',
-          lineHeight: 1.7,
-          maxWidth: '680px',
-        }}>
-          Every number in our calculators comes from a verifiable public source. No estimates, no sponsor adjustments, no hidden assumptions. Here's exactly where each price comes from — and what we assume when data is ambiguous.
+      <section className="method-section px-8 pt-16 pb-12" style={{ borderBottom: '1px solid var(--border-subtle)' }}>
+        <div className="method-hero-pill">Transparent by design</div>
+        <h1 className="method-heading">Pricing Methodology</h1>
+        <p className="method-lead">
+          Every number in our calculators comes from a verifiable public source. No estimates, no sponsor adjustments, no hidden assumptions. Here&apos;s exactly where each price comes from — and what we assume when data is ambiguous.
         </p>
       </section>
 
       {/* Update cadence */}
-      <section style={{
-        maxWidth: '900px',
-        margin: '0 auto',
-        padding: '3rem 2rem',
-      }}>
-        <div style={{
-          background: 'var(--bg-card)',
-          border: '1px solid rgba(0, 212, 255, 0.2)',
-          borderRadius: '16px',
-          padding: '2rem',
-          display: 'flex',
-          gap: '2rem',
-          flexWrap: 'wrap',
-          alignItems: 'flex-start',
-          position: 'relative',
-          overflow: 'hidden',
-        }}>
-          <div style={{
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            right: 0,
-            height: '2px',
-            background: 'linear-gradient(90deg, var(--accent-cyan), var(--accent-purple))',
-          }} />
-          <div style={{ flex: '1', minWidth: '200px' }}>
-            <div style={{
-              fontFamily: 'var(--font-space-grotesk)',
-              fontSize: '0.75rem',
-              fontWeight: 700,
-              letterSpacing: '0.1em',
-              textTransform: 'uppercase',
-              color: 'var(--accent-cyan)',
-              marginBottom: '0.5rem',
-            }}>Last Updated</div>
-            <div style={{
-              fontFamily: 'var(--font-space-grotesk)',
-              fontSize: '1.4rem',
-              fontWeight: 700,
-              color: 'var(--text-primary)',
-            }}>Q1 2026</div>
-            <div style={{
-              fontFamily: 'var(--font-nunito)',
-              fontSize: '0.85rem',
-              color: 'var(--text-secondary)',
-              marginTop: '0.3rem',
-            }}>February 2026</div>
+      <section className="method-section px-8 py-12">
+        <div className="cadence-card">
+          <div className="cadence-bar" />
+          <div className="flex-1 min-w-[200px]">
+            <div className="cadence-label cadence-label-cyan">Last Updated</div>
+            <div className="cadence-value">Q1 2026</div>
+            <div className="cadence-subtext">February 2026</div>
           </div>
-          <div style={{ flex: '1', minWidth: '200px' }}>
-            <div style={{
-              fontFamily: 'var(--font-space-grotesk)',
-              fontSize: '0.75rem',
-              fontWeight: 700,
-              letterSpacing: '0.1em',
-              textTransform: 'uppercase',
-              color: 'var(--accent-purple)',
-              marginBottom: '0.5rem',
-            }}>Update Frequency</div>
-            <div style={{
-              fontFamily: 'var(--font-nunito)',
-              fontSize: '0.95rem',
-              color: 'var(--text-primary)',
-              lineHeight: 1.5,
-            }}>
+          <div className="flex-1 min-w-[200px]">
+            <div className="cadence-label cadence-label-purple">Update Frequency</div>
+            <div className="cadence-body">
               Prices reviewed quarterly. AWS, Azure, and GCP rarely change list prices — when they do (spot, savings plans, new SKUs), we update within 30 days.
             </div>
           </div>
-          <div style={{ flex: '1', minWidth: '200px' }}>
-            <div style={{
-              fontFamily: 'var(--font-space-grotesk)',
-              fontSize: '0.75rem',
-              fontWeight: 700,
-              letterSpacing: '0.1em',
-              textTransform: 'uppercase',
-              color: '#4ade80',
-              marginBottom: '0.5rem',
-            }}>Report an Error</div>
-            <div style={{
-              fontFamily: 'var(--font-nunito)',
-              fontSize: '0.95rem',
-              color: 'var(--text-primary)',
-              lineHeight: 1.5,
-            }}>
+          <div className="flex-1 min-w-[200px]">
+            <div className="cadence-label cadence-label-green">Report an Error</div>
+            <div className="cadence-body">
               Found a price discrepancy? We take accuracy seriously. Open an issue on{' '}
               <a
                 href="https://github.com/cramir/costnimbus"
                 target="_blank"
                 rel="noopener noreferrer"
-                style={{ color: 'var(--accent-cyan)', textDecoration: 'none' }}
+                className="link-accent-cyan"
               >GitHub</a>.
             </div>
           </div>
@@ -233,55 +130,15 @@ export default function MethodologyPage() {
       </section>
 
       {/* Assumptions */}
-      <section style={{
-        maxWidth: '900px',
-        margin: '0 auto',
-        padding: '0 2rem 3rem',
-      }}>
-        <h2 style={{
-          fontFamily: 'var(--font-space-grotesk)',
-          fontSize: '1.5rem',
-          fontWeight: 700,
-          color: 'var(--text-primary)',
-          marginBottom: '1.5rem',
-        }}>Standard Assumptions</h2>
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fill, minmax(380px, 1fr))',
-          gap: '1rem',
-        }}>
+      <section className="method-section px-8 pb-12">
+        <h2 className="method-section-heading mb-6">Standard Assumptions</h2>
+        <div className="grid grid-cols-[repeat(auto-fill,minmax(380px,1fr))] gap-4">
           {assumptions.map((item) => (
-            <div key={item.title} style={{
-              background: 'var(--bg-card)',
-              border: '1px solid var(--border-subtle)',
-              borderRadius: '12px',
-              padding: '1.25rem 1.5rem',
-              display: 'flex',
-              gap: '1rem',
-              alignItems: 'flex-start',
-            }}>
-              <div style={{
-                width: '6px',
-                height: '6px',
-                borderRadius: '50%',
-                background: 'var(--accent-cyan)',
-                marginTop: '0.45rem',
-                flexShrink: 0,
-              }} />
+            <div key={item.title} className="assumption-card">
+              <div className="assumption-dot" />
               <div>
-                <div style={{
-                  fontFamily: 'var(--font-space-grotesk)',
-                  fontSize: '0.9rem',
-                  fontWeight: 700,
-                  color: 'var(--text-primary)',
-                  marginBottom: '0.35rem',
-                }}>{item.title}</div>
-                <div style={{
-                  fontFamily: 'var(--font-nunito)',
-                  fontSize: '0.85rem',
-                  color: 'var(--text-secondary)',
-                  lineHeight: 1.5,
-                }}>{item.detail}</div>
+                <div className="assumption-title">{item.title}</div>
+                <div className="assumption-detail">{item.detail}</div>
               </div>
             </div>
           ))}
@@ -289,82 +146,30 @@ export default function MethodologyPage() {
       </section>
 
       {/* Data sources */}
-      <section style={{
-        maxWidth: '900px',
-        margin: '0 auto',
-        padding: '0 2rem 4rem',
-      }}>
-        <h2 style={{
-          fontFamily: 'var(--font-space-grotesk)',
-          fontSize: '1.5rem',
-          fontWeight: 700,
-          color: 'var(--text-primary)',
-          marginBottom: '2rem',
-        }}>Data Sources by Provider</h2>
-
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+      <section className="method-section px-8 pb-16">
+        <h2 className="method-section-heading mb-8">Data Sources by Provider</h2>
+        <div className="flex flex-col gap-6">
           {sources.map((provider) => (
-            <div key={provider.provider} style={{
-              background: 'var(--bg-card)',
-              border: '1px solid var(--border-subtle)',
-              borderRadius: '16px',
-              overflow: 'hidden',
-            }}>
-              <div style={{
-                padding: '1.25rem 1.5rem',
-                borderBottom: '1px solid var(--border-subtle)',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '0.75rem',
-                background: 'var(--bg-tertiary)',
-              }}>
-                <span style={{ fontSize: '1.2rem' }}>{provider.icon}</span>
-                <h3 style={{
-                  fontFamily: 'var(--font-space-grotesk)',
-                  fontSize: '1rem',
-                  fontWeight: 700,
-                  color: 'var(--text-primary)',
-                  margin: 0,
-                }}>{provider.provider}</h3>
-                <div style={{
-                  width: '32px',
-                  height: '3px',
-                  borderRadius: '2px',
-                  background: provider.color,
-                  marginLeft: 'auto',
-                }} />
+            <div key={provider.provider} className="provider-card">
+              <div className="provider-header">
+                <span className="text-xl">{provider.icon}</span>
+                <h3 className="provider-name">{provider.provider}</h3>
+                <div className="w-8 h-[3px] rounded-sm ml-auto" style={{ background: provider.color }} />
               </div>
-              <div style={{ padding: '1rem 1.5rem' }}>
+              <div className="px-6 py-4">
                 {provider.sources.map((source, idx) => (
-                  <div key={idx} style={{
-                    display: 'flex',
-                    gap: '1rem',
-                    padding: '0.75rem 0',
+                  <div key={idx} className="source-row" style={{
                     borderBottom: idx < provider.sources.length - 1 ? '1px solid var(--border-subtle)' : 'none',
-                    alignItems: 'flex-start',
                   }}>
                     <a
                       href={source.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      style={{
-                        fontFamily: 'var(--font-nunito)',
-                        fontSize: '0.875rem',
-                        fontWeight: 600,
-                        color: 'var(--accent-cyan)',
-                        textDecoration: 'none',
-                        minWidth: '220px',
-                        flexShrink: 0,
-                      }}
+                      className="source-link"
                     >
                       {source.label} ↗
                     </a>
-                    <span style={{
-                      fontFamily: 'var(--font-nunito)',
-                      fontSize: '0.85rem',
-                      color: 'var(--text-secondary)',
-                      lineHeight: 1.5,
-                    }}>{source.note}</span>
+                    <span className="source-note">{source.note}</span>
                   </div>
                 ))}
               </div>
@@ -373,115 +178,32 @@ export default function MethodologyPage() {
         </div>
       </section>
 
-      {/* What we don't model */}
-      <section style={{
-        maxWidth: '900px',
-        margin: '0 auto',
-        padding: '0 2rem 4rem',
-      }}>
-        <h2 style={{
-          fontFamily: 'var(--font-space-grotesk)',
-          fontSize: '1.5rem',
-          fontWeight: 700,
-          color: 'var(--text-primary)',
-          marginBottom: '1rem',
-        }}>What We Don't Model</h2>
-        <div style={{
-          background: 'rgba(168, 85, 247, 0.06)',
-          border: '1px solid rgba(168, 85, 247, 0.2)',
-          borderRadius: '16px',
-          padding: '2rem',
-        }}>
-          <p style={{
-            fontFamily: 'var(--font-nunito)',
-            fontSize: '0.95rem',
-            color: 'var(--text-secondary)',
-            lineHeight: 1.7,
-            marginBottom: '1rem',
-          }}>
+      {/* What we don&apos;t model */}
+      <section className="method-section px-8 pb-16">
+        <h2 className="method-section-heading mb-4">What We Don&apos;t Model</h2>
+        <div className="warning-box">
+          <p className="warning-text">
             The following cost drivers are real and significant but not included in our calculators. Your actual bill will likely be higher:
           </p>
-          <ul style={{
-            fontFamily: 'var(--font-nunito)',
-            fontSize: '0.9rem',
-            color: 'var(--text-secondary)',
-            lineHeight: 1.8,
-            paddingLeft: '1.5rem',
-            margin: 0,
-          }}>
-            <li><strong style={{ color: 'var(--text-primary)' }}>Reserved Instances / Savings Plans</strong> — can reduce compute by 20–40%; our on-demand numbers represent worst-case</li>
-            <li><strong style={{ color: 'var(--text-primary)' }}>Support Plans</strong> — AWS Business Support alone can add 3–10% of monthly spend</li>
-            <li><strong style={{ color: 'var(--text-primary)' }}>Data Transfer In</strong> — ingress is generally free from the internet but not between regions or services</li>
-            <li><strong style={{ color: 'var(--text-primary)' }}>Tax / VAT</strong> — varies by country and entity type</li>
-            <li><strong style={{ color: 'var(--text-primary)' }}>Engineering / Migration Cost</strong> — switching cloud providers or SIEM platforms requires significant engineering time</li>
-            <li><strong style={{ color: 'var(--text-primary)' }}>License Fees</strong> — OS, database engine, middleware licenses not included</li>
+          <ul className="warning-list">
+            <li><strong>Reserved Instances / Savings Plans</strong> — can reduce compute by 20–40%; our on-demand numbers represent worst-case</li>
+            <li><strong>Support Plans</strong> — AWS Business Support alone can add 3–10% of monthly spend</li>
+            <li><strong>Data Transfer In</strong> — ingress is generally free from the internet but not between regions or services</li>
+            <li><strong>Tax / VAT</strong> — varies by country and entity type</li>
+            <li><strong>Engineering / Migration Cost</strong> — switching cloud providers or SIEM platforms requires significant engineering time</li>
+            <li><strong>License Fees</strong> — OS, database engine, middleware licenses not included</li>
           </ul>
         </div>
       </section>
 
       {/* CTA */}
-      <section style={{
-        maxWidth: '900px',
-        margin: '0 auto',
-        padding: '0 2rem 6rem',
-        textAlign: 'center',
-      }}>
-        <p style={{
-          fontFamily: 'var(--font-nunito)',
-          fontSize: '1rem',
-          color: 'var(--text-secondary)',
-          marginBottom: '1.5rem',
-        }}>Ready to run the numbers?</p>
-        <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
-          <Link href="/calculators" style={{
-            display: 'inline-flex',
-            alignItems: 'center',
-            gap: '0.5rem',
-            padding: '0.85rem 2rem',
-            borderRadius: '30px',
-            background: 'linear-gradient(135deg, var(--accent-cyan), var(--accent-purple))',
-            color: '#fff',
-            fontFamily: 'var(--font-space-grotesk)',
-            fontWeight: 700,
-            fontSize: '0.95rem',
-            textDecoration: 'none',
-            transition: 'transform 0.2s ease, box-shadow 0.2s ease',
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.transform = 'translateY(-2px)';
-            e.currentTarget.style.boxShadow = '0 8px 30px rgba(0, 212, 255, 0.3)';
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.transform = 'translateY(0)';
-            e.currentTarget.style.boxShadow = 'none';
-          }}
-          >
+      <section className="method-section px-8 pb-24 text-center">
+        <p className="method-lead mx-auto mb-6">Ready to run the numbers?</p>
+        <div className="flex gap-4 justify-center flex-wrap">
+          <Link href="/calculators" className="btn-pill-primary">
             Open Calculators →
           </Link>
-          <Link href="/resources" style={{
-            display: 'inline-flex',
-            alignItems: 'center',
-            gap: '0.5rem',
-            padding: '0.85rem 2rem',
-            borderRadius: '30px',
-            background: 'transparent',
-            color: 'var(--text-secondary)',
-            fontFamily: 'var(--font-space-grotesk)',
-            fontWeight: 600,
-            fontSize: '0.95rem',
-            textDecoration: 'none',
-            border: '1px solid var(--border-subtle)',
-            transition: 'all 0.2s ease',
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.borderColor = 'var(--accent-cyan)';
-            e.currentTarget.style.color = 'var(--accent-cyan)';
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.borderColor = 'var(--border-subtle)';
-            e.currentTarget.style.color = 'var(--text-secondary)';
-          }}
-          >
+          <Link href="/resources" className="btn-pill-outline">
             Browse FinOps Tools
           </Link>
         </div>

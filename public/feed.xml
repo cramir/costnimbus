@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Cost Nimbus</title>
+    <link>https://costnimbus.com</link>
+    <description>Cloud cost intelligence built by engineers, for engineers. Real numbers, no vendor fluff.</description>
+    <language>en-us</language>
+    <lastBuildDate>Thu, 26 Feb 2026 05:03:12 GMT</lastBuildDate>
+    <atom:link href="https://costnimbus.com/feed.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Agentic SOC: Hype or Real Shift?</title>
+      <link>https://costnimbus.com/article/agentic-soc-hype-or-reality/</link>
+      <guid isPermaLink="true">https://costnimbus.com/article/agentic-soc-hype-or-reality/</guid>
+      <description>A SOC infrastructure builder&apos;s honest take on agentic AI in security operations — what it actually means, where the marketing ends, and a 3-question evaluation framework for cutting through vendor noise.</description>
+      <pubDate>Wed, 25 Feb 2026 00:00:00 GMT</pubDate>
+      <category>Security</category>
+    </item>
+    <item>
+      <title>Azure vs AWS for .NET Shops: A Cost and DX Deep-Dive</title>
+      <link>https://costnimbus.com/article/azure-vs-aws-dotnet/</link>
+      <guid isPermaLink="true">https://costnimbus.com/article/azure-vs-aws-dotnet/</guid>
+      <description>You can run .NET on AWS. But Azure is purpose-built for it — and in most cases, dramatically cheaper. A rigorous comparison of managed services, pricing, and DX for teams migrating from on-prem or choosing a cloud for their .NET stack.</description>
+      <pubDate>Wed, 25 Feb 2026 00:00:00 GMT</pubDate>
+      <category>Cloud Strategy</category>
+    </item>
+    <item>
+      <title>GPU Cost Optimization: When AI Ambitions Meet Budget Reality</title>
+      <link>https://costnimbus.com/article/gpu-cost-optimization-ai-workloads/</link>
+      <guid isPermaLink="true">https://costnimbus.com/article/gpu-cost-optimization-ai-workloads/</guid>
+      <description>A practical guide to cutting GPU costs for AI/ML workloads — where the waste actually hides, spot instance strategies, model optimization, and real cost breakdowns for A100, H100, and L4 instances.</description>
+      <pubDate>Wed, 25 Feb 2026 00:00:00 GMT</pubDate>
+      <category>Cloud Costs</category>
+    </item>
+    <item>
+      <title>How to Cut Your AWS Egress Bill by 80% (Without Changing Your App)</title>
+      <link>https://costnimbus.com/article/how-to-cut-aws-egress-costs/</link>
+      <guid isPermaLink="true">https://costnimbus.com/article/how-to-cut-aws-egress-costs/</guid>
+      <description>AWS charges $0.09/GB to move data out. Here are five proven techniques—VPC endpoints, Cloudflare R2, CloudFront, PrivateLink, and S3 Transfer Acceleration avoidance—that teams use to cut egress by 70–91%.</description>
+      <pubDate>Wed, 25 Feb 2026 00:00:00 GMT</pubDate>
+      <category>AWS Cost Optimization</category>
+    </item>
+    <item>
+      <title>Kubernetes Cost Optimization: How We Cut Our K8s Bill by 67%</title>
+      <link>https://costnimbus.com/article/kubernetes-cost-optimization/</link>
+      <guid isPermaLink="true">https://costnimbus.com/article/kubernetes-cost-optimization/</guid>
+      <description>Step-by-step guide to cutting Kubernetes costs: right-sizing pods, Spot/Preemptible nodes, Cluster Autoscaler tuning, namespace quotas, and the open-source tools that do the heavy lifting.</description>
+      <pubDate>Wed, 25 Feb 2026 00:00:00 GMT</pubDate>
+      <category>Kubernetes</category>
+    </item>
+    <item>
+      <title>Lambda Cold Starts: The Hidden Tax on Your Serverless Bill</title>
+      <link>https://costnimbus.com/article/lambda-cold-starts-hidden-serverless-tax/</link>
+      <guid isPermaLink="true">https://costnimbus.com/article/lambda-cold-starts-hidden-serverless-tax/</guid>
+      <description>The uncomfortable truth about Lambda cold start optimization — fixing them often costs more than the problem itself. Real math on provisioned concurrency, SnapStart, keep-warm strategies, and when to skip Lambda entirely.</description>
+      <pubDate>Wed, 25 Feb 2026 00:00:00 GMT</pubDate>
+      <category>Cloud Costs</category>
+    </item>
+    <item>
+      <title>Lambda Cold Starts: The Complete 2026 Optimization Guide</title>
+      <link>https://costnimbus.com/article/lambda-cold-starts/</link>
+      <guid isPermaLink="true">https://costnimbus.com/article/lambda-cold-starts/</guid>
+      <description>Lambda cold starts can add 1–8 seconds to your response time. Here are 9 proven techniques to eliminate them — from Provisioned Concurrency to SnapStart to runtime selection.</description>
+      <pubDate>Wed, 25 Feb 2026 00:00:00 GMT</pubDate>
+      <category>AWS Lambda</category>
+    </item>
+    <item>
+      <title>RDS vs Aurora: The Real Cost Difference in 2026</title>
+      <link>https://costnimbus.com/article/rds-vs-aurora-cost-comparison/</link>
+      <guid isPermaLink="true">https://costnimbus.com/article/rds-vs-aurora-cost-comparison/</guid>
+      <description>Aurora can cost 3× more than RDS at small scale, or save you money at high I/O. Here&apos;s the complete decision framework with real pricing numbers.</description>
+      <pubDate>Wed, 25 Feb 2026 00:00:00 GMT</pubDate>
+      <category>AWS Databases</category>
+    </item>
+    <item>
+      <title>AWS Savings Plans vs Reserved Instances: Which Saves More in 2026?</title>
+      <link>https://costnimbus.com/article/savings-plans-vs-reserved-instances/</link>
+      <guid isPermaLink="true">https://costnimbus.com/article/savings-plans-vs-reserved-instances/</guid>
+      <description>Savings Plans are more flexible, but Reserved Instances can save 5–10% more in specific scenarios. Here is the complete decision guide with real numbers.</description>
+      <pubDate>Wed, 25 Feb 2026 00:00:00 GMT</pubDate>
+      <category>AWS Cost Optimization</category>
+    </item>
+    <item>
+      <title>The Hidden Costs of AWS NAT Gateways (And How to Cut Them by 80%)</title>
+      <link>https://costnimbus.com/article/hidden-costs-aws-nat-gateways/</link>
+      <guid isPermaLink="true">https://costnimbus.com/article/hidden-costs-aws-nat-gateways/</guid>
+      <description>I saved $18,000 per month by optimizing NAT Gateway usage. Learn how VPC endpoints, NAT instances, and IPv6 can slash your AWS networking costs.</description>
+      <pubDate>Mon, 23 Feb 2026 00:00:00 GMT</pubDate>
+      <category>AWS Cost Optimization</category>
+    </item>
+    <item>
+      <title>How I Saved $50K/Month in Cloud Costs</title>
+      <link>https://costnimbus.com/article/how-i-saved-50k-month-cloud-costs/</link>
+      <guid isPermaLink="true">https://costnimbus.com/article/how-i-saved-50k-month-cloud-costs/</guid>
+      <description>Two specific solutions that delivered $30K + $20K in monthly savings, with exact technologies and step-by-step implementation.</description>
+      <pubDate>Fri, 20 Feb 2026 00:00:00 GMT</pubDate>
+      <category>Cloud Cost Optimization</category>
+    </item>
+  </channel>
+</rss>

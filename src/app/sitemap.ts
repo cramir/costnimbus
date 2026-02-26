@@ -1,154 +1,40 @@
 import { MetadataRoute } from 'next';
+import { getAllArticles } from '@/lib/articles';
 
 export const dynamic = 'force-static';
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = 'https://costnimbus.com';
+  const articles = getAllArticles();
 
-  return [
-    {
-      url: baseUrl,
-      lastModified: new Date(),
-      changeFrequency: 'weekly',
-      priority: 1,
-    },
-    {
-      url: `${baseUrl}/about`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.8,
-    },
-    {
-      url: `${baseUrl}/tools`,
-      lastModified: new Date(),
-      changeFrequency: 'weekly',
-      priority: 0.9,
-    },
-    {
-      url: `${baseUrl}/article/how-i-saved-50k-month-in-cloud-costs`,
-      lastModified: new Date('2026-02-20'),
-      changeFrequency: 'monthly',
-      priority: 0.9,
-    },
-    {
-      url: `${baseUrl}/articles`,
-      lastModified: new Date(),
-      changeFrequency: 'weekly',
-      priority: 0.9,
-    },
-    {
-      url: `${baseUrl}/calculators`,
-      lastModified: new Date(),
-      changeFrequency: 'weekly',
-      priority: 0.9,
-    },
-    {
-      url: `${baseUrl}/calculators/nat-gateway`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.85,
-    },
-    {
-      url: `${baseUrl}/calculators/storage`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.85,
-    },
-    {
-      url: `${baseUrl}/calculators/siem`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.85,
-    },
-    {
-      url: `${baseUrl}/calculators/cloud-compare`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.85,
-    },
-    {
-      url: `${baseUrl}/calculators/managed-db`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.85,
-    },
-    {
-      url: `${baseUrl}/resources`,
-      lastModified: new Date(),
-      changeFrequency: 'weekly',
-      priority: 0.85,
-    },
-    {
-      url: `${baseUrl}/article/how-to-cut-aws-egress-costs`,
-      lastModified: new Date('2026-02-25'),
-      changeFrequency: 'monthly',
-      priority: 0.9,
-    },
-    {
-      url: `${baseUrl}/article/azure-vs-aws-dotnet`,
-      lastModified: new Date('2026-02-25'),
-      changeFrequency: 'monthly',
-      priority: 0.9,
-    },
-    {
-      url: `${baseUrl}/methodology`,
-      lastModified: new Date('2026-02-25'),
-      changeFrequency: 'monthly',
-      priority: 0.7,
-    },
-    {
-      url: `${baseUrl}/calculators/serverless`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.85,
-    },
-    {
-      url: `${baseUrl}/calculators/ec2-pricing`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.85,
-    },
-    {
-      url: `${baseUrl}/article/kubernetes-cost-optimization`,
-      lastModified: new Date('2026-02-25'),
-      changeFrequency: 'monthly',
-      priority: 0.9,
-    },
-    {
-      url: `${baseUrl}/calculators/ebs-storage`,
-      lastModified: new Date('2026-02-25'),
-      changeFrequency: 'monthly',
-      priority: 0.85,
-    },
-    {
-      url: `${baseUrl}/calculators/cdn`,
-      lastModified: new Date('2026-02-25'),
-      changeFrequency: 'monthly',
-      priority: 0.85,
-    },
-    {
-      url: `${baseUrl}/article/lambda-cold-starts`,
-      lastModified: new Date('2026-02-25'),
-      changeFrequency: 'monthly',
-      priority: 0.9,
-    },
-    {
-      url: `${baseUrl}/article/savings-plans-vs-reserved-instances`,
-      lastModified: new Date('2026-02-25'),
-      changeFrequency: 'monthly',
-      priority: 0.9,
-    },
-    {
-      url: `${baseUrl}/calculators/finops-maturity`,
-      lastModified: new Date('2026-02-25'),
-      changeFrequency: 'monthly',
-      priority: 0.88,
-    },
-    {
-      url: `${baseUrl}/article/rds-vs-aurora-cost-comparison`,
-      lastModified: new Date('2026-02-25'),
-      changeFrequency: 'monthly',
-      priority: 0.9,
-    },
+  const staticPages: MetadataRoute.Sitemap = [
+    { url: baseUrl, lastModified: new Date(), changeFrequency: 'weekly', priority: 1 },
+    { url: `${baseUrl}/about`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
+    { url: `${baseUrl}/tools`, lastModified: new Date(), changeFrequency: 'weekly', priority: 0.9 },
+    { url: `${baseUrl}/resources`, lastModified: new Date(), changeFrequency: 'weekly', priority: 0.85 },
+    { url: `${baseUrl}/methodology`, lastModified: new Date('2026-02-25'), changeFrequency: 'monthly', priority: 0.7 },
+    { url: `${baseUrl}/articles`, lastModified: new Date(), changeFrequency: 'weekly', priority: 0.9 },
+    { url: `${baseUrl}/calculators`, lastModified: new Date(), changeFrequency: 'weekly', priority: 0.9 },
   ];
+
+  const calculatorSlugs = [
+    'nat-gateway', 'storage', 'siem', 'cloud-compare', 'managed-db',
+    'serverless', 'ec2-pricing', 'ebs-storage', 'cdn', 'finops-maturity',
+  ];
+
+  const calculatorPages: MetadataRoute.Sitemap = calculatorSlugs.map((slug) => ({
+    url: `${baseUrl}/calculators/${slug}`,
+    lastModified: new Date(),
+    changeFrequency: 'monthly' as const,
+    priority: 0.85,
+  }));
+
+  const articlePages: MetadataRoute.Sitemap = articles.map((article) => ({
+    url: `${baseUrl}/article/${article.slug}`,
+    lastModified: new Date(article.publishDate),
+    changeFrequency: 'monthly' as const,
+    priority: 0.9,
+  }));
+
+  return [...staticPages, ...calculatorPages, ...articlePages];
 }

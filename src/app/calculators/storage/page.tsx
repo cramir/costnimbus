@@ -85,7 +85,7 @@ export default function StorageCalculator() {
   const fmtK = (n: number) => n >= 1000 ? `$${(n / 1000).toFixed(1)}k` : fmt(n);
 
   return (
-    <main className="min-h-screen pt-28 pb-20" style={{ background: 'var(--bg-primary)' }}>
+    <main className="min-h-screen pt-28 pb-20 calc-main">
       <div className="max-w-4xl mx-auto px-6 pt-6">
         <Breadcrumb items={[{ label: 'Home', href: '/' }, { label: 'Calculators', href: '/calculators' }, { label: 'Storage: S3 vs R2 vs Backblaze' }]} />
       </div>
@@ -161,7 +161,7 @@ export default function StorageCalculator() {
           )}
 
           {/* Key Insight */}
-          <div className="rounded-2xl p-6" style={{ background: 'var(--bg-card)', border: '1px solid var(--border-subtle)' }}>
+          <div className="rounded-2xl p-6 calc-panel">
             <div className="text-xs font-bold uppercase tracking-[0.2em] mb-3" style={{ color: 'var(--text-muted)' }}>Egress Impact</div>
             <div className="text-sm space-y-2">
               <div className="flex justify-between">

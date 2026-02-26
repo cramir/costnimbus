@@ -153,7 +153,7 @@ export default function CloudCompareCalculator() {
   ];
 
   return (
-    <main className="min-h-screen pt-28 pb-20" style={{ background: 'var(--bg-primary)' }}>
+    <main className="min-h-screen pt-28 pb-20 calc-main">
       <div className="max-w-4xl mx-auto px-6 pt-6">
         <Breadcrumb items={[{ label: 'Home', href: '/' }, { label: 'Calculators', href: '/calculators' }, { label: 'AWS vs Azure vs GCP' }]} />
       </div>
@@ -449,7 +449,7 @@ export default function CloudCompareCalculator() {
           </div>
 
           {/* Total Cost Bars */}
-          <div className="rounded-2xl p-6" style={{ background: 'var(--bg-card)', border: '1px solid var(--border-subtle)' }}>
+          <div className="rounded-2xl p-6 calc-panel">
             <div className="text-xs font-bold uppercase tracking-[0.2em] mb-5" style={{ color: 'var(--text-muted)' }}>
               Total Monthly Cost
             </div>
@@ -548,7 +548,7 @@ export default function CloudCompareCalculator() {
 
       {/* ── Pricing Notes ─────────────────────────────────────────────────── */}
       <section className="max-w-4xl mx-auto px-6 mt-16">
-        <div className="rounded-2xl p-6" style={{ background: 'var(--bg-card)', border: '1px solid var(--border-subtle)' }}>
+        <div className="rounded-2xl p-6 calc-panel">
           <div className="text-xs font-bold uppercase tracking-[0.2em] mb-4" style={{ color: 'var(--text-muted)' }}>
             Pricing Methodology &amp; Notes
           </div>

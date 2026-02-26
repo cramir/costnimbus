@@ -2,29 +2,8 @@
 
 export default function Newsletter({ wrapInSection = true }: { wrapInSection?: boolean }) {
     const content = (
-        <div style={{
-            maxWidth: '600px',
-            margin: '0 auto',
-            background: 'var(--bg-card)',
-            border: '1px solid var(--border-subtle)',
-            borderRadius: '24px',
-            padding: '3.5rem',
-            position: 'relative',
-            overflow: 'hidden',
-            boxShadow: 'var(--card-shadow)',
-            ...(!wrapInSection ? { marginTop: '5rem' } : {})
-        }}>
-            <div style={{
-                position: 'absolute',
-                top: '-2px',
-                left: '-2px',
-                right: '-2px',
-                bottom: '-2px',
-                background: 'linear-gradient(135deg, var(--accent-cyan), var(--accent-purple), var(--accent-cyan))',
-                borderRadius: '26px',
-                zIndex: -1,
-                opacity: 0.3,
-            }}></div>
+        <div className="newsletter-card" style={!wrapInSection ? { marginTop: '5rem' } : undefined}>
+            <div className="newsletter-card-glow" />
 
             <h2 style={{
                 fontFamily: 'var(--font-space-grotesk)',
@@ -67,17 +46,7 @@ export default function Newsletter({ wrapInSection = true }: { wrapInSection?: b
                     name="first_name"
                     placeholder="Your name"
                     required
-                    style={{
-                        width: '100%',
-                        padding: '1.1rem 1.5rem',
-                        fontFamily: 'var(--font-nunito)',
-                        fontSize: '1rem',
-                        background: 'var(--bg-tertiary)',
-                        border: '1px solid var(--border-subtle)',
-                        borderRadius: '12px',
-                        color: 'var(--text-primary)',
-                        transition: 'all 0.3s ease',
-                    }}
+                    className="newsletter-input"
                 />
                 <label htmlFor="newsletter-email" className="sr-only">Email address</label>
                 <input
@@ -86,45 +55,12 @@ export default function Newsletter({ wrapInSection = true }: { wrapInSection?: b
                     name="email"
                     placeholder="your@email.com"
                     required
-                    style={{
-                        width: '100%',
-                        padding: '1.1rem 1.5rem',
-                        fontFamily: 'var(--font-nunito)',
-                        fontSize: '1rem',
-                        background: 'var(--bg-tertiary)',
-                        border: '1px solid var(--border-subtle)',
-                        borderRadius: '12px',
-                        color: 'var(--text-primary)',
-                        transition: 'all 0.3s ease',
-                    }}
+                    className="newsletter-input"
                 />
                 <div style={{ position: 'absolute', left: '-5000px' }} aria-hidden="true">
                     <input type="text" name="a_password" tabIndex={-1} value="" readOnly autoComplete="off" />
                 </div>
-                <button
-                    type="submit"
-                    style={{
-                        fontFamily: 'var(--font-nunito)',
-                        fontSize: '1rem',
-                        fontWeight: 700,
-                        padding: '1.2rem 2rem',
-                        background: 'linear-gradient(135deg, var(--accent-cyan) 0%, var(--accent-purple) 100%)',
-                        color: 'white',
-                        border: 'none',
-                        borderRadius: '12px',
-                        cursor: 'pointer',
-                        transition: 'all 0.3s ease',
-                        marginTop: '0.5rem',
-                    }}
-                    onMouseEnter={(e) => {
-                        e.currentTarget.style.transform = 'translateY(-3px)';
-                        e.currentTarget.style.boxShadow = '0 15px 35px rgba(0, 212, 255, 0.3)';
-                    }}
-                    onMouseLeave={(e) => {
-                        e.currentTarget.style.transform = 'translateY(0)';
-                        e.currentTarget.style.boxShadow = 'none';
-                    }}
-                >
+                <button type="submit" className="newsletter-btn">
                     Subscribe ✨
                 </button>
             </form>
@@ -135,12 +71,7 @@ export default function Newsletter({ wrapInSection = true }: { wrapInSection?: b
     if (!wrapInSection) return content;
 
     return (
-        <section style={{
-            padding: '6rem 2rem',
-            position: 'relative',
-            zIndex: 1,
-            animation: 'fadeInUp 0.9s ease-out 0.6s both',
-        }}>
+        <section className="section-animate" style={{ animation: 'fadeInUp 0.9s ease-out 0.6s both' }}>
             {content}
         </section>
     );

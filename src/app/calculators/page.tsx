@@ -112,7 +112,7 @@ const calculators = [
 
 export default function CalculatorsPage() {
   return (
-    <main className="min-h-screen pt-28 pb-20" style={{ background: 'var(--bg-primary)' }}>
+    <main className="min-h-screen pt-28 pb-20 calc-main">
       {/* Hero */}
       <section className="max-w-4xl mx-auto px-6 pt-10 pb-12 text-center">
         <span className="inline-block mb-4 text-xs font-bold uppercase tracking-[0.2em] px-5 py-2 rounded-full"
