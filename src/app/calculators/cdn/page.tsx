@@ -3,6 +3,7 @@
 import { useState, useMemo } from 'react';
 import Link from 'next/link';
 import Breadcrumb from '@/components/breadcrumb';
+import NewsletterCard from '@/components/newsletter-card';
 
 // ─── CDN Provider Pricing (Q1 2026) ─────────────────────────────────────────
 
@@ -537,30 +538,10 @@ export default function CDNCostCalculator() {
             </div>
 
             {/* Newsletter CTA */}
-            <div className="rounded-2xl p-6 text-center"
-              style={{
-                background: 'linear-gradient(135deg, rgba(0,212,255,0.06) 0%, rgba(168,85,247,0.06) 100%)',
-                border: '1px solid rgba(0,212,255,0.15)',
-              }}>
-              <div className="text-2xl mb-2">📬</div>
-              <h3 className="text-base font-bold mb-2" style={{ fontFamily: 'var(--font-space-grotesk)', color: 'var(--text-primary)' }}>
-                CDN pricing changes. We track it.
-              </h3>
-              <p className="text-xs mb-4" style={{ color: 'var(--text-secondary)' }}>
-                Get alerts when CDN providers update pricing or launch new tiers.
-              </p>
-              <form action="https://sendfox.com/form/3qdz96/36enr2" method="post" target="_blank"
-                className="flex flex-col gap-2 max-w-xs mx-auto">
-                <input type="email" name="email" placeholder="you@company.com" required
-                  className="px-4 py-2.5 rounded-xl text-sm focus:outline-none"
-                  style={{ background: 'var(--bg-primary)', border: '1px solid var(--border-subtle)', color: 'var(--text-primary)' }} />
-                <button type="submit"
-                  className="py-2.5 rounded-xl text-sm font-semibold transition-all hover:opacity-90"
-                  style={{ background: 'linear-gradient(135deg, var(--accent-cyan), var(--accent-purple))', color: '#0d1117' }}>
-                  Subscribe →
-                </button>
-              </form>
-            </div>
+            <NewsletterCard
+              headline="CDN pricing changes. We track it."
+              description="Get alerts when CDN providers update pricing or launch new tiers."
+            />
 
             {/* Pricing notes */}
             <div className="rounded-2xl p-5" style={{ background: 'var(--bg-card)', border: '1px solid var(--border-subtle)' }}>

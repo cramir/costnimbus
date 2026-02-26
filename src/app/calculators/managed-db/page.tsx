@@ -3,6 +3,7 @@
 import { useState, useMemo } from 'react';
 import Link from 'next/link';
 import Breadcrumb from '@/components/breadcrumb';
+import NewsletterCard from '@/components/newsletter-card';
 
 // ─── Pricing Data (Q1 2026, us-east-1) ─────────────────────────────────────
 
@@ -518,27 +519,10 @@ export default function ManagedDBCalculator() {
           </Link>
 
           {/* Newsletter CTA */}
-          <div className="rounded-2xl p-5 relative overflow-hidden"
-            style={{
-              background: 'linear-gradient(135deg, rgba(168,85,247,0.08) 0%, rgba(0,212,255,0.08) 100%)',
-              border: '1px solid rgba(168,85,247,0.2)',
-            }}>
-            <div className="text-sm font-bold mb-1" style={{ color: 'var(--text-primary)' }}>
-              Get more cost breakdowns
-            </div>
-            <div className="text-xs mb-3" style={{ color: 'var(--text-muted)' }}>
-              Weekly FinOps teardowns. Real numbers from real teams.
-            </div>
-            <form action="https://sendfox.com/form/3qdz96/36enr2" method="post" target="_blank" className="space-y-2">
-              <input type="email" name="email" placeholder="you@company.com" required
-                className="w-full px-4 py-2.5 rounded-xl text-sm focus:outline-none"
-                style={{ background: 'var(--bg-primary)', border: '1px solid var(--border-subtle)', color: 'var(--text-primary)' }} />
-              <button type="submit" className="w-full py-2.5 rounded-xl text-sm font-semibold transition-all hover:scale-[1.02]"
-                style={{ background: 'linear-gradient(135deg, var(--accent-purple), var(--accent-cyan))', color: '#0d1117' }}>
-                Get Free Access →
-              </button>
-            </form>
-          </div>
+          <NewsletterCard
+            headline="Get more cost breakdowns"
+            description="Weekly FinOps teardowns. Real numbers from real teams."
+          />
 
           {/* Pricing note */}
           <p className="text-[10px] leading-relaxed" style={{ color: 'var(--text-muted)' }}>

@@ -95,7 +95,7 @@ export default function Newsletter({ wrapInSection = true }: { wrapInSection?: b
                     }}
                 />
                 <div style={{ position: 'absolute', left: '-5000px' }} aria-hidden="true">
-                    <input type="text" name="a_password" tabIndex={-1} value="" autoComplete="off" />
+                    <input type="text" name="a_password" tabIndex={-1} value="" readOnly autoComplete="off" />
                 </div>
                 <button
                     type="submit"

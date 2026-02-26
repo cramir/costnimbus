@@ -97,6 +97,7 @@ export default async function ArticlePage({ params }: PageProps) {
         </header>
 
         <div
+          className="article-content"
           style={{
             lineHeight: 1.8,
             color: 'var(--text-primary)',

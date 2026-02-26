@@ -2,6 +2,7 @@
 
 import { useState, useMemo } from 'react';
 import Breadcrumb from '@/components/breadcrumb';
+import NewsletterCard from '@/components/newsletter-card';
 
 interface SIEMPlatform {
   name: string;
@@ -430,30 +431,10 @@ function CostTile({ label, value, color, note }: { label: string; value: string;
 
 function NewsletterCTA() {
   return (
-    <div className="rounded-2xl p-8 text-center relative overflow-hidden"
-      style={{
-        background: 'linear-gradient(135deg, rgba(168,85,247,0.06) 0%, rgba(0,212,255,0.06) 100%)',
-        border: '1px solid rgba(168,85,247,0.15)',
-      }}>
-      <div className="absolute -top-16 -right-16 w-32 h-32 rounded-full opacity-20 blur-3xl" style={{ background: 'var(--accent-purple)' }} />
-      <h3 className="relative font-bold text-xl mb-2" style={{ fontFamily: 'var(--font-space-grotesk)', color: 'var(--text-primary)' }}>
-        Get the Full SIEM Cost Teardown
-      </h3>
-      <p className="relative text-sm mb-6" style={{ color: 'var(--text-secondary)' }}>
-        Real numbers from teams who switched from Splunk. Includes Wazuh deployment guide and Sentinel cost optimization.
-      </p>
-      <form action="https://sendfox.com/form/3qdz96/36enr2" method="post" target="_blank"
-        className="relative flex flex-col sm:flex-row gap-4 max-w-sm mx-auto">
-        <input type="email" name="email" placeholder="you@company.com" required
-          className="flex-1 px-5 py-3.5 rounded-xl text-sm focus:outline-none"
-          style={{ background: 'var(--bg-primary)', border: '1px solid var(--border-subtle)', color: 'var(--text-primary)' }} />
-        <button type="submit"
-          className="px-8 py-3.5 rounded-xl text-sm font-semibold transition-all hover:scale-[1.03]"
-          style={{ background: 'linear-gradient(135deg, var(--accent-purple), var(--accent-cyan))', color: '#fff' }}>
-          Get Report
-        </button>
-      </form>
-      <p className="relative text-xs mt-4" style={{ color: 'var(--text-muted)' }}>No spam. Unsubscribe anytime.</p>
-    </div>
+    <NewsletterCard
+      size="md"
+      headline="SIEM cost tactics in your inbox"
+      description="Real savings from engineers — SIEM pricing breakdowns, migration strategies, and optimization tips every Friday."
+    />
   );
 }

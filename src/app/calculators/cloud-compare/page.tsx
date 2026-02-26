@@ -2,6 +2,7 @@
 
 import { useState, useMemo } from 'react';
 import Breadcrumb from '@/components/breadcrumb';
+import NewsletterCard from '@/components/newsletter-card';
 
 // ─── Pricing Data — us-east-1 / eastus / us-east1, Q1 2026 ───────────────
 
@@ -685,30 +686,9 @@ function InsightCards({ cheapest }: { cheapest: (typeof CLOUDS)[number] }) {
 
 function NewsletterCTA() {
   return (
-    <div className="rounded-2xl p-6 text-center relative overflow-hidden"
-      style={{
-        background: 'linear-gradient(135deg, rgba(0,212,255,0.06) 0%, rgba(168,85,247,0.06) 100%)',
-        border: '1px solid rgba(0,212,255,0.15)',
-      }}>
-      <div className="absolute -top-10 -right-10 w-24 h-24 rounded-full opacity-20 blur-3xl"
-        style={{ background: 'var(--accent-purple)' }} />
-      <h3 className="relative font-bold mb-2" style={{ fontFamily: 'var(--font-space-grotesk)', color: 'var(--text-primary)' }}>
-        Get cloud cost tactics in your inbox
-      </h3>
-      <p className="relative text-xs mb-4" style={{ color: 'var(--text-secondary)' }}>
-        Real saves. No vendor fluff. Engineers only.
-      </p>
-      <form action="https://sendfox.com/form/3qdz96/36enr2" method="post" target="_blank"
-        className="relative flex flex-col gap-3">
-        <input type="email" name="email" placeholder="you@company.com" required
-          className="w-full px-4 py-3 rounded-xl text-sm focus:outline-none focus:ring-2"
-          style={{ background: 'var(--bg-primary)', border: '1px solid var(--border-subtle)', color: 'var(--text-primary)' }} />
-        <button type="submit"
-          className="w-full py-3 rounded-xl text-sm font-semibold transition-all hover:scale-[1.02]"
-          style={{ background: 'linear-gradient(135deg, var(--accent-cyan), var(--accent-purple))', color: '#0d1117' }}>
-          Subscribe Free
-        </button>
-      </form>
-    </div>
+    <NewsletterCard
+      headline="Get cloud cost tactics in your inbox"
+      description="Real saves. No vendor fluff. Engineers only."
+    />
   );
 }

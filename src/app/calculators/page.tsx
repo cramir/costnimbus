@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import type { Metadata } from 'next';
+import NewsletterCard from '@/components/newsletter-card';
 
 export const metadata: Metadata = {
   title: 'Cloud Cost Calculators',
@@ -144,31 +145,11 @@ export default function CalculatorsPage() {
 
       {/* CTA */}
       <section className="max-w-2xl mx-auto px-6 mt-20">
-        <div className="rounded-3xl p-10 text-center relative overflow-hidden"
-          style={{
-            background: 'linear-gradient(135deg, rgba(0,212,255,0.06) 0%, rgba(168,85,247,0.06) 100%)',
-            border: '1px solid rgba(0,212,255,0.15)',
-          }}>
-          <div className="absolute -top-20 -right-20 w-48 h-48 rounded-full opacity-20 blur-3xl" style={{ background: 'var(--accent-cyan)' }} />
-          <div className="absolute -bottom-20 -left-20 w-48 h-48 rounded-full opacity-20 blur-3xl" style={{ background: 'var(--accent-purple)' }} />
-          <h2 className="relative text-2xl font-bold mb-3" style={{ fontFamily: 'var(--font-space-grotesk)', color: 'var(--text-primary)' }}>
-            Want more calculators?
-          </h2>
-          <p className="relative text-sm mb-6" style={{ color: 'var(--text-secondary)' }}>
-            We ship new tools every week. Subscribe to get early access.
-          </p>
-          <form action="https://sendfox.com/form/3qdz96/36enr2" method="post" target="_blank"
-            className="relative flex flex-col sm:flex-row gap-4 max-w-sm mx-auto">
-            <input type="email" name="email" placeholder="you@company.com" required
-              className="flex-1 px-5 py-3.5 rounded-xl text-sm focus:outline-none"
-              style={{ background: 'var(--bg-primary)', border: '1px solid var(--border-subtle)', color: 'var(--text-primary)' }} />
-            <button type="submit"
-              className="px-8 py-3.5 rounded-xl text-sm font-semibold transition-all hover:scale-[1.03]"
-              style={{ background: 'linear-gradient(135deg, var(--accent-cyan), var(--accent-purple))', color: '#0d1117' }}>
-              Subscribe
-            </button>
-          </form>
-        </div>
+        <NewsletterCard
+          size="md"
+          headline="Want more calculators?"
+          description="We ship new tools every week. Subscribe to get early access."
+        />
       </section>
     </main>
   );

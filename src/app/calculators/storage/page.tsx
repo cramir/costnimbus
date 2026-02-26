@@ -2,6 +2,7 @@
 
 import { useState, useMemo } from 'react';
 import Breadcrumb from '@/components/breadcrumb';
+import NewsletterCard from '@/components/newsletter-card';
 
 interface StoragePricing {
   name: string;
@@ -383,30 +384,10 @@ function PriceTag({ label, value, highlight }: { label: string; value: string; h
 
 function NewsletterCTA() {
   return (
-    <div className="rounded-2xl p-8 text-center relative overflow-hidden"
-      style={{
-        background: 'linear-gradient(135deg, rgba(168,85,247,0.06) 0%, rgba(0,212,255,0.06) 100%)',
-        border: '1px solid rgba(168,85,247,0.15)',
-      }}>
-      <div className="absolute -top-16 -right-16 w-32 h-32 rounded-full opacity-20 blur-3xl" style={{ background: 'var(--accent-purple)' }} />
-      <h3 className="relative font-bold text-xl mb-2" style={{ fontFamily: 'var(--font-space-grotesk)', color: 'var(--text-primary)' }}>
-        Get the Full Storage Migration Guide
-      </h3>
-      <p className="relative text-sm mb-6" style={{ color: 'var(--text-secondary)' }}>
-        Step-by-step playbook for migrating from S3 to R2, including rclone config, zero-downtime cutover, and Cloudflare Workers routing.
-      </p>
-      <form action="https://sendfox.com/form/3qdz96/36enr2" method="post" target="_blank"
-        className="relative flex flex-col sm:flex-row gap-4 max-w-sm mx-auto">
-        <input type="email" name="email" placeholder="you@company.com" required
-          className="flex-1 px-5 py-3.5 rounded-xl text-sm focus:outline-none"
-          style={{ background: 'var(--bg-primary)', border: '1px solid var(--border-subtle)', color: 'var(--text-primary)' }} />
-        <button type="submit"
-          className="px-8 py-3.5 rounded-xl text-sm font-semibold transition-all hover:scale-[1.03]"
-          style={{ background: 'linear-gradient(135deg, var(--accent-purple), var(--accent-cyan))', color: '#fff' }}>
-          Get Guide
-        </button>
-      </form>
-      <p className="relative text-xs mt-4" style={{ color: 'var(--text-muted)' }}>No spam. Unsubscribe anytime.</p>
-    </div>
+    <NewsletterCard
+      size="md"
+      headline="Cloud storage cost tips in your inbox"
+      description="Real savings tactics from engineers — storage migration strategies, pricing breakdowns, and optimization tips."
+    />
   );
 }

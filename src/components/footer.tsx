@@ -156,16 +156,17 @@ export default function Footer({ animationDelay = '0.4s' }: { animationDelay?: s
               { href: '/article/how-i-saved-50k-month-cloud-costs', label: 'How I Saved $50K/month' },
               { href: '/article/how-to-cut-aws-egress-costs', label: 'Cut AWS Egress Costs' },
               { href: '/article/azure-vs-aws-dotnet', label: 'Azure vs AWS for .NET' },
+              { href: '/articles', label: 'All Articles →' },
             ].map(link => (
               <Link key={link.href} href={link.href} style={{
                 fontFamily: 'var(--font-nunito)',
                 fontSize: '0.875rem',
-                color: 'var(--text-secondary)',
+                color: link.label.includes('→') ? '#4ade80' : 'var(--text-secondary)',
                 textDecoration: 'none',
                 transition: 'color 0.2s ease',
               }}
               onMouseEnter={(e) => e.currentTarget.style.color = 'var(--text-primary)'}
-              onMouseLeave={(e) => e.currentTarget.style.color = 'var(--text-secondary)'}
+              onMouseLeave={(e) => e.currentTarget.style.color = link.label.includes('→') ? '#4ade80' : 'var(--text-secondary)'}
               >{link.label}</Link>
             ))}
           </nav>
