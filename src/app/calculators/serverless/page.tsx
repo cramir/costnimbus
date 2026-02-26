@@ -239,6 +239,28 @@ export default function ServerlessCostCalculator() {
 
   return (
     <main className="min-h-screen pt-28 pb-20 calc-main">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "WebApplication",
+          "name": "Serverless Cost Calculator",
+          "description": "Free interactive calculator comparing monthly costs for AWS Lambda, Azure Functions, GCP Cloud Functions, Cloudflare Workers, and Vercel Functions. Real pricing, free tier included.",
+          "url": "https://costnimbus.com/calculators/serverless",
+          "applicationCategory": "FinanceApplication",
+          "operatingSystem": "Web",
+          "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+          },
+          "creator": {
+            "@type": "Organization",
+            "name": "Cost Nimbus",
+            "url": "https://costnimbus.com"
+          }
+        }) }}
+      />
       <div className="max-w-7xl mx-auto px-6">
         <Breadcrumb items={[
           { label: 'Calculators', href: '/calculators' },

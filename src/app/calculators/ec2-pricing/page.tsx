@@ -145,6 +145,28 @@ export default function EC2PricingCalculator() {
 
   return (
     <main className="min-h-screen pt-28 pb-20 calc-main">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "WebApplication",
+          "name": "EC2 Pricing Calculator",
+          "description": "Compare EC2 On-Demand, Reserved Instance (1yr/3yr), and Spot pricing side by side. See exact savings for your instance type, count, and usage hours.",
+          "url": "https://costnimbus.com/calculators/ec2-pricing",
+          "applicationCategory": "FinanceApplication",
+          "operatingSystem": "Web",
+          "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+          },
+          "creator": {
+            "@type": "Organization",
+            "name": "Cost Nimbus",
+            "url": "https://costnimbus.com"
+          }
+        }) }}
+      />
       <div className="max-w-7xl mx-auto px-6">
         <Breadcrumb items={[
           { label: 'Calculators', href: '/calculators' },

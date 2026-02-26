@@ -65,6 +65,28 @@ export default function NatGatewayCalculator() {
 
   return (
     <main className="min-h-screen pt-28 pb-20 calc-main">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "WebApplication",
+          "name": "NAT Gateway Cost Calculator",
+          "description": "Calculate how much you can save by replacing AWS NAT Gateway with VPC endpoints. Engineers routinely cut 80-91% off their NAT bills.",
+          "url": "https://costnimbus.com/calculators/nat-gateway",
+          "applicationCategory": "FinanceApplication",
+          "operatingSystem": "Web",
+          "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+          },
+          "creator": {
+            "@type": "Organization",
+            "name": "Cost Nimbus",
+            "url": "https://costnimbus.com"
+          }
+        }) }}
+      />
       <div className="max-w-4xl mx-auto px-6 pt-6">
         <Breadcrumb items={[{ label: 'Home', href: '/' }, { label: 'Calculators', href: '/calculators' }, { label: 'NAT Gateway' }]} />
       </div>

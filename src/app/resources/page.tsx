@@ -280,7 +280,8 @@ export default function ResourcesPage() {
           </p>
           <form action="https://sendfox.com/form/3qdz96/36enr2" method="post" target="_blank"
             className="relative flex flex-col sm:flex-row gap-4 max-w-sm mx-auto">
-            <input type="email" name="email" placeholder="you@company.com" required
+            <label htmlFor="suggest-email" className="sr-only">Email address</label>
+            <input id="suggest-email" type="email" name="email" placeholder="you@company.com" required
               className="flex-1 px-5 py-3.5 rounded-xl text-sm focus:outline-none"
               style={{ background: 'var(--bg-primary)', border: '1px solid var(--border-subtle)', color: 'var(--text-primary)' }} />
             <button type="submit"

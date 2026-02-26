@@ -113,6 +113,34 @@ const calculators = [
 export default function CalculatorsPage() {
   return (
     <main className="min-h-screen pt-28 pb-20 calc-main">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "CollectionPage",
+          "name": "Cloud Cost Calculators",
+          "description": "Free interactive calculators for AWS, cloud storage, SIEM, and more. Real numbers, no fluff.",
+          "url": "https://costnimbus.com/calculators",
+          "creator": {
+            "@type": "Organization",
+            "name": "Cost Nimbus",
+            "url": "https://costnimbus.com"
+          },
+          "hasPart": calculators.map((c) => ({
+            "@type": "WebApplication",
+            "name": c.title,
+            "description": c.description,
+            "url": `https://costnimbus.com${c.href}`,
+            "applicationCategory": "FinanceApplication",
+            "operatingSystem": "Web",
+            "offers": {
+              "@type": "Offer",
+              "price": "0",
+              "priceCurrency": "USD"
+            }
+          }))
+        }) }}
+      />
       {/* Hero */}
       <section className="max-w-4xl mx-auto px-6 pt-10 pb-12 text-center">
         <span className="inline-block mb-4 text-xs font-bold uppercase tracking-[0.2em] px-5 py-2 rounded-full"

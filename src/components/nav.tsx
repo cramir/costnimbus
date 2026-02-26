@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import ThemeToggle from './theme-toggle';
@@ -17,6 +17,14 @@ const NAV_ITEMS = [
 export default function Nav() {
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
+
+  useEffect(() => {
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && menuOpen) setMenuOpen(false);
+    };
+    window.addEventListener('keydown', handleEscape);
+    return () => window.removeEventListener('keydown', handleEscape);
+  }, [menuOpen]);
 
   const isActive = (href: string, exact: boolean) =>
     exact ? pathname === href : pathname.startsWith(href);

@@ -133,6 +133,28 @@ export default function SIEMCalculator() {
 
   return (
     <main className="min-h-screen pt-28 pb-20 calc-main">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "WebApplication",
+          "name": "SIEM Total Cost of Ownership Calculator",
+          "description": "True TCO comparison across Splunk, Microsoft Sentinel, Elastic SIEM, and Wazuh — including compute, storage, and FTE costs. Find the cheapest SIEM for your log volume.",
+          "url": "https://costnimbus.com/calculators/siem",
+          "applicationCategory": "FinanceApplication",
+          "operatingSystem": "Web",
+          "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+          },
+          "creator": {
+            "@type": "Organization",
+            "name": "Cost Nimbus",
+            "url": "https://costnimbus.com"
+          }
+        }) }}
+      />
       <div className="max-w-4xl mx-auto px-6 pt-6">
         <Breadcrumb items={[{ label: 'Home', href: '/' }, { label: 'Calculators', href: '/calculators' }, { label: 'SIEM TCO' }]} />
       </div>

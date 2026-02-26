@@ -132,7 +132,7 @@ export default function MethodologyPage() {
       {/* Assumptions */}
       <section className="method-section px-8 pb-12">
         <h2 className="method-section-heading mb-6">Standard Assumptions</h2>
-        <div className="grid grid-cols-[repeat(auto-fill,minmax(380px,1fr))] gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           {assumptions.map((item) => (
             <div key={item.title} className="assumption-card">
               <div className="assumption-dot" />

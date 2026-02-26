@@ -169,6 +169,28 @@ export default function ManagedDBCalculator() {
 
   return (
     <main className="min-h-screen pt-28 pb-20 calc-main">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "WebApplication",
+          "name": "Managed Database Cost Calculator",
+          "description": "Compare true costs of Amazon RDS, Aurora Provisioned, Aurora Serverless v2, PlanetScale, and Neon for your database workload. Includes storage, IOPS, replicas, and hidden costs.",
+          "url": "https://costnimbus.com/calculators/managed-db",
+          "applicationCategory": "FinanceApplication",
+          "operatingSystem": "Web",
+          "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+          },
+          "creator": {
+            "@type": "Organization",
+            "name": "Cost Nimbus",
+            "url": "https://costnimbus.com"
+          }
+        }) }}
+      />
       <div className="max-w-4xl mx-auto px-6 pt-6">
         <Breadcrumb items={[{ label: 'Home', href: '/' }, { label: 'Calculators', href: '/calculators' }, { label: 'Managed Database' }]} />
       </div>

@@ -50,6 +50,8 @@ export default function TableOfContents({ markdown }: TableOfContentsProps) {
       <button
         onClick={() => setIsOpen(!isOpen)}
         className="toc-toggle"
+        aria-expanded={isOpen}
+        aria-controls="toc-list"
       >
         <span>Table of Contents</span>
         <span
@@ -64,7 +66,7 @@ export default function TableOfContents({ markdown }: TableOfContentsProps) {
         </span>
       </button>
       {isOpen && (
-        <ol className="toc-list">
+        <ol className="toc-list" id="toc-list">
           {headings.map((h, i) => (
             <li key={i}>
               <a

@@ -154,6 +154,28 @@ export default function CloudCompareCalculator() {
 
   return (
     <main className="min-h-screen pt-28 pb-20 calc-main">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "WebApplication",
+          "name": "AWS vs Azure vs GCP Cloud Cost Calculator",
+          "description": "Compare AWS, Microsoft Azure, and Google Cloud Platform costs for your exact workload — compute, storage, databases, and egress. Find the cheapest cloud for your use case.",
+          "url": "https://costnimbus.com/calculators/cloud-compare",
+          "applicationCategory": "FinanceApplication",
+          "operatingSystem": "Web",
+          "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+          },
+          "creator": {
+            "@type": "Organization",
+            "name": "Cost Nimbus",
+            "url": "https://costnimbus.com"
+          }
+        }) }}
+      />
       <div className="max-w-4xl mx-auto px-6 pt-6">
         <Breadcrumb items={[{ label: 'Home', href: '/' }, { label: 'Calculators', href: '/calculators' }, { label: 'AWS vs Azure vs GCP' }]} />
       </div>

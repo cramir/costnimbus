@@ -86,6 +86,28 @@ export default function StorageCalculator() {
 
   return (
     <main className="min-h-screen pt-28 pb-20 calc-main">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "WebApplication",
+          "name": "S3 vs R2 vs Backblaze B2 Storage Calculator",
+          "description": "Compare real monthly storage costs across AWS S3, Cloudflare R2, and Backblaze B2. Factor in storage GB, GET/PUT requests, and egress. R2's zero-egress model saves most teams 60-80% vs S3.",
+          "url": "https://costnimbus.com/calculators/storage",
+          "applicationCategory": "FinanceApplication",
+          "operatingSystem": "Web",
+          "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+          },
+          "creator": {
+            "@type": "Organization",
+            "name": "Cost Nimbus",
+            "url": "https://costnimbus.com"
+          }
+        }) }}
+      />
       <div className="max-w-4xl mx-auto px-6 pt-6">
         <Breadcrumb items={[{ label: 'Home', href: '/' }, { label: 'Calculators', href: '/calculators' }, { label: 'Storage: S3 vs R2 vs Backblaze' }]} />
       </div>

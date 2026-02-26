@@ -241,6 +241,28 @@ export default function CDNCostCalculator() {
 
   return (
     <main className="min-h-screen pt-28 pb-20 calc-main">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "WebApplication",
+          "name": "CDN Cost Calculator",
+          "description": "Compare monthly CDN costs: CloudFront, Cloudflare, Fastly, BunnyCDN, KeyCDN, Azure CDN. See when Cloudflare zero-egress saves you real money.",
+          "url": "https://costnimbus.com/calculators/cdn",
+          "applicationCategory": "FinanceApplication",
+          "operatingSystem": "Web",
+          "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+          },
+          "creator": {
+            "@type": "Organization",
+            "name": "Cost Nimbus",
+            "url": "https://costnimbus.com"
+          }
+        }) }}
+      />
       <div className="max-w-7xl mx-auto px-6">
         <Breadcrumb items={[
           { label: 'Calculators', href: '/calculators' },

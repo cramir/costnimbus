@@ -755,6 +755,28 @@ export default function FinOpsMaturityPage() {
 
   return (
     <main className="calc-main" style={{ minHeight: '100vh', paddingTop: '7rem', paddingBottom: '5rem' }}>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "WebApplication",
+          "name": "FinOps Maturity Assessment",
+          "description": "Free 15-question assessment that scores your FinOps maturity across 5 dimensions: Visibility, Optimization, Planning, Governance, and Culture. Get actionable recommendations.",
+          "url": "https://costnimbus.com/calculators/finops-maturity",
+          "applicationCategory": "FinanceApplication",
+          "operatingSystem": "Web",
+          "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+          },
+          "creator": {
+            "@type": "Organization",
+            "name": "Cost Nimbus",
+            "url": "https://costnimbus.com"
+          }
+        }) }}
+      />
       <div style={{ maxWidth: '760px', margin: '0 auto', padding: '0 1.5rem' }}>
         <Breadcrumb items={[{ label: 'Calculators', href: '/calculators' }, { label: 'FinOps Maturity Assessment' }]} />
 

@@ -180,6 +180,28 @@ export default function EBSStorageCalculator() {
 
   return (
     <main className="min-h-screen pt-28 pb-20 calc-main">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "WebApplication",
+          "name": "EBS Volume Cost Calculator",
+          "description": "Compare AWS EBS (gp3, gp2, io2), Azure Disk, and GCP Persistent Disk monthly costs. gp3 saves 20% vs gp2 at baseline — see your exact number.",
+          "url": "https://costnimbus.com/calculators/ebs-storage",
+          "applicationCategory": "FinanceApplication",
+          "operatingSystem": "Web",
+          "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+          },
+          "creator": {
+            "@type": "Organization",
+            "name": "Cost Nimbus",
+            "url": "https://costnimbus.com"
+          }
+        }) }}
+      />
       <div className="max-w-7xl mx-auto px-6">
         <Breadcrumb items={[
           { label: 'Calculators', href: '/calculators' },
