@@ -24,7 +24,10 @@ const jetbrainsMono = JetBrains_Mono({
   display: 'swap',
 });
 
+const SITE_URL = 'https://costnimbus.com';
+
 export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
   title: {
     template: '%s | Cost Nimbus',
     default: 'Cost Nimbus - Cloud Cost Intelligence',
@@ -36,12 +39,24 @@ export const metadata: Metadata = {
     description: 'Real cloud cost optimization strategies built by engineers, for engineers. Save thousands monthly with battle-tested techniques.',
     siteName: 'Cost Nimbus',
     type: 'website',
+    url: SITE_URL,
+    images: [{ url: '/og-image.svg', width: 1200, height: 630, alt: 'Cost Nimbus - Cloud Cost Intelligence' }],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Cost Nimbus - Cloud Cost Intelligence',
     description: 'Real cloud cost optimization strategies built by engineers, for engineers. Save thousands monthly with battle-tested techniques.',
+    images: ['/og-image.svg'],
   },
+};
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: 'Cost Nimbus',
+  url: SITE_URL,
+  description: 'Cloud cost intelligence built by engineers, for engineers. Real numbers, no vendor fluff.',
+  logo: `${SITE_URL}/og-image.svg`,
 };
 
 export default function RootLayout({
@@ -51,14 +66,23 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+      </head>
       <body
         className={`${spaceGrotesk.variable} ${nunito.variable} ${jetbrainsMono.variable} antialiased`}
         style={{
           fontFamily: 'var(--font-nunito)',
         }}
       >
+        <a href="#main-content" className="skip-to-content">Skip to content</a>
         <Nav />
-        {children}
+        <main id="main-content">
+          {children}
+        </main>
         <Footer />
         <Analytics />
         <SpeedInsights />

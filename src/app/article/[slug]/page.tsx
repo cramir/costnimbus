@@ -28,6 +28,13 @@ export async function generateMetadata({ params }: PageProps) {
     title: `${article.title} | Cost Nimbus`,
     description: article.description,
     keywords: `${article.category}, cloud costs, AWS optimization, FinOps, cloud savings, cost management`,
+    openGraph: {
+      title: article.title,
+      description: article.description,
+      type: 'article',
+      publishedTime: article.publishDate,
+      authors: ['Cost Nimbus'],
+    },
   };
 }
 
@@ -39,8 +46,27 @@ export default async function ArticlePage({ params }: PageProps) {
     notFound();
   }
 
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: article.title,
+    description: article.description,
+    datePublished: article.publishDate,
+    author: { '@type': 'Organization', name: 'Cost Nimbus' },
+    publisher: {
+      '@type': 'Organization',
+      name: 'Cost Nimbus',
+      url: 'https://costnimbus.com',
+    },
+    mainEntityOfPage: `https://costnimbus.com/article/${slug}`,
+  };
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <InnerHeader />
 
       {/* Article */}

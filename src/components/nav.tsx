@@ -1,13 +1,25 @@
 'use client';
 
+import { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import ThemeToggle from './theme-toggle';
 
+const NAV_ITEMS = [
+  { href: '/', label: 'Home', exact: true },
+  { href: '/about', label: 'About', exact: true },
+  { href: '/tools', label: 'Tools', exact: true },
+  { href: '/resources', label: 'Resources', exact: false },
+  { href: '/calculators', label: 'Calculators', exact: false },
+  { href: '/articles', label: 'Articles', exact: false },
+];
+
 export default function Nav() {
   const pathname = usePathname();
+  const [menuOpen, setMenuOpen] = useState(false);
 
-  const isActive = (path: string) => pathname === path;
+  const isActive = (href: string, exact: boolean) =>
+    exact ? pathname === href : pathname.startsWith(href);
 
   return (
     <nav style={{
@@ -38,18 +50,14 @@ export default function Nav() {
           display: 'flex',
           alignItems: 'center',
           gap: '0.5rem',
-          transition: 'transform 0.3s ease',
-        }}
-        onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.02)'}
-        onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
-        >
+        }}>
           <span style={{
             fontFamily: 'var(--font-jetbrains-mono)',
             color: 'var(--accent-cyan)',
             fontSize: '1.3rem',
           }}>$</span>
           Cost Nimbus
-          <span style={{
+          <span className="nav-badge" style={{
             fontFamily: 'var(--font-nunito)',
             fontSize: '0.7rem',
             color: 'var(--text-muted)',
@@ -62,203 +70,41 @@ export default function Nav() {
           }}>Cloud Cost Intelligence</span>
         </Link>
 
-        <div style={{
-          display: 'flex',
-          gap: '1rem',
-          alignItems: 'center',
-        }}>
-          <div style={{
-            display: 'flex',
-            gap: '1rem',
-          }}>
-            <Link
-              href="/"
-              style={{
-                fontFamily: 'var(--font-nunito)',
-                fontSize: '0.9rem',
-                fontWeight: 600,
-                color: isActive('/') ? 'var(--accent-cyan)' : 'var(--text-secondary)',
-                textDecoration: 'none',
-                padding: '0.6rem 1.3rem',
-                borderRadius: '25px',
-                transition: 'all 0.3s ease',
-              }}
-              onMouseEnter={(e) => {
-                if (!isActive('/')) {
-                  e.currentTarget.style.background = 'rgba(0, 212, 255, 0.1)';
-                  e.currentTarget.style.color = 'var(--accent-cyan)';
-                  e.currentTarget.style.transform = 'translateY(-2px)';
-                  e.currentTarget.style.border = '1px solid rgba(0, 212, 255, 0.2)';
-                }
-              }}
-              onMouseLeave={(e) => {
-                if (!isActive('/')) {
-                  e.currentTarget.style.background = 'transparent';
-                  e.currentTarget.style.color = 'var(--text-secondary)';
-                  e.currentTarget.style.transform = 'translateY(0)';
-                  e.currentTarget.style.border = 'none';
-                }
-              }}
-            >
-              Home
-            </Link>
-            <Link
-              href="/about"
-              style={{
-                fontFamily: 'var(--font-nunito)',
-                fontSize: '0.9rem',
-                fontWeight: 600,
-                color: isActive('/about') ? 'var(--accent-cyan)' : 'var(--text-secondary)',
-                textDecoration: 'none',
-                padding: '0.6rem 1.3rem',
-                borderRadius: '25px',
-                transition: 'all 0.3s ease',
-              }}
-              onMouseEnter={(e) => {
-                if (!isActive('/about')) {
-                  e.currentTarget.style.background = 'rgba(0, 212, 255, 0.1)';
-                  e.currentTarget.style.color = 'var(--accent-cyan)';
-                  e.currentTarget.style.transform = 'translateY(-2px)';
-                  e.currentTarget.style.border = '1px solid rgba(0, 212, 255, 0.2)';
-                }
-              }}
-              onMouseLeave={(e) => {
-                if (!isActive('/about')) {
-                  e.currentTarget.style.background = 'transparent';
-                  e.currentTarget.style.color = 'var(--text-secondary)';
-                  e.currentTarget.style.transform = 'translateY(0)';
-                  e.currentTarget.style.border = 'none';
-                }
-              }}
-            >
-              About
-            </Link>
-            <Link
-              href="/tools"
-              style={{
-                fontFamily: 'var(--font-nunito)',
-                fontSize: '0.9rem',
-                fontWeight: 600,
-                color: isActive('/tools') ? 'var(--accent-cyan)' : 'var(--text-secondary)',
-                textDecoration: 'none',
-                padding: '0.6rem 1.3rem',
-                borderRadius: '25px',
-                transition: 'all 0.3s ease',
-              }}
-              onMouseEnter={(e) => {
-                if (!isActive('/tools')) {
-                  e.currentTarget.style.background = 'rgba(0, 212, 255, 0.1)';
-                  e.currentTarget.style.color = 'var(--accent-cyan)';
-                  e.currentTarget.style.transform = 'translateY(-2px)';
-                  e.currentTarget.style.border = '1px solid rgba(0, 212, 255, 0.2)';
-                }
-              }}
-              onMouseLeave={(e) => {
-                if (!isActive('/tools')) {
-                  e.currentTarget.style.background = 'transparent';
-                  e.currentTarget.style.color = 'var(--text-secondary)';
-                  e.currentTarget.style.transform = 'translateY(0)';
-                  e.currentTarget.style.border = 'none';
-                }
-              }}
-            >
-              Tools
-            </Link>
-            <Link
-              href="/resources"
-              style={{
-                fontFamily: 'var(--font-nunito)',
-                fontSize: '0.9rem',
-                fontWeight: 600,
-                color: pathname.startsWith('/resources') ? 'var(--accent-cyan)' : 'var(--text-secondary)',
-                textDecoration: 'none',
-                padding: '0.6rem 1.3rem',
-                borderRadius: '25px',
-                transition: 'all 0.3s ease',
-              }}
-              onMouseEnter={(e) => {
-                if (!pathname.startsWith('/resources')) {
-                  e.currentTarget.style.background = 'rgba(0, 212, 255, 0.1)';
-                  e.currentTarget.style.color = 'var(--accent-cyan)';
-                  e.currentTarget.style.transform = 'translateY(-2px)';
-                  e.currentTarget.style.border = '1px solid rgba(0, 212, 255, 0.2)';
-                }
-              }}
-              onMouseLeave={(e) => {
-                if (!pathname.startsWith('/resources')) {
-                  e.currentTarget.style.background = 'transparent';
-                  e.currentTarget.style.color = 'var(--text-secondary)';
-                  e.currentTarget.style.transform = 'translateY(0)';
-                  e.currentTarget.style.border = 'none';
-                }
-              }}
-            >
-              Resources
-            </Link>
-            <Link
-              href="/calculators"
-              style={{
-                fontFamily: 'var(--font-nunito)',
-                fontSize: '0.9rem',
-                fontWeight: 600,
-                color: pathname.startsWith('/calculators') ? 'var(--accent-cyan)' : 'var(--text-secondary)',
-                textDecoration: 'none',
-                padding: '0.6rem 1.3rem',
-                borderRadius: '25px',
-                transition: 'all 0.3s ease',
-              }}
-              onMouseEnter={(e) => {
-                if (!pathname.startsWith('/calculators')) {
-                  e.currentTarget.style.background = 'rgba(0, 212, 255, 0.1)';
-                  e.currentTarget.style.color = 'var(--accent-cyan)';
-                  e.currentTarget.style.transform = 'translateY(-2px)';
-                  e.currentTarget.style.border = '1px solid rgba(0, 212, 255, 0.2)';
-                }
-              }}
-              onMouseLeave={(e) => {
-                if (!pathname.startsWith('/calculators')) {
-                  e.currentTarget.style.background = 'transparent';
-                  e.currentTarget.style.color = 'var(--text-secondary)';
-                  e.currentTarget.style.transform = 'translateY(0)';
-                  e.currentTarget.style.border = 'none';
-                }
-              }}
-            >
-              Calculators
-            </Link>
-            <Link
-              href="/articles"
-              style={{
-                fontFamily: 'var(--font-nunito)',
-                fontSize: '0.9rem',
-                fontWeight: 600,
-                color: pathname.startsWith('/articles') ? 'var(--accent-cyan)' : 'var(--text-secondary)',
-                textDecoration: 'none',
-                padding: '0.6rem 1.3rem',
-                borderRadius: '25px',
-                transition: 'all 0.3s ease',
-              }}
-              onMouseEnter={(e) => {
-                if (!pathname.startsWith('/articles')) {
-                  e.currentTarget.style.background = 'rgba(0, 212, 255, 0.1)';
-                  e.currentTarget.style.color = 'var(--accent-cyan)';
-                  e.currentTarget.style.transform = 'translateY(-2px)';
-                  e.currentTarget.style.border = '1px solid rgba(0, 212, 255, 0.2)';
-                }
-              }}
-              onMouseLeave={(e) => {
-                if (!pathname.startsWith('/articles')) {
-                  e.currentTarget.style.background = 'transparent';
-                  e.currentTarget.style.color = 'var(--text-secondary)';
-                  e.currentTarget.style.transform = 'translateY(0)';
-                  e.currentTarget.style.border = 'none';
-                }
-              }}
-            >
-              Articles
-            </Link>
+        <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
+          <div className={`nav-links ${menuOpen ? 'open' : ''}`}>
+            {menuOpen && (
+              <button
+                className="mobile-menu-btn"
+                onClick={() => setMenuOpen(false)}
+                aria-label="Close menu"
+                style={{ position: 'absolute', top: '1rem', right: '1.5rem', zIndex: 160 }}
+              >
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+                  <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
+                </svg>
+              </button>
+            )}
+            {NAV_ITEMS.map(({ href, label, exact }) => (
+              <Link
+                key={href}
+                href={href}
+                className={`nav-link ${isActive(href, exact) ? 'nav-link-active' : ''}`}
+                onClick={() => setMenuOpen(false)}
+              >
+                {label}
+              </Link>
+            ))}
           </div>
           <ThemeToggle />
+          <button
+            className="mobile-menu-btn"
+            onClick={() => setMenuOpen(true)}
+            aria-label="Open menu"
+          >
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+              <line x1="3" y1="6" x2="21" y2="6" /><line x1="3" y1="12" x2="21" y2="12" /><line x1="3" y1="18" x2="21" y2="18" />
+            </svg>
+          </button>
         </div>
       </div>
     </nav>

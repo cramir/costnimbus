@@ -718,7 +718,7 @@ function ResultsPanel({ answers }: { answers: Record<string, number> }) {
         <p style={{ fontSize: '0.875rem', color: 'var(--text-muted)', marginBottom: '1.25rem', lineHeight: 1.6 }}>
           Real FinOps case studies, new calculators, and practical techniques — one email per week.
         </p>
-        <Link href="/#newsletter" style={{
+        <Link href="/articles" style={{
           display: 'inline-block',
           padding: '0.75rem 2rem',
           background: 'linear-gradient(135deg, var(--accent-cyan), var(--accent-purple))',

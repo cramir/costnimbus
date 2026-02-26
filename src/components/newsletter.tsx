@@ -60,7 +60,9 @@ export default function Newsletter({ wrapInSection = true }: { wrapInSection?: b
                     zIndex: 1,
                 }}
             >
+                <label htmlFor="newsletter-name" className="sr-only">Your name</label>
                 <input
+                    id="newsletter-name"
                     type="text"
                     name="first_name"
                     placeholder="Your name"
@@ -77,7 +79,9 @@ export default function Newsletter({ wrapInSection = true }: { wrapInSection?: b
                         transition: 'all 0.3s ease',
                     }}
                 />
+                <label htmlFor="newsletter-email" className="sr-only">Email address</label>
                 <input
+                    id="newsletter-email"
                     type="email"
                     name="email"
                     placeholder="your@email.com"

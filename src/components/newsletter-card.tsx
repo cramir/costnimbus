@@ -43,7 +43,9 @@ export default function NewsletterCard({
         target="_blank"
         className={`relative ${isMd ? 'flex flex-col sm:flex-row gap-4 max-w-sm mx-auto' : 'flex flex-col gap-2 max-w-xs mx-auto'}`}
       >
+        <label htmlFor="card-newsletter-email" className="sr-only">Email address</label>
         <input
+          id="card-newsletter-email"
           type="email"
           name="email"
           placeholder="you@company.com"
