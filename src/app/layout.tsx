@@ -40,13 +40,13 @@ export const metadata: Metadata = {
     siteName: 'Cost Nimbus',
     type: 'website',
     url: SITE_URL,
-    images: [{ url: '/og-image.svg', width: 1200, height: 630, alt: 'Cost Nimbus - Cloud Cost Intelligence' }],
+    images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'Cost Nimbus - Cloud Cost Intelligence' }],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Cost Nimbus - Cloud Cost Intelligence',
     description: 'Real cloud cost optimization strategies built by engineers, for engineers. Save thousands monthly with battle-tested techniques.',
-    images: ['/og-image.svg'],
+    images: ['/og-image.png'],
   },
 };
 
@@ -56,7 +56,7 @@ const jsonLd = {
   name: 'Cost Nimbus',
   url: SITE_URL,
   description: 'Cloud cost intelligence built by engineers, for engineers. Real numbers, no vendor fluff.',
-  logo: `${SITE_URL}/og-image.svg`,
+  logo: `${SITE_URL}/og-image.png`,
 };
 
 export default function RootLayout({
