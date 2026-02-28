@@ -5,8 +5,32 @@
     <link>https://costnimbus.com</link>
     <description>Cloud cost intelligence built by engineers, for engineers. Real numbers, no vendor fluff.</description>
     <language>en-us</language>
-    <lastBuildDate>Thu, 26 Feb 2026 19:11:53 GMT</lastBuildDate>
+    <lastBuildDate>Sat, 28 Feb 2026 15:28:44 GMT</lastBuildDate>
     <atom:link href="https://costnimbus.com/feed.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Security Alert Fatigue Is Killing Your SOC — Here&apos;s What Actually Works</title>
+      <link>https://costnimbus.com/article/alert-fatigue-soc-solutions/</link>
+      <guid isPermaLink="true">https://costnimbus.com/article/alert-fatigue-soc-solutions/</guid>
+      <description>A SOC infrastructure engineer&apos;s honest analysis of alert fatigue in the security operations center: the real numbers, why current tools fail, and the practical approaches that actually reduce noise without creating blind spots.</description>
+      <pubDate>Sat, 28 Feb 2026 00:00:00 GMT</pubDate>
+      <category>Security</category>
+    </item>
+    <item>
+      <title>How Much Does SOC 2 Cost in 2026? Audit, Certification &amp; Hidden Fees</title>
+      <link>https://costnimbus.com/article/soc2-cost-breakdown-2026/</link>
+      <guid isPermaLink="true">https://costnimbus.com/article/soc2-cost-breakdown-2026/</guid>
+      <description>A brutally honest SOC 2 cost breakdown covering auditor fees, soc 2 certification cost, tool costs, internal labor hours, and the hidden opportunity cost nobody talks about — with real numbers by company size.</description>
+      <pubDate>Sat, 28 Feb 2026 00:00:00 GMT</pubDate>
+      <category>Security</category>
+    </item>
+    <item>
+      <title>The Complete SOC 2 Compliance Checklist: Evidence for Your SOC 2 Audit</title>
+      <link>https://costnimbus.com/article/soc2-evidence-collection-checklist/</link>
+      <guid isPermaLink="true">https://costnimbus.com/article/soc2-evidence-collection-checklist/</guid>
+      <description>The practical SOC 2 compliance checklist for evidence collection — organized by Trust Service Criteria, covering all SOC 2 requirements auditors expect, with sources, frequency, and manual vs automated time estimates.</description>
+      <pubDate>Sat, 28 Feb 2026 00:00:00 GMT</pubDate>
+      <category>Security</category>
+    </item>
     <item>
       <title>Agentic SOC: Hype or Real Shift?</title>
       <link>https://costnimbus.com/article/agentic-soc-hype-or-reality/</link>

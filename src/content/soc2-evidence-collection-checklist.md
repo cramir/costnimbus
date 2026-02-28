@@ -1,36 +1,38 @@
 ---
-title: "The Complete SOC2 Evidence Collection Checklist for Startups"
-description: "The practical SOC2 evidence collection checklist auditors expect but nobody gives you for free — organized by Trust Service Criteria, with sources, collection frequency, and manual vs automated time estimates."
+title: "The Complete SOC 2 Compliance Checklist: Evidence for Your SOC 2 Audit"
+description: "The practical SOC 2 compliance checklist for evidence collection — organized by Trust Service Criteria, covering all SOC 2 requirements auditors expect, with sources, frequency, and manual vs automated time estimates."
 publishDate: "2026-02-28"
 readTime: "11 min"
 category: "Security"
 ---
 
-Getting SOC2 certified is one thing. Actually collecting the evidence that proves your controls work — consistently, over months — is the operational challenge nobody prepares you for.
+Getting SOC 2 certified is one thing. Actually collecting the evidence that proves your controls work — consistently, over months — is the operational challenge nobody prepares you for.
 
-Every compliance vendor shows you a dashboard. Nobody shows you the actual list of what auditors will ask for, where to find it, and how long it takes to collect manually versus with automation.
+Every compliance vendor shows you a dashboard. Nobody shows you the actual SOC 2 compliance checklist of what auditors will ask for, where to find it, and how long it takes to collect manually versus with automation.
 
 Until now.
 
-This is the checklist I wish I'd had before my first SOC2 audit. It's organized by the Trust Service Criteria that SOC2 reports are structured around, with the specific evidence types auditors actually request, where to find it in common infrastructure, and honest time estimates for collection.
+This is the SOC 2 audit checklist I wish I'd had before my first SOC 2 audit. It covers all core SOC 2 requirements, organized by the Trust Service Criteria that SOC 2 reports are structured around, with the specific evidence types auditors actually request, where to find it in common infrastructure, and honest time estimates for collection.
 
-## How to Use This Checklist
+## How to Use This SOC 2 Compliance Checklist
 
-SOC2 is based on the **AICPA Trust Service Criteria (TSC)**. Your audit will cover some or all of the following criteria:
+SOC 2 compliance is based on the **AICPA Trust Service Criteria (TSC)**. Your SOC 2 audit will cover some or all of the following criteria:
 
-- **CC1–CC9:** Common Criteria (Security) — required for all SOC2 reports
+- **CC1–CC9:** Common Criteria (Security) — required for all SOC 2 reports
 - **A-series:** Availability — add if uptime/SLA is part of your offering
 - **C-series:** Confidentiality — add if you handle confidential data
 - **PI-series:** Processing Integrity — add for transactional systems
 - **P-series:** Privacy — add if you process personal data under privacy regulations
 
-Most startups start with Security (CC-series) only. That's what this checklist covers in depth.
+Most startups start with Security (CC-series) only. That's what this SOC 2 compliance checklist covers in depth.
+
+**SOC 2 Type 1 vs SOC 2 Type 2:** The evidence requirements differ by SOC 2 type. A SOC 2 Type 1 audit only requires point-in-time evidence — screenshots and exports showing controls exist on a single date. A SOC 2 Type 2 audit requires evidence collected throughout the 6–12 month observation period. This checklist is primarily designed for SOC 2 Type 2 (the one enterprise buyers actually want), though it works as a foundation for Type 1 as well.
 
 **Two notes before you start:**
 
 First, evidence needs to be current. A screenshot from eight months ago doesn't demonstrate a control is working today. For ongoing controls (access reviews, monitoring), auditors want to see evidence from throughout the audit period.
 
-Second, the goal isn't just collecting the artifacts — it's demonstrating a *consistent process*. "We did an access review once" isn't enough. "We did access reviews quarterly, here are the four records with dates and reviewer signatures" is what passes.
+Second, the goal isn't just collecting the artifacts — it's demonstrating a *consistent process*. "We did an access review once" isn't enough. "We did access reviews quarterly, here are the four records with dates and reviewer signatures" is what passes the SOC 2 audit.
 
 ---
 
@@ -374,7 +376,7 @@ Second, the goal isn't just collecting the artifacts — it's demonstrating a *c
 
 For a startup with a 10-person engineering team, 164 hours is roughly 4 full work weeks of someone's time — spread across multiple people, across multiple months, in small annoying chunks. It's not one person disappearing for a month. It's everyone's most experienced people being interrupted constantly to pull one more report, take one more screenshot, sign one more policy acknowledgment.
 
-This is why the compliance tool market exists. And why there's still room for something better.
+Meeting all SOC 2 requirements manually is genuinely painful — especially the first time. These hours are why the compliance tool market exists. And why there's still room for something better.
 
 ## Manual vs. Automated: Where the Hours Go
 
