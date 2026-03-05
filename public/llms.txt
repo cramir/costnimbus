@@ -1,0 +1,49 @@
+# Cost Nimbus
+
+> Cost Nimbus is a free resource for cloud engineers and FinOps practitioners. It provides battle-tested guides, interactive cost calculators, and open-source tools for reducing cloud infrastructure spend — built by Cesar Ramirez, a SOC infrastructure engineer who saved $50K/month in production cloud costs.
+
+The site focuses on AWS, Azure, and GCP cost optimization with real ROI numbers and step-by-step implementation details. All content is practitioner-written from production experience, not vendor marketing.
+
+## Guides
+
+- [How I Saved $50K/Month in Cloud Costs](https://costnimbus.com/article/how-i-saved-50k-month-cloud-costs): Featured case study — two specific solutions that delivered $30K + $20K in monthly savings with exact technologies and implementation steps.
+- [AWS Savings Plans vs Reserved Instances](https://costnimbus.com/article/savings-plans-vs-reserved-instances): Which commitment model saves more in 2026, with breakeven analysis and decision framework.
+- [RDS vs Aurora: The Real Cost Difference](https://costnimbus.com/article/rds-vs-aurora-cost-comparison): Detailed cost comparison of AWS managed database options with I/O pricing analysis.
+- [Kubernetes Cost Optimization: Cut Your K8s Bill by 67%](https://costnimbus.com/article/kubernetes-cost-optimization): Practical guide to right-sizing, spot instances, and cluster autoscaling for Kubernetes workloads.
+- [How to Cut AWS Egress Costs by 80%](https://costnimbus.com/article/how-to-cut-aws-egress-costs): Techniques for reducing data transfer costs without changing application architecture.
+- [Hidden Costs of AWS NAT Gateways](https://costnimbus.com/article/hidden-costs-aws-nat-gateways): How VPC endpoints can replace NAT Gateways and cut networking costs by 80-91%.
+- [Lambda Cold Starts: Complete 2026 Optimization Guide](https://costnimbus.com/article/lambda-cold-starts): Comprehensive guide to understanding and mitigating Lambda cold start latency.
+- [Lambda Cold Starts: The Hidden Serverless Tax](https://costnimbus.com/article/lambda-cold-starts-hidden-serverless-tax): How cold starts impact your serverless bill and what to do about it.
+- [GPU Cost Optimization for AI Workloads](https://costnimbus.com/article/gpu-cost-optimization-ai-workloads): Strategies for managing GPU infrastructure costs when running AI/ML workloads.
+- [Azure vs AWS for .NET Shops](https://costnimbus.com/article/azure-vs-aws-dotnet): Cost and developer experience deep-dive for .NET teams choosing between Azure and AWS.
+- [SOC 2 Cost Breakdown 2026](https://costnimbus.com/article/soc2-cost-breakdown-2026): Full breakdown of audit, certification, and hidden fees for SOC 2 compliance.
+- [SOC 2 Evidence Collection Checklist](https://costnimbus.com/article/soc2-evidence-collection-checklist): Complete checklist for gathering evidence needed for a SOC 2 audit.
+- [Security Alert Fatigue Solutions](https://costnimbus.com/article/alert-fatigue-soc-solutions): Practical approaches to solving alert fatigue in security operations centers.
+- [Agentic SOC: Hype or Reality?](https://costnimbus.com/article/agentic-soc-hype-or-reality): Analysis of whether autonomous AI agents in SOC operations are ready for production.
+- [Policy-as-Code for SOC Teams](https://costnimbus.com/article/policy-as-code-soc-teams): Using OPA and Rego to automate security enforcement with real production code examples.
+- [OPA v1.0 Migration Guide for SOC Teams](https://costnimbus.com/article/opa-v1-migration-guide-soc-teams): Practical migration guide for OPA's breaking Rego v1 changes, aimed at security teams.
+- [AI Security Risks Enterprises Are Ignoring](https://costnimbus.com/article/ai-security-risks-enterprises-ignoring): Four AI security risk categories that should be in enterprise threat models.
+- [SOC Analyst's Guide to Generative AI](https://costnimbus.com/article/soc-analyst-guide-generative-ai): Practical guide for security analysts integrating AI into daily workflows.
+- [Static vs Dynamic Playbooks](https://costnimbus.com/article/static-vs-dynamic-playbooks): Why 2026 is the year of AI-generated incident response playbooks.
+- [Hidden Cost of Manual Playbook Maintenance](https://costnimbus.com/article/hidden-cost-manual-playbook-maintenance): The real resource drain of manual IR documentation and what it costs when procedures are wrong.
+
+## Calculators
+
+- [NAT Gateway Calculator](https://costnimbus.com/calculators/nat-gateway): Compare VPC endpoint costs vs NAT Gateway — most teams save 80-91%.
+- [S3 vs R2 vs Backblaze Storage Calculator](https://costnimbus.com/calculators/storage): Compare object storage costs across providers with egress pricing analysis.
+- [Managed Database TCO Calculator](https://costnimbus.com/calculators/managed-db): RDS vs Aurora vs PlanetScale vs Neon — real cost for your instance and I/O mix.
+- [AWS vs Azure vs GCP Calculator](https://costnimbus.com/calculators/cloud-compare): Compare compute, storage, and egress across all three major clouds.
+- [Serverless Calculator](https://costnimbus.com/calculators/serverless): Lambda vs Azure Functions vs GCP vs Cloudflare Workers cost comparison.
+- [EC2 Pricing Calculator](https://costnimbus.com/calculators/ec2-pricing): On-Demand vs Reserved Instances vs Spot pricing across 20+ instance types.
+- [EBS Volume Cost Calculator](https://costnimbus.com/calculators/ebs-storage): gp3 vs gp2 vs io2 with IOPS and throughput breakdowns.
+- [CDN Cost Calculator](https://costnimbus.com/calculators/cdn): CloudFront vs Cloudflare vs Fastly vs BunnyCDN bandwidth cost comparison.
+- [FinOps Maturity Assessment](https://costnimbus.com/calculators/finops-maturity): 15-question assessment to score your cloud financial management maturity.
+- [SIEM Cost Calculator](https://costnimbus.com/calculators/siem): Compare SIEM platform costs based on your log ingestion volume.
+
+## Optional
+
+- [About](https://costnimbus.com/about): Background on Cesar Ramirez and the Cost Nimbus project.
+- [All Articles](https://costnimbus.com/articles): Full index of all guides and articles.
+- [All Calculators](https://costnimbus.com/calculators): Full index of all interactive calculators.
+- [Resources](https://costnimbus.com/resources): Curated external resources for cloud cost optimization.
+- [Methodology](https://costnimbus.com/methodology): How calculator estimates and cost comparisons are derived.
