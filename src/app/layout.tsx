@@ -34,6 +34,9 @@ export const metadata: Metadata = {
   },
   description: 'Real cloud cost optimization strategies built by engineers, for engineers. Save thousands monthly with battle-tested techniques.',
   keywords: 'cloud costs, AWS optimization, FinOps, cloud savings, cost management',
+  alternates: {
+    canonical: '/',
+  },
   openGraph: {
     title: 'Cost Nimbus - Cloud Cost Intelligence',
     description: 'Real cloud cost optimization strategies built by engineers, for engineers. Save thousands monthly with battle-tested techniques.',

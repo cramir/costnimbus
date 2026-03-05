@@ -60,6 +60,9 @@ export async function generateMetadata({ params }: PageProps) {
     title: `${article.title} | Cost Nimbus`,
     description: article.description,
     keywords: `${article.category}, cloud costs, AWS optimization, FinOps, cloud savings, cost management`,
+    alternates: {
+      canonical: `/article/${slug}/`,
+    },
     openGraph: {
       title: article.title,
       description: article.description,

@@ -5,6 +5,9 @@ import { getAllArticles } from '@/lib/articles';
 export const metadata: Metadata = {
   title: 'Cloud Cost Guides & Articles',
   description: 'Battle-tested cloud cost optimization guides written by engineers who\'ve cut real production bills. Deep dives on AWS, storage, networking, and FinOps.',
+  alternates: {
+    canonical: '/articles/',
+  },
 };
 
 export default function ArticlesPage() {

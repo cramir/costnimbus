@@ -4,6 +4,9 @@ export const metadata: Metadata = {
   title: 'CDN Cost Calculator — CloudFront vs Cloudflare vs BunnyCDN vs Fastly',
   description: 'Compare monthly CDN costs: CloudFront, Cloudflare, Fastly, BunnyCDN, KeyCDN, Azure CDN. See when Cloudflare zero-egress saves you real money.',
   keywords: 'CDN cost calculator, CloudFront pricing, Cloudflare vs CloudFront, BunnyCDN pricing, Fastly cost, CDN comparison, Azure CDN pricing',
+  alternates: {
+    canonical: '/calculators/cdn/',
+  },
   openGraph: {
     title: 'CDN Cost Calculator | Cost Nimbus',
     description: 'Compare CDN costs: CloudFront, Cloudflare, Fastly, BunnyCDN, KeyCDN, Azure CDN side by side.',

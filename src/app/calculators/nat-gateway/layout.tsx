@@ -4,6 +4,9 @@ export const metadata: Metadata = {
   title: 'NAT Gateway Cost Calculator',
   description: 'Calculate how much you can save by replacing AWS NAT Gateway with VPC endpoints. Engineers routinely cut 80–91% off their NAT bills. Free, real numbers.',
   keywords: 'NAT gateway cost, AWS NAT gateway savings, VPC endpoints, AWS cost optimization, NAT gateway calculator',
+  alternates: {
+    canonical: '/calculators/nat-gateway/',
+  },
   openGraph: {
     title: 'NAT Gateway Cost Calculator | Cost Nimbus',
     description: 'See your exact NAT Gateway savings with VPC endpoints. Up to 91% cost reduction. No signup required.',

@@ -167,6 +167,31 @@ export default function EC2PricingCalculator() {
           }
         }) }}
       />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "How much do Reserved Instances save vs On-Demand?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "1-year No Upfront RIs save about 30-40%, while 3-year All Upfront RIs save up to 60%. Savings Plans offer similar discounts with more flexibility across instance families."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "When should I use Spot Instances?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Spot Instances work well for fault-tolerant, stateless workloads like batch processing, CI/CD, and containerized microservices. Spot prices are typically 60-90% below On-Demand but instances can be interrupted with 2 minutes notice."
+              }
+            }
+          ]
+        }) }}
+      />
       <div className="max-w-7xl mx-auto px-6">
         <Breadcrumb items={[
           { label: 'Calculators', href: '/calculators' },

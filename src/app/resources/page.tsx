@@ -4,6 +4,9 @@ import Link from 'next/link';
 export const metadata: Metadata = {
   title: 'FinOps Resources & Open Source Tools',
   description: 'Curated open-source FinOps tools and resources: cost visibility, optimization, governance, and more. No paywalls, no vendor lock-in.',
+  alternates: {
+    canonical: '/resources/',
+  },
 };
 
 interface Resource {

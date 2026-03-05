@@ -191,6 +191,31 @@ export default function ManagedDBCalculator() {
           }
         }) }}
       />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "Is Aurora really more expensive than RDS?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Not always. Aurora's I/O-Optimized configuration eliminates per-I/O charges, making it cheaper for high-throughput workloads. For low-I/O workloads, standard RDS is typically 20-30% cheaper."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "When should I consider PlanetScale or Neon over RDS?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "PlanetScale and Neon excel for developer-focused teams that want branching workflows, serverless scaling, and zero-downtime schema changes. They're often cheaper for variable workloads thanks to usage-based pricing."
+              }
+            }
+          ]
+        }) }}
+      />
       <div className="max-w-4xl mx-auto px-6 pt-6">
         <Breadcrumb items={[{ label: 'Home', href: '/' }, { label: 'Calculators', href: '/calculators' }, { label: 'Managed Database' }]} />
       </div>

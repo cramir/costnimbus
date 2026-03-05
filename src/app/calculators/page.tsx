@@ -5,6 +5,9 @@ import NewsletterCard from '@/components/newsletter-card';
 export const metadata: Metadata = {
   title: 'Cloud Cost Calculators',
   description: 'Free interactive calculators for AWS, cloud storage, SIEM, and more. Real numbers, no fluff.',
+  alternates: {
+    canonical: '/calculators/',
+  },
 };
 
 const calculators = [

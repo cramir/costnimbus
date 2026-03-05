@@ -4,6 +4,9 @@ export const metadata: Metadata = {
   title: 'Managed Database Cost Calculator — RDS vs Aurora vs PlanetScale vs Neon',
   description: 'Compare true costs of Amazon RDS, Aurora Provisioned, Aurora Serverless v2, PlanetScale, and Neon for your database workload. Includes storage, IOPS, replicas, and hidden costs.',
   keywords: 'RDS vs Aurora, PlanetScale pricing, Neon database cost, managed database comparison, Aurora Serverless v2, database TCO',
+  alternates: {
+    canonical: '/calculators/managed-db/',
+  },
   openGraph: {
     title: 'Managed DB Calculator: RDS vs Aurora vs PlanetScale vs Neon | Cost Nimbus',
     description: 'See exact costs for 5 managed database providers. Enter your instance size, storage, and replicas.',

@@ -87,6 +87,39 @@ export default function NatGatewayCalculator() {
           }
         }) }}
       />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "How much can I save by replacing NAT Gateway with VPC endpoints?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Most teams save 80-91% on NAT Gateway costs by using VPC endpoints. S3 and DynamoDB gateway endpoints are free, and interface endpoints cost $0.01/AZ/hour vs NAT Gateway's $0.045/hour plus $0.045/GB data processing fee."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Are VPC gateway endpoints free?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes. S3 and DynamoDB gateway endpoints have zero hourly charge and zero data processing fee. They route traffic through AWS's private network instead of through NAT Gateway."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Do I need to keep NAT Gateway after adding VPC endpoints?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Only if some traffic still needs internet access. If all traffic goes to AWS services that support endpoints, you can remove NAT Gateway entirely and save 100% of those costs."
+              }
+            }
+          ]
+        }) }}
+      />
       <div className="max-w-4xl mx-auto px-6 pt-6">
         <Breadcrumb items={[{ label: 'Home', href: '/' }, { label: 'Calculators', href: '/calculators' }, { label: 'NAT Gateway' }]} />
       </div>
