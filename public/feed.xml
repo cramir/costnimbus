@@ -5,8 +5,24 @@
     <link>https://costnimbus.com</link>
     <description>Cloud cost intelligence built by engineers, for engineers. Real numbers, no vendor fluff.</description>
     <language>en-us</language>
-    <lastBuildDate>Sat, 28 Feb 2026 15:28:44 GMT</lastBuildDate>
+    <lastBuildDate>Thu, 05 Mar 2026 03:43:39 GMT</lastBuildDate>
     <atom:link href="https://costnimbus.com/feed.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Agentic SOC: Hype or Real Shift?</title>
+      <link>https://costnimbus.com/article/agentic-soc-hype-or-reality/</link>
+      <guid isPermaLink="true">https://costnimbus.com/article/agentic-soc-hype-or-reality/</guid>
+      <description>A SOC infrastructure builder&apos;s honest take on agentic AI in security operations — what it actually means, where the marketing ends, and a 3-question evaluation framework for cutting through vendor noise.</description>
+      <pubDate>Wed, 25 Feb 2026 00:00:00 GMT</pubDate>
+      <category>Security</category>
+    </item>
+    <item>
+      <title>AI Security Risks Enterprises Are Ignoring</title>
+      <link>https://costnimbus.com/article/ai-security-risks-enterprises-ignoring/</link>
+      <guid isPermaLink="true">https://costnimbus.com/article/ai-security-risks-enterprises-ignoring/</guid>
+      <description>Only 34% of organizations know where all their data resides, yet AI agents are wandering through enterprise systems with unprecedented access. Here are the four AI security risks that aren&apos;t in your threat model yet — and should be.</description>
+      <pubDate>Invalid Date</pubDate>
+      <category></category>
+    </item>
     <item>
       <title>Security Alert Fatigue Is Killing Your SOC — Here&apos;s What Actually Works</title>
       <link>https://costnimbus.com/article/alert-fatigue-soc-solutions/</link>
@@ -32,14 +48,6 @@
       <category>Security</category>
     </item>
     <item>
-      <title>Agentic SOC: Hype or Real Shift?</title>
-      <link>https://costnimbus.com/article/agentic-soc-hype-or-reality/</link>
-      <guid isPermaLink="true">https://costnimbus.com/article/agentic-soc-hype-or-reality/</guid>
-      <description>A SOC infrastructure builder&apos;s honest take on agentic AI in security operations — what it actually means, where the marketing ends, and a 3-question evaluation framework for cutting through vendor noise.</description>
-      <pubDate>Wed, 25 Feb 2026 00:00:00 GMT</pubDate>
-      <category>Security</category>
-    </item>
-    <item>
       <title>Azure vs AWS for .NET Shops: A Cost and DX Deep-Dive</title>
       <link>https://costnimbus.com/article/azure-vs-aws-dotnet/</link>
       <guid isPermaLink="true">https://costnimbus.com/article/azure-vs-aws-dotnet/</guid>
@@ -54,6 +62,14 @@
       <description>A practical guide to cutting GPU costs for AI/ML workloads — where the waste actually hides, spot instance strategies, model optimization, and real cost breakdowns for A100, H100, and L4 instances.</description>
       <pubDate>Wed, 25 Feb 2026 00:00:00 GMT</pubDate>
       <category>Cloud Costs</category>
+    </item>
+    <item>
+      <title>The Hidden Cost of Manual Playbook Maintenance</title>
+      <link>https://costnimbus.com/article/hidden-cost-manual-playbook-maintenance/</link>
+      <guid isPermaLink="true">https://costnimbus.com/article/hidden-cost-manual-playbook-maintenance/</guid>
+      <description>No one budgets for playbook rot, but every SOC pays for it. A look at the real resource drain of manual IR documentation — and what it costs when your procedures are wrong at the moment you need them most.</description>
+      <pubDate>Invalid Date</pubDate>
+      <category></category>
     </item>
     <item>
       <title>How to Cut Your AWS Egress Bill by 80% (Without Changing Your App)</title>
@@ -118,6 +134,38 @@
       <description>Two specific solutions that delivered $30K + $20K in monthly savings, with exact technologies and step-by-step implementation.</description>
       <pubDate>Fri, 20 Feb 2026 00:00:00 GMT</pubDate>
       <category>Cloud Cost Optimization</category>
+    </item>
+    <item>
+      <title>OPA v1.0 Migration Guide for SOC Teams</title>
+      <link>https://costnimbus.com/article/opa-v1-migration-guide-soc-teams/</link>
+      <guid isPermaLink="true">https://costnimbus.com/article/opa-v1-migration-guide-soc-teams/</guid>
+      <description>OPA&apos;s v1.0 release brings breaking changes to Rego syntax and defaults. Here&apos;s a practical migration guide for SOC and infrastructure security teams — covering what changed, what breaks, and how to use the migration as an opportunity to improve your compliance posture.</description>
+      <pubDate>Invalid Date</pubDate>
+      <category></category>
+    </item>
+    <item>
+      <title>Policy-as-Code for SOC Teams: Stop Writing Tickets, Start Writing Rules</title>
+      <link>https://costnimbus.com/article/policy-as-code-soc-teams/</link>
+      <guid isPermaLink="true">https://costnimbus.com/article/policy-as-code-soc-teams/</guid>
+      <description>How SOC infrastructure engineers can use OPA and Rego policies to automate security enforcement, eliminate retroactive approval theater, and build continuous SOC2 compliance — with real code from a production policy library.</description>
+      <pubDate>Invalid Date</pubDate>
+      <category>Engineering</category>
+    </item>
+    <item>
+      <title>The SOC Analyst&apos;s Guide to Generative AI</title>
+      <link>https://costnimbus.com/article/soc-analyst-guide-generative-ai/</link>
+      <guid isPermaLink="true">https://costnimbus.com/article/soc-analyst-guide-generative-ai/</guid>
+      <description>A practical guide for security analysts on safely integrating generative AI into daily workflows — from SIEM query generation to threat intel summarization. What actually works, what doesn&apos;t, and how to avoid the traps.</description>
+      <pubDate>Invalid Date</pubDate>
+      <category></category>
+    </item>
+    <item>
+      <title>Static vs Dynamic Playbooks: Why 2026 Is the Year of AI-Generated IR</title>
+      <link>https://costnimbus.com/article/static-vs-dynamic-playbooks/</link>
+      <guid isPermaLink="true">https://costnimbus.com/article/static-vs-dynamic-playbooks/</guid>
+      <description>IDC predicts 85% of detection and response playbooks will be dynamically generated by H1 2027. Here&apos;s what that means for your SOC, why static playbooks are already failing, and how to prepare your team for the shift.</description>
+      <pubDate>Invalid Date</pubDate>
+      <category></category>
     </item>
   </channel>
 </rss>

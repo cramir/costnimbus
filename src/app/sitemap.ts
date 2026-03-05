@@ -29,12 +29,15 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.85,
   }));
 
-  const articlePages: MetadataRoute.Sitemap = articles.map((article) => ({
-    url: `${baseUrl}/article/${article.slug}`,
-    lastModified: new Date(article.publishDate),
-    changeFrequency: 'monthly' as const,
-    priority: 0.9,
-  }));
+  const articlePages: MetadataRoute.Sitemap = articles.map((article) => {
+    const date = article.publishDate ? new Date(article.publishDate) : new Date();
+    return {
+      url: `${baseUrl}/article/${article.slug}`,
+      lastModified: isNaN(date.getTime()) ? new Date() : date,
+      changeFrequency: 'monthly' as const,
+      priority: 0.9,
+    };
+  });
 
   return [...staticPages, ...calculatorPages, ...articlePages];
 }

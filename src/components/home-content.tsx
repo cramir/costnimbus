@@ -45,7 +45,7 @@ export default function HomeContent({ articles }: { articles: Article[] }) {
           {[
             { value: '$600K+', label: 'Annual Savings Documented' },
             { value: '9', label: 'Free Calculators' },
-            { value: '15K+', label: 'Words of Guides' },
+            { value: `${articles.length}`, label: 'In-Depth Guides' },
           ].map(stat => (
             <div key={stat.label} className="stat-card">
               <div className="stat-value text-gradient">{stat.value}</div>

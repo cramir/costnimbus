@@ -40,7 +40,7 @@ interface TableOfContentsProps {
 }
 
 export default function TableOfContents({ markdown }: TableOfContentsProps) {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(true);
   const headings = extractHeadings(markdown);
 
   if (headings.length < 3) return null;

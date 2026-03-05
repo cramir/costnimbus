@@ -4,6 +4,8 @@ import InnerHeader from '@/components/inner-header';
 import Newsletter from '@/components/newsletter';
 import TableOfContents from '@/components/table-of-contents';
 import RelatedArticles from '@/components/related-articles';
+import Breadcrumb from '@/components/breadcrumb';
+import ShareButtons from '@/components/share-buttons';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import rehypeHighlight from 'rehype-highlight';
@@ -63,6 +65,12 @@ export async function generateMetadata({ params }: PageProps) {
       type: 'article',
       publishedTime: article.publishDate,
       authors: ['Cost Nimbus'],
+      url: `https://costnimbus.com/article/${slug}`,
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: article.title,
+      description: article.description,
     },
   };
 }
@@ -86,14 +94,25 @@ export default async function ArticlePage({ params }: PageProps) {
     headline: article.title,
     description: article.description,
     datePublished: article.publishDate,
-    author: { '@type': 'Organization', name: 'Cost Nimbus' },
+    author: {
+      '@type': 'Person',
+      name: 'Cesar',
+      url: 'https://costnimbus.com/about',
+    },
     publisher: {
       '@type': 'Organization',
       name: 'Cost Nimbus',
       url: 'https://costnimbus.com',
+      logo: {
+        '@type': 'ImageObject',
+        url: 'https://costnimbus.com/og-image.png',
+      },
     },
     mainEntityOfPage: `https://costnimbus.com/article/${slug}`,
+    image: 'https://costnimbus.com/og-image.png',
   };
+
+  const articleUrl = `https://costnimbus.com/article/${slug}`;
 
   return (
     <>
@@ -104,12 +123,29 @@ export default async function ArticlePage({ params }: PageProps) {
       <InnerHeader />
 
       <article className="article-wrapper">
+        <Breadcrumb
+          items={[
+            { label: 'Home', href: '/' },
+            { label: 'Articles', href: '/articles' },
+            { label: article.title },
+          ]}
+        />
+
         <header style={{ marginBottom: '4rem' }}>
           <h1 className="article-title">{article.title}</h1>
           <p className="article-description">{article.description}</p>
           <ul className="article-meta" role="list">
             <li className="article-meta-badge article-meta-badge-cyan">{article.readTime} read</li>
             <li className="article-meta-badge article-meta-badge-purple">{article.category}</li>
+            {article.publishDate && (
+              <li className="article-meta-badge" style={{
+                background: 'rgba(255,255,255,0.04)',
+                color: 'var(--text-muted)',
+                border: '1px solid rgba(255,255,255,0.08)',
+              }}>
+                {new Date(article.publishDate).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+              </li>
+            )}
           </ul>
         </header>
 
@@ -124,6 +160,8 @@ export default async function ArticlePage({ params }: PageProps) {
             {article.content}
           </ReactMarkdown>
         </div>
+
+        <ShareButtons url={articleUrl} title={article.title} />
 
         <Newsletter wrapInSection={false} />
         <RelatedArticles articles={relatedArticles} />
