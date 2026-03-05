@@ -1,0 +1,486 @@
+---
+title: "Policy-as-Code for SOC Teams: Stop Writing Tickets, Start Writing Rules"
+description: "How SOC infrastructure engineers can use OPA and Rego policies to automate security enforcement, eliminate retroactive approval theater, and build continuous SOC2 compliance — with real code from a production policy library."
+date: "2026-03-05"
+author: "Cesar Amir"
+tags: ["policy as code", "OPA security", "SOC automation", "compliance as code", "rego policies", "DevSecOps", "SOC2"]
+category: "Engineering"
+featured: true
+readingTime: "12 min read"
+---
+
+The security ticket has been open for 11 days. The engineer is waiting. The resource is already running in production. Someone will eventually review it, but the audit trail says it was "approved retroactively." Your SOC2 auditor is going to love that.
+
+This is the reality in most security teams. Not because anyone is lazy. Because the feedback loop is broken — policies live in Confluence, enforcement lives in tickets, and by the time the ticket gets reviewed, the resource has already been serving traffic for two weeks.
+
+**Policy-as-Code fixes this.** Not by adding another tool to the stack, but by moving your governance rules out of documentation and into code that runs in CI, blocks bad PRs automatically, and generates audit evidence as a side effect.
+
+This is a practitioner's guide. I'll show you the actual OPA policies I use, how the CI integration works, and how to get from zero to your first enforced rule in under an hour.
+
+---
+
+## What Policy-as-Code Actually Is (Not What Vendors Tell You)
+
+Most vendor pitches for "policy as code" are really pitching compliance dashboards. That's not what I'm talking about.
+
+**Policy-as-Code means your governance rules are:**
+- Written in a real language with syntax, version control, and tests
+- Enforced automatically at specific gates (PR check, admission webhook, scheduled scan)
+- Independently deployable — policy changes don't require application deploys
+- Auditable — you have a git log of every rule change and who approved it
+
+The analogy that lands best: PaC does for governance what Infrastructure-as-Code did for provisioning. Before IaC, infrastructure changes were manual, inconsistently documented, and hard to reproduce. After IaC, they became versioned, reviewable, and repeatable. PaC applies the same transformation to the rules that govern your infrastructure.
+
+There are three layers where you enforce policy:
+
+| Layer | When | Tools |
+|-------|------|-------|
+| **Pre-commit / CI** | Before merge | OPA + Conftest, `terraform plan` + OPA |
+| **Admission control** | At deploy time | OPA Gatekeeper (Kubernetes), AWS Config |
+| **Continuous compliance** | Always | OPA as Lambda, Steampipe, AWS Config Rules |
+
+The pre-commit gate is where you get the most leverage. Catching a misconfiguration before it's ever applied means the feedback loop is: write Terraform → open PR → see violation in 30 seconds → fix it. That's the same loop developers use for unit tests. Once engineers experience that, they stop needing you to review every PR.
+
+---
+
+## Why SOC Teams Need This Now (Not After the Next Audit)
+
+IDC predicts that by 2027, 60% of cloud security incidents will involve misconfigured infrastructure — not zero-days, not sophisticated attacks. Misconfigs. The kind that a policy gate would have caught.
+
+More pressingly: the shift toward agentic AI in SOC operations changes the threat model. When AI agents have the authority to provision infrastructure, modify configurations, or adjust access controls, you need machine-readable policy enforcement that runs faster than a human can review a ticket. A Rego policy evaluates in milliseconds. A ticket queue takes days.
+
+The practical reality for SOC infrastructure engineers:
+
+- **SOC2 audits** require you to demonstrate that controls exist *and* are operating effectively. Running a policy against your current state generates evidence automatically.
+- **Cloud cost** is a security problem. Untagged resources are unattributable resources. Unattributable resources are resources with no owner, no accountability, and no one to call when something goes wrong.
+- **Scale** makes manual review impossible. If you're running 50 Terraform PRs a week, you're not reviewing all of them. Policy enforcement doesn't get tired.
+
+---
+
+## Real Policies for Real SOC Problems
+
+Let me walk through three categories of policy from our [open-source SOC policy library](https://github.com/cramir/soc-policy-library). These run in production CI. They've caught real violations.
+
+### 1. Cloud Cost: Blocking Untagged Resources Before They're Created
+
+Industry estimates suggest 25–30% of cloud spend is unattributable because resources weren't tagged at creation. Tagging a resource after the fact is an operational nightmare — you're chasing down owners for resources that might be three months old.
+
+The right fix: make untagged resources impossible to create.
+
+```rego
+# policies/cloud-cost/no-untagged-resources.rego
+package cloud.cost.tagging
+
+import rego.v1
+
+# These four tags are required on every resource
+required_tags := {"Environment", "Team", "CostCenter", "Owner"}
+
+# Valid environments — catch typos before they hit prod
+valid_environments := {"dev", "staging", "prod", "sandbox"}
+
+# Main deny rule: block any resource missing required tags
+deny contains msg if {
+  resource := input.resource
+  missing := required_tags - {tag | resource.tags[tag]}
+  count(missing) > 0
+  msg := sprintf(
+    "Resource '%s' (type: %s) is missing required tags: %s. All resources must have: %s",
+    [resource.name, resource.type, concat(", ", missing), concat(", ", required_tags)],
+  )
+}
+
+# Secondary check: prevent Environment typos from slipping through
+deny contains msg if {
+  resource := input.resource
+  env := resource.tags.Environment
+  not valid_environments[env]
+  msg := sprintf(
+    "Resource '%s' has invalid Environment tag '%s'. Valid values: %s",
+    [resource.name, env, concat(", ", valid_environments)],
+  )
+}
+
+# Owner must be a real email — not "TBD" or "infra"
+deny contains msg if {
+  resource := input.resource
+  owner := resource.tags.Owner
+  not contains(owner, "@")
+  msg := sprintf(
+    "Resource '%s' Owner tag '%s' must be a valid email address",
+    [resource.name, owner],
+  )
+}
+
+# Terraform plan variant — evaluates resources in a plan JSON
+deny contains msg if {
+  resource := input.planned_values.root_module.resources[_]
+  missing := required_tags - {tag | resource.values.tags[tag]}
+  count(missing) > 0
+  msg := sprintf(
+    "Terraform resource '%s' missing required tags: %s",
+    [resource.address, concat(", ", missing)],
+  )
+}
+```
+
+Notice what's happening here: this isn't just "check for tags." It validates that the `Environment` value is a known value (no more `Prod` vs `prod` vs `production` divergence), and that the `Owner` is actually an email address. Those secondary checks are where the real value is — a tag policy without them just pushes the problem one step to the right.
+
+The `terraform plan` variant at the bottom is what runs in CI. You pipe `terraform show -json` into OPA and it evaluates your planned resources before they're ever applied.
+
+### 2. Security: No Public S3 Buckets, With a Real Override Mechanism
+
+Public S3 buckets are responsible for a disproportionate number of cloud data breaches. AWS now blocks public access by default, but the Terraform resources for overriding that setting are still trivially easy to misuse.
+
+The naive policy: deny anything public. The problem: some buckets are *intentionally* public (static website hosting, public assets CDN). A policy without an override mechanism gets bypassed immediately because it breaks legitimate use cases.
+
+Here's how to handle that correctly:
+
+```rego
+# policies/security/no-public-s3-buckets.rego
+package cloud.security.s3
+
+import rego.v1
+
+public_acls := {"public-read", "public-read-write", "authenticated-read"}
+
+# Override: buckets with an approved ticket tag are exempt
+has_public_approval(resource) if {
+  approval := resource.tags.PublicBucketApproved
+  startswith(approval, "APPROVED-")
+}
+
+# All four public access block settings must be true
+deny contains msg if {
+  resource := input.resource
+  resource.type == "aws_s3_bucket_public_access_block"
+  resource.block_public_acls != true
+  not has_public_approval(input.resource)
+  msg := sprintf(
+    "S3 bucket public access block '%s' has BlockPublicAcls disabled.",
+    [resource.name],
+  )
+}
+
+deny contains msg if {
+  resource := input.resource
+  resource.type == "aws_s3_bucket_public_access_block"
+  resource.block_public_policy != true
+  msg := sprintf(
+    "S3 bucket public access block '%s' has BlockPublicPolicy disabled.",
+    [resource.name],
+  )
+}
+
+deny contains msg if {
+  resource := input.resource
+  resource.type == "aws_s3_bucket_public_access_block"
+  resource.ignore_public_acls != true
+  msg := sprintf(
+    "S3 bucket public access block '%s' has IgnorePublicAcls disabled.",
+    [resource.name],
+  )
+}
+
+deny contains msg if {
+  resource := input.resource
+  resource.type == "aws_s3_bucket_public_access_block"
+  resource.restrict_public_buckets != true
+  msg := sprintf(
+    "S3 bucket public access block '%s' has RestrictPublicBuckets disabled.",
+    [resource.name],
+  )
+}
+
+# ACL check — catch public-read being set directly
+deny contains msg if {
+  resource := input.resource
+  resource.type == "aws_s3_bucket_acl"
+  public_acls[resource.acl]
+  not has_public_approval(input.resource)
+  msg := sprintf(
+    "S3 bucket ACL '%s' grants public access (acl: %s). Remove public ACL or add PublicBucketApproved tag.",
+    [resource.name, resource.acl],
+  )
+}
+```
+
+The `has_public_approval` function is the key design decision. The override requires a tag value that starts with `APPROVED-` — you'd set this to your actual change ticket number (`APPROVED-JIRA-4821`). This gives you an audit trail of *which* buckets are intentionally public and *what approved them*. When your SOC2 auditor asks about public buckets, you can show them: here's the full list, here's the ticket for each one.
+
+This is what distinguishes policy as code from a scanner. A scanner tells you what exists. A policy also encodes your organization's *exceptions* and the *process* for granting them.
+
+### 3. SOC2 Compliance: Encoding CC6 Directly in Rego
+
+SOC2 CC6.6 requires multi-factor authentication for console access. Demonstrating this control every audit cycle typically means pulling IAM exports, running them through spreadsheets, and having your security team attest that yes, all console users have MFA enabled.
+
+What if running the audit was just... running a policy against your current IAM state?
+
+```rego
+# policies/compliance/soc2-access-control.rego
+package compliance.soc2.access_control
+
+import rego.v1
+
+# CC6.6: MFA required for console access
+deny contains msg if {
+  user := input.iam_users[_]
+  user.console_access == true
+  not user.mfa_active
+  msg := sprintf(
+    "SOC2 CC6.6: IAM user '%s' has console access without MFA. MFA is required for SOC2 compliance.",
+    [user.username],
+  )
+}
+
+# CC6.1: No wildcard IAM policies — least privilege required
+deny contains msg if {
+  resource := input.resource
+  resource.type == "aws_iam_policy"
+  statement := resource.policy.Statement[_]
+  statement.Effect == "Allow"
+  statement.Action == "*"
+  msg := sprintf(
+    "SOC2 CC6.1: IAM policy '%s' grants wildcard (*) actions. Policies must follow least-privilege principle.",
+    [resource.name],
+  )
+}
+
+# CC6.2: Detect stale users — flag accounts inactive >90 days
+deny contains msg if {
+  user := input.iam_users[_]
+  user.console_access == true
+  user.password_last_used
+  days_since_login := (time.now_ns() - time.parse_rfc3339_ns(user.password_last_used)) / (24 * 60 * 60 * 1000000000)
+  days_since_login > 90
+  msg := sprintf(
+    "SOC2 CC6.2: IAM user '%s' has not logged in for %d days. Review and deprovision inactive users.",
+    [user.username, round(days_since_login)],
+  )
+}
+
+# CC6.3: No inline policies on users — use groups/roles
+deny contains msg if {
+  resource := input.resource
+  resource.type == "aws_iam_user_policy"
+  msg := sprintf(
+    "SOC2 CC6.3: Inline policy attached directly to IAM user '%s'. Use IAM groups or roles instead.",
+    [resource.name],
+  )
+}
+```
+
+Run this against an export of your IAM state (AWS CLI → JSON) and the output is your SOC2 evidence. Every violation is a finding. Zero violations means the control is operating effectively. The policy file itself — with its CC6.x comments — is the control documentation.
+
+This is not a coincidence. When you write policies this way, the code *is* the compliance documentation. You're not writing a doc that describes what the policy enforces and then separately writing the enforcement. They're the same artifact.
+
+---
+
+## Getting Started: OPA in CI in Under an Hour
+
+Here's the actual setup. No handwaving.
+
+### Step 1: Install OPA
+
+```bash
+# macOS
+brew install opa
+
+# Linux
+curl -L -o opa https://openpolicyagent.org/downloads/latest/opa_linux_amd64_static
+chmod +x opa && sudo mv opa /usr/local/bin/
+
+# Verify
+opa version
+```
+
+### Step 2: Write your first policy
+
+Create `policies/require-tags.rego`:
+
+```rego
+package cloud.cost.tagging
+
+import rego.v1
+
+required_tags := {"Environment", "Owner"}
+
+deny contains msg if {
+  resource := input.resource
+  missing := required_tags - {tag | resource.tags[tag]}
+  count(missing) > 0
+  msg := sprintf("Resource '%s' missing tags: %s", [resource.name, concat(", ", missing)])
+}
+```
+
+### Step 3: Test it
+
+Create `tests/require-tags_test.rego`:
+
+```rego
+package cloud.cost.tagging
+
+import rego.v1
+
+# This resource should be denied — missing Owner tag
+test_missing_owner_denied if {
+  result := deny with input as {
+    "resource": {
+      "name": "my-ec2-instance",
+      "type": "aws_instance",
+      "tags": {"Environment": "prod"}
+    }
+  }
+  count(result) == 1
+}
+
+# This resource should pass — all required tags present
+test_fully_tagged_allowed if {
+  result := deny with input as {
+    "resource": {
+      "name": "my-ec2-instance",
+      "type": "aws_instance",
+      "tags": {
+        "Environment": "prod",
+        "Owner": "infra@company.com"
+      }
+    }
+  }
+  count(result) == 0
+}
+```
+
+```bash
+opa test policies/ tests/ -v
+# PASS: test_missing_owner_denied (334µs)
+# PASS: test_fully_tagged_allowed (281µs)
+```
+
+### Step 4: Wire into GitHub Actions
+
+```yaml
+# .github/workflows/policy-check.yml
+name: Policy Checks
+
+on:
+  pull_request:
+    paths:
+      - '**.tf'
+
+jobs:
+  opa-policy-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+
+      - name: Install OPA
+        run: |
+          curl -L -o opa https://openpolicyagent.org/downloads/latest/opa_linux_amd64_static
+          chmod +x opa && sudo mv opa /usr/local/bin/
+
+      - name: Terraform Init & Plan
+        run: |
+          terraform init
+          terraform plan -out=tfplan.binary
+          terraform show -json tfplan.binary > tfplan.json
+
+      - name: Evaluate Policies
+        run: |
+          opa eval \
+            --data policies/ \
+            --input tfplan.json \
+            --format pretty \
+            "data.cloud.cost.tagging.deny" | tee violations.txt
+          
+          if [ -s violations.txt ] && [ "$(cat violations.txt)" != "[]" ]; then
+            echo "❌ Policy violations found:"
+            cat violations.txt
+            exit 1
+          fi
+          echo "✅ All policies passed"
+```
+
+The PR now blocks if there are violations. The engineer sees the exact violation message in the PR check output. No ticket. No wait. Fix the tag, push again, watch it pass.
+
+---
+
+## Testing Your Policies (This Is Not Optional)
+
+Policies that don't have tests will drift from intent. Someone will add an exception to fix a one-off problem, and six months later that exception swallows the policy entirely.
+
+OPA has a built-in test framework. Use it.
+
+```bash
+# Run all tests with verbose output
+opa test policies/ tests/ -v
+
+# Run with coverage
+opa test policies/ tests/ --coverage
+```
+
+The [soc-policy-library](https://github.com/cramir/soc-policy-library) ships with tests for every policy — 22 tests covering the full library. The test suite is part of CI: policies can't be merged without passing tests, and tests can't pass without exercising both the deny path and the allow path.
+
+One pattern worth adopting: write the test *first* with a known-bad input that should fail, verify the deny fires, then write the policy to make it pass. Same muscle memory as TDD, same benefits.
+
+---
+
+## From Static to Dynamic: The Next Step
+
+The policies above are static: a fixed set of rules applied at a point in time. That's the right starting point. But the ceiling for policy as code is much higher.
+
+**Dynamic policies** pull context from external sources at evaluation time. Imagine a policy that:
+- Allows `m5.xlarge` instances in prod, but blocks them in dev (cost governance)
+- Reads your approved instance type list from an S3 object, so you can update it without redeploying the policy
+- Integrates with your CMDB to verify that a resource's `Owner` tag maps to an active employee
+
+OPA supports this via the [OPA Bundle API](https://www.openpolicyagent.org/docs/latest/management-bundles/) and external data sources. Your policies become living rules that adapt to organizational context — without anyone opening a ticket.
+
+The other shift worth watching: **agentic AI in CI/CD**. When AI agents are writing infrastructure code, reviewing PRs, and triggering deployments, you need policy enforcement that runs at machine speed. Rego policies don't care whether the PR author is a human or an AI agent — they evaluate the artifact, not the actor. That's exactly the property you want.
+
+---
+
+## Where to Start on Monday
+
+If you ship nothing else this week, do this:
+
+1. **Clone the library:** `git clone https://github.com/cramir/soc-policy-library`
+2. **Add the tagging policy to one repo.** Just the tagging policy. See what it catches.
+3. **Wire it to a GitHub Actions workflow** using the example above.
+4. **Run it in warn mode first** (log violations without blocking) for two weeks.
+5. **Flip it to blocking** once engineers have seen what it catches and fixed the existing violations.
+
+The temptation is to build the perfect policy library before you deploy anything. That's the wrong order. Deploy one policy in warn mode, learn from what it surfaces, then expand. Policies you actually run are worth more than a library you're still designing.
+
+For SOC2 specifically: start with the MFA policy from `soc2-access-control.rego`. Run it against your IAM export. Whatever it returns is your first-day audit finding list. Fix those, run it again, and the output is your evidence that CC6.6 is operating effectively. That's a control documentation loop that took you an afternoon to build and will save you weeks of audit prep every year.
+
+---
+
+## The Library Is Open Source
+
+Everything above is available at **[github.com/cramir/soc-policy-library](https://github.com/cramir/soc-policy-library)**. The full library includes:
+
+- **Cloud cost:** tagging enforcement, instance type blocking, cost allocation
+- **Security:** S3 public access, encryption at rest, security group rules, MFA enforcement
+- **SOC2 compliance:** CC6.x access control, CC8.1 change management, logging requirements
+
+Each policy is documented with the controls it maps to (SOC2 TSC, CIS Benchmark, NIST CSF), includes tests, and has a README explaining the rationale.
+
+The companion **[soc-playbooks repo](https://github.com/cramir/soc-playbooks)** has the full CI/CD integration examples, including GitHub Actions workflows, OPA Gatekeeper manifests for Kubernetes, and AWS Lambda functions for running continuous compliance checks.
+
+---
+
+## The Real ROI
+
+Policy as code doesn't just reduce audit prep time. It changes the relationship between your security team and your engineers.
+
+When policy violations are caught in 30 seconds instead of 11 days, engineers don't experience security as a blocker — they experience it as a fast feedback loop. The policy becomes part of their development workflow, not an external review process they have to wait on. Violations get fixed the same way a failed unit test gets fixed: immediately, as part of writing the code.
+
+That's the shift. Not from tickets to rules. From a security team that reviews after the fact to a security function that's encoded in the toolchain itself.
+
+If you're already using Terraform and GitHub Actions, you have everything you need to start. The policies exist. The tooling is free. The ROI is measurable from the first week.
+
+---
+
+*Building out your cloud governance posture? [CostNimbus](https://costnimbus.com) helps SOC infrastructure teams get visibility into cloud cost and security posture — with the tooling to enforce policies at scale.*
