@@ -1,0 +1,401 @@
+---
+title: "OPA v1.0 Migration Guide for SOC Teams"
+description: "OPA's v1.0 release brings breaking changes to Rego syntax and defaults. Here's a practical migration guide for SOC and infrastructure security teams — covering what changed, what breaks, and how to use the migration as an opportunity to improve your compliance posture."
+pubDate: 2026-03-05
+author: "Cesar"
+tags: ["OPA", "Policy-as-Code", "SOC2", "Compliance", "Infrastructure Security", "Rego"]
+draft: false
+---
+
+I've been running OPA policies in production for a while now. When v1.0 dropped and changed the default Rego version, we hit some breakage — not catastrophic, but annoying, and exactly the kind of thing that's easy to miss in a CI pipeline review until something silently starts returning wrong results.
+
+This is the guide I wish I'd had. It's specifically aimed at SOC engineers and platform security teams, not application developers — the use cases are different (IaC governance, Kubernetes admission, compliance automation), and so are the migration priorities.
+
+## What Actually Changed in OPA v1.0
+
+OPA hit v1.0 in mid-2025 and has continued evolving (currently at v1.14.0 as of February 2026). The biggest shift for existing deployments is **Rego v1 as the default**.
+
+Here's what that means in practice:
+
+### The `import rego.v1` Requirement
+
+In OPA v1.x, Rego v1 is the default. If your existing policies were written for OPA 0.x without the `import rego.v1` statement, they'll either fail or behave differently depending on how the OPA binary is invoked.
+
+**Old (OPA 0.x style):**
+```rego
+package cloud.security.s3
+
+deny[msg] {
+  resource := input.resource
+  resource.type == "aws_s3_bucket"
+  not resource.block_public_acls
+  msg := sprintf("S3 bucket '%s' is not blocking public ACLs", [resource.name])
+}
+```
+
+**New (OPA 1.x / Rego v1 style):**
+```rego
+package cloud.security.s3
+
+import rego.v1
+
+deny contains msg if {
+  resource := input.resource
+  resource.type == "aws_s3_bucket"
+  not resource.block_public_acls
+  msg := sprintf("S3 bucket '%s' is not blocking public ACLs", [resource.name])
+}
+```
+
+The differences:
+- `import rego.v1` is now at the top
+- `deny[msg]` becomes `deny contains msg`
+- `{` conditions become `if {` for rule bodies
+- `deny := {...}` style sets now explicitly use `contains`
+
+The old syntax still works with explicit `--rego-version=v0` flags, but you don't want to depend on that in new policy development or CI pipelines.
+
+### `set()` vs `{}` Disambiguation
+
+In OPA 0.x, empty curly braces `{}` were ambiguous — they could mean an empty set or an empty object depending on context. Rego v1 requires explicit disambiguation:
+
+- Empty set: `set()`
+- Empty object: `{}`
+
+If you have policy code that uses `{}` to represent an empty set (common in helper rules), it may behave differently or fail type checking in strict mode.
+
+### The `every` Keyword
+
+Rego v1 adds the `every` keyword for universal quantification — iterating over a collection and asserting something is true for all elements. This is a new feature rather than a breaking change, but it replaces some awkward negation patterns that were common in 0.x policies.
+
+**Old pattern (awkward negation):**
+```rego
+all_tags_present if {
+  required_tags := {"Environment", "Owner", "CostCenter"}
+  missing := required_tags - {tag | input.resource.tags[tag]}
+  count(missing) == 0
+}
+```
+
+**New pattern with `every`:**
+```rego
+all_tags_present if {
+  required_tags := ["Environment", "Owner", "CostCenter"]
+  every tag in required_tags {
+    input.resource.tags[tag]
+  }
+}
+```
+
+The `every` version is cleaner and the intent is more obvious. Worth refactoring existing policies to use it where applicable.
+
+### Stricter Type Checking
+
+OPA 1.x enables stricter type checking by default. This catches some policy bugs that 0.x would silently ignore — particularly around variable shadowing, unused variables, and certain type mismatches.
+
+When you migrate, expect to find some policies that have warnings or errors from stricter checking that weren't flagged before. These are almost always real bugs, not false positives from the stricter check.
+
+## Migration Approach: Use OPA's Built-In Tools
+
+OPA ships with tooling specifically for this migration. Don't skip it.
+
+### `opa fmt` — Format First
+
+Before anything else, run `opa fmt` on your policy files. It will normalize whitespace and structure, making subsequent changes easier to review:
+
+```bash
+# In-place format update
+opa fmt --write policies/
+
+# Review what would change without writing
+opa fmt policies/
+```
+
+This is safe to run first because it only changes formatting, not semantics.
+
+### `opa check` — Identify Breaking Issues
+
+Run `opa check` with the Rego v1 target to find what breaks:
+
+```bash
+# Check all policies for v1 compatibility
+opa check --rego-version v1 policies/
+
+# More verbose output
+opa check --rego-version v1 --strict policies/
+```
+
+This will flag:
+- Policies using old `deny[msg]` syntax without `import rego.v1`
+- Type checking errors
+- Deprecated built-in functions
+- Unused variable warnings (some of which are real bugs)
+
+Work through the output systematically. Group errors by type — there are usually a few patterns that repeat across many policy files.
+
+### `opa eval` — Verify Behavior After Migration
+
+After updating policies, verify they still produce the same outputs for your known test cases:
+
+```bash
+# Test a policy against known input
+opa eval -i tests/inputs/compliant-resource.json -d policies/compliance/soc2-access-control.rego "data.compliance.soc2.access_control.deny"
+
+# Should return an empty set for compliant input
+# Should return expected violations for non-compliant input
+```
+
+This is especially important for policies that have gone through syntactic migration — Rego v1's type checking can surface subtle behavioral differences in edge cases.
+
+### `opa test` — Run Your Test Suite
+
+If you have a test suite (and you should — more on this below), run it after migration:
+
+```bash
+opa test policies/ -v
+```
+
+Policies should pass the same tests before and after migration. If tests fail after migration, you've either found a bug in the original policy (now caught by stricter checking) or a migration error.
+
+## What Migration Looks Like on Real SOC Policies
+
+Let me walk through migrating a real example — the SOC2 access control policy:
+
+**Before (OPA 0.x style):**
+```rego
+package compliance.soc2.access_control
+
+deny[msg] {
+  resource := input.resource
+  resource.type == "aws_iam_policy"
+  statement := resource.policy.Statement[_]
+  statement.Effect == "Allow"
+  statement.Action == "*"
+  msg := sprintf(
+    "SOC2 CC6.1: IAM policy '%s' grants wildcard actions",
+    [resource.name]
+  )
+}
+
+deny[msg] {
+  user := input.iam_users[_]
+  user.console_access == true
+  not user.mfa_active
+  msg := sprintf(
+    "SOC2 CC6.6: IAM user '%s' has console access without MFA",
+    [user.username]
+  )
+}
+
+allow {
+  count(deny) == 0
+}
+```
+
+**After (Rego v1 style):**
+```rego
+package compliance.soc2.access_control
+
+import rego.v1
+
+deny contains msg if {
+  resource := input.resource
+  resource.type == "aws_iam_policy"
+  statement := resource.policy.Statement[_]
+  statement.Effect == "Allow"
+  statement.Action == "*"
+  msg := sprintf(
+    "SOC2 CC6.1: IAM policy '%s' grants wildcard (*) actions. Policies must follow least-privilege principle.",
+    [resource.name]
+  )
+}
+
+deny contains msg if {
+  user := input.iam_users[_]
+  user.console_access == true
+  not user.mfa_active
+  msg := sprintf(
+    "SOC2 CC6.6: IAM user '%s' has console access without MFA. MFA is required for SOC2 compliance.",
+    [user.username]
+  )
+}
+
+allow if {
+  count(deny) == 0
+}
+```
+
+The structural changes are mechanical. The content — the policy logic, the messages, the SOC2 criteria references — stays the same. The migration is a syntax update, not a policy logic rethink.
+
+## The CI/CD Pipeline Implications
+
+Your pipeline configuration needs updating alongside the policy files.
+
+### OPA Version Pinning
+
+If you're using OPA in CI, pin the version. The behavior change between OPA 0.x and 1.x is significant enough that unpinned versions can cause unexpected policy behavior changes on OPA upgrades.
+
+**Docker:**
+```yaml
+# In your GitHub Actions or similar
+- name: OPA Check
+  uses: docker://openpolicyagent/opa:1.14.0
+  with:
+    args: check --rego-version v1 policies/
+```
+
+**Direct binary:**
+```bash
+# In CI setup
+OPA_VERSION="1.14.0"
+curl -L -o /usr/local/bin/opa "https://github.com/open-policy-agent/opa/releases/download/v${OPA_VERSION}/opa_linux_arm64_static"
+chmod +x /usr/local/bin/opa
+```
+
+### Conftest Configuration
+
+If you're using Conftest (the OPA wrapper for CI config file checking), update your `.conftest.yaml` or equivalent configuration to specify the Rego version:
+
+```yaml
+# conftest.yml
+policy: policies
+namespace: compliance
+```
+
+Conftest has been tracking OPA v1 support — check your Conftest version compatibility with the OPA version you're running.
+
+### Gatekeeper (Kubernetes Admission)
+
+If you're running OPA Gatekeeper for Kubernetes admission control, the migration path is somewhat different. Gatekeeper manages OPA versions internally, and upgrading Gatekeeper means the OPA version it uses changes.
+
+Key points:
+- Gatekeeper 3.14+ supports Rego v1 in ConstraintTemplates
+- The `spec.targets[].rego` field in your ConstraintTemplates will need updating
+- Test with `gator verify` before deploying updated templates to production
+
+## The SOC2 Evidence Opportunity
+
+Here's the angle most migration guides miss: OPA v1 migration is a forcing function to audit and improve your compliance policies, and that audit produces SOC2 evidence.
+
+Let me explain the opportunity.
+
+When you migrate your policy library to OPA v1:
+1. You review every policy for correctness
+2. You run tests against known compliant and non-compliant states
+3. You document what each policy covers and which control criteria it maps to
+
+That documentation and test output is audit evidence. It demonstrates:
+- You have automated controls in place (the policies themselves)
+- The controls are tested against known states (your test suite results)
+- The controls map to specific TSC criteria (your policy comments and mapping docs)
+- The controls are version-controlled and reviewed (your git history)
+
+Auditors are increasingly accepting policy-as-code as evidence of controls. The migration moment is when you can produce a comprehensive policy inventory, mapping, and test results in a documented package.
+
+**Practical steps to capture the SOC2 value:**
+
+1. **Standardize policy comments.** Every policy should have comments identifying which TSC criteria it addresses. Our policies use the format `# Maps to: SOC2 CC6.1, CC6.6` — clear enough for an auditor to understand the intent without explaining what Rego is.
+
+2. **Write test cases for both compliant and non-compliant states.** Auditors want to see that your controls actually detect violations. A test that proves your MFA policy fires on a user without MFA is direct evidence of control effectiveness.
+
+3. **Generate a policy inventory.** A document (or automated output) listing all policies, their SOC2 criterion mapping, and their last-reviewed date is the policy library equivalent of a control register.
+
+4. **Tag policy versions to audit periods.** If your SOC2 audit covers a specific time period, make sure your git history makes it clear which policy versions were active during that period. Tag releases at audit period boundaries.
+
+**Example test structure for SOC2 evidence:**
+
+```rego
+# soc2-access-control_test.rego
+package compliance.soc2.access_control_test
+
+import rego.v1
+
+# CC6.6: MFA requirement test
+test_user_without_mfa_is_denied if {
+  input := {
+    "iam_users": [{
+      "username": "test-user",
+      "console_access": true,
+      "mfa_active": false
+    }]
+  }
+  count(deny) > 0 with input as input
+}
+
+test_user_with_mfa_is_allowed if {
+  input := {
+    "iam_users": [{
+      "username": "test-user",
+      "console_access": true,
+      "mfa_active": true
+    }]
+  }
+  count(deny) == 0 with input as input
+}
+
+# CC6.1: Wildcard IAM action test  
+test_wildcard_iam_action_is_denied if {
+  input := {
+    "resource": {
+      "type": "aws_iam_policy",
+      "name": "test-policy",
+      "policy": {
+        "Statement": [{
+          "Effect": "Allow",
+          "Action": "*",
+          "Resource": "*"
+        }]
+      }
+    }
+  }
+  count(deny) > 0 with input as input
+}
+```
+
+Running `opa test policies/ -v` with output saved to a file gives you timestamped test results that serve as evidence of control testing.
+
+## Common Migration Issues and Fixes
+
+After working through several policy libraries on this migration, here are the patterns that show up repeatedly:
+
+**Issue 1: `deny[msg]` iteration pattern in helper rules**
+
+Old code sometimes used `deny[msg]` in intermediate rules that were supposed to be sets of messages. These need to be updated to `deny contains msg if` pattern.
+
+**Issue 2: Undefined variable warnings becoming errors**
+
+Strict mode in OPA 1.x catches some patterns that 0.x allowed silently. Common case: a variable defined in one rule head that's used in the body before being assigned. This is usually a real bug.
+
+**Issue 3: `with` keyword changes in tests**
+
+The `with` keyword for test mocking works slightly differently in Rego v1. If your tests use `with input as input` patterns, verify they still work correctly. The semantics shifted slightly around nested `with` clauses.
+
+**Issue 4: Built-in deprecations**
+
+Some OPA built-in functions were deprecated in 0.x and removed in 1.x. `re_match` → `regex.match`, for example. The `opa check` output will flag these.
+
+## Migration Checklist
+
+For a structured migration:
+
+- [ ] Run `opa check --rego-version v1 policies/` — capture and categorize all errors
+- [ ] Run `opa fmt --write policies/` — normalize formatting
+- [ ] Add `import rego.v1` to all policy files
+- [ ] Convert `deny[msg]` to `deny contains msg if` pattern
+- [ ] Convert `allow { }` to `allow if { }` pattern  
+- [ ] Fix `set()` vs `{}` ambiguities
+- [ ] Run `opa test policies/ -v` — verify all tests pass
+- [ ] Update CI pipeline to pin OPA version
+- [ ] Update Gatekeeper ConstraintTemplates if applicable
+- [ ] Add/update SOC2 criterion mapping comments
+- [ ] Write tests for any policies that don't have them
+- [ ] Generate and save policy inventory document
+- [ ] Save test run output for SOC2 audit evidence
+
+---
+
+The migration is mechanical but worth doing carefully. The syntactic changes are not complicated — the risk is in doing it hastily and introducing subtle behavioral changes that you don't catch until a compliance check fails silently.
+
+The upside of doing it carefully: a well-migrated, well-tested OPA v1 policy library is a meaningful compliance asset. It's not just infrastructure that passes checks — it's documented, tested evidence that your controls work, presented in a format that auditors increasingly understand and accept.
+
+That's worth the weekend of migration work.

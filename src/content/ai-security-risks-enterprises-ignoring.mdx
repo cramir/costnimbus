@@ -1,0 +1,144 @@
+---
+title: "AI Security Risks Enterprises Are Ignoring"
+description: "Only 34% of organizations know where all their data resides, yet AI agents are wandering through enterprise systems with unprecedented access. Here are the four AI security risks that aren't in your threat model yet — and should be."
+pubDate: 2026-03-05
+author: "Cesar"
+tags: ["AI Security", "Generative AI", "SOC", "Threat Intelligence", "Enterprise Security"]
+draft: false
+---
+
+The Thales 2026 Data Threat Report contains a statistic that should be in every CISO's threat briefing: **only 34% of organizations know where all their data resides.**
+
+Read that again. In 2026, two-thirds of enterprises don't have a complete picture of their own data estate. They don't know where it's stored, who has access, what copies exist, or how it flows through their systems.
+
+Now add AI agents into that picture.
+
+Generative AI adoption has accelerated faster than most security programs were built to handle. AI tools are being connected to corporate data. Employees are feeding sensitive information into public models. AI agents are being granted broad access to enterprise systems to maximize their usefulness. And according to Darktrace's research, **44% of security professionals are "extremely or very concerned" about generative AI risks** — but concern doesn't equal action.
+
+This is the gap. We're rapidly deploying a technology category with novel risk profiles into environments where we already don't know where our data is. The security frameworks that have governed our programs for decades were designed for a world where data moved slowly and explicitly, where systems had discrete trust zones, and where humans were the primary agents operating on sensitive information.
+
+AI blows all three of those assumptions up.
+
+Here are the four risk categories I'd argue are most underaddressed in enterprise security programs today.
+
+## 1. Data Leakage via Prompt Engineering
+
+The most immediate and widespread risk isn't a sophisticated attack. It's the boring, daily behavior of employees trying to do their jobs better.
+
+When an analyst asks ChatGPT or Copilot to "summarize this incident report," they often paste in the incident report. When a developer asks Claude to "help debug this authentication code," they often include the actual code — sometimes with credentials, API keys, or internal architecture details embedded. When a product manager asks an AI to "help me write this customer email," they might include customer data in the prompt.
+
+Every one of those prompts is potentially sending sensitive data to:
+- Models that may log prompts for training purposes
+- API providers operating outside your data jurisdiction
+- Services with data retention policies you haven't reviewed
+- Systems that can be queried by the AI company's employees under certain circumstances
+
+Microsoft's Security Development Lifecycle analysis put it directly: "AI dissolves the discrete trust zones assumed by traditional SDL." The context boundaries that made data classification meaningful in traditional systems flatten when AI can ingest and synthesize across domains.
+
+**The specific mechanisms:**
+
+*Memory and context persistence* — Some AI systems retain conversation history. Sensitive data shared in one session may persist and influence outputs in future sessions, including sessions by other users if shared environments are used.
+
+*Training data leakage* — Depending on your agreements, prompt data may be used to improve models. In theory, that data could later surface in model outputs for other users — the documented risk of what researchers call "memorization" in LLMs.
+
+*Prompt injection* — Adversarial content in documents or emails can be crafted to manipulate what an AI assistant does with subsequent information. An analyst using AI to summarize a threat intelligence report could have their AI's behavior redirected by malicious content embedded in that report.
+
+**What most organizations are actually doing:**
+
+Not enough. The gap between "we have an AI policy" and "we have AI security controls" is enormous at most enterprises. Acceptable use policies are better than nothing, but they don't prevent accidental data leakage by well-intentioned employees who don't realize they're doing it.
+
+Controls I'd recommend building if you haven't: DLP policies that trigger on AI-related domains, API gateway inspection for sensitive content before it leaves your perimeter to AI providers, employee training that's specific to AI data handling (not just generic data classification training), and audit logging of AI usage patterns.
+
+## 2. AI as Covert Command-and-Control
+
+This one is less widespread today but the trajectory is bad.
+
+Security researchers have demonstrated that web-based AI assistants — Grok, Microsoft Copilot, and similar tools — can be abused as covert command-and-control channels. The attack pattern works like this: malware on an endpoint communicates through AI assistant APIs or web interfaces rather than traditional C2 infrastructure. The AI platform's domain is often exempt from deep packet inspection or categorized as "trusted productivity tool" in corporate network policies.
+
+**Why this is particularly nasty:**
+
+Traditional C2 detection relies on identifying unusual outbound connections — unknown domains, uncommon protocols, low-reputation destinations. AI assistants break all of those heuristics. The domains are known, the protocols are standard HTTPS, and the reputation is as high as it gets (Microsoft, X/Twitter, Google).
+
+When malware communicates through `copilot.microsoft.com` or similar AI endpoints, it looks exactly like an employee using their AI productivity tools. Your network controls may not just fail to detect it — they may be actively whitelisting that traffic.
+
+The technique doesn't require compromising the AI system. It only requires that the AI can be prompted to relay information. Researchers have shown that crafted prompts can instruct AI systems to act as data exfiltration relays, passing information through their context windows from the compromised system to the attacker.
+
+**Practical defensive implications:**
+
+This is genuinely hard to defend against with traditional controls because the "attack" traffic is indistinguishable from legitimate AI assistant usage. Behavioral analytics are your best bet — looking for unusual patterns in how AI assistant traffic correlates with internal system access. An endpoint that suddenly starts making frequent AI API calls while also accessing unusual internal resources is a signal, even if the individual traffic looks legitimate.
+
+I'd also look at this from an IAM angle. AI assistant integrations that have been granted OAuth scopes into corporate data (Copilot's integration with M365, for example) deserve specific review. What data can the AI access? What can those API connections be used to do, and by whom?
+
+## 3. The Identity Crisis: AI Agents and Authentication
+
+The Thales research includes another data point worth sitting with: **72% of accounts with integrated authentication were used to dump internal confidential data into cloud-based AI systems.**
+
+That number reflects a specific pattern: employees (and increasingly AI agents themselves) using authenticated access to corporate systems to feed data into AI platforms for processing. The authentication worked exactly as designed. The result was widespread data exfiltration — unintentional, but functionally equivalent.
+
+Identity is becoming the primary security perimeter for AI risk, and most organizations' identity programs weren't built for this.
+
+**What's different about AI agent identity:**
+
+Traditional IAM was designed for humans. A human logs in with credentials, does things, logs out. The principle of least privilege is applied based on their role. Access is bounded by what a human can actually do in a session — limited by reading speed, attention, and working hours.
+
+AI agents don't have those limits. An agent granted read access to your SharePoint can process and extract information from your entire document library in minutes. An agent with database access can query and export data at machine speed. The "least privilege" concept doesn't map cleanly to AI agent capabilities because the *velocity* of access is categorically different.
+
+The near-term version of this problem I'm seeing: AI coding assistants granted access to code repositories that also contain credentials, configuration files with sensitive data, and internal documentation. The assistant's scope was defined as "help developers with code" — but the practical access covers far more than that.
+
+The medium-term version is worse: autonomous AI agents built to handle business workflows (expense processing, contract review, customer communication) that are given access to the systems they need to do their job. Those agents will inevitably encounter sensitive data outside their intended scope, and what they do with it is governed by how they were designed — not by IAM controls designed for human access patterns.
+
+**What to do about it:**
+
+Build AI-specific identity reviews into your IAM processes. When OAuth grants are made to AI tools, treat them with the same scrutiny as service account provisioning. Document what each AI integration can access, why, and who approved it.
+
+Push vendors for AI-specific access scoping. Generic "read your corporate data" permissions aren't appropriate for AI integrations. Demand API-level scoping that restricts which data the AI can access, not just which systems.
+
+Audit existing integrations. Most organizations have more AI integrations with corporate data than their security teams know about — shadow AI adoption is real and growing. Finding them is the first step.
+
+## 4. Agent "Wandering" and Data Inventory Loss
+
+This is the risk category that I think is most fundamentally misunderstood, and the Thales stat is the starting point: if only 34% of organizations know where their data resides, what happens when you add agents that can move through systems autonomously?
+
+Research firm analysis indicates that **nearly two-thirds of companies have lost track of their data as AI agents are given "free rein" to wander through enterprise systems.** That's not a metaphor — AI agents, depending on their configuration, can traverse connected systems, read and process data, generate summaries, create new files, and initiate actions based on what they find. They can cross organizational boundaries that humans would normally operate within.
+
+Tom Gorup, VP of SOC Operations at Sophos, said it directly: "The speed of AI adoption is driving huge efficiency gains, but unless organizations slow down and assess these risks, they'll reopen exposures we've spent decades trying to close."
+
+The specific problem this creates for SOC teams:
+
+**DFIR is harder when you don't know what your AI touched.** If an AI agent was involved in a data breach — either as a victim (attacked) or as the vector (wandered into and exfiltrated data) — your forensic investigation depends on knowing what the agent accessed, when, and what it did with it. If you don't have comprehensive logging of AI agent actions, you're investigating blind.
+
+**Compliance is complicated when AI creates new data flows.** Your data classification and handling requirements apply to data regardless of how it was moved. If an AI agent reads PII from one system and writes a summary to another system, that's a data transfer that may have compliance implications — GDPR, HIPAA, CCPA, pick your regulation. The question of whether the AI's processing constitutes a transfer or a new processing activity is still being worked out legally, but the obligation to know it happened is not.
+
+**"Who carries the liability when AI goes rogue, is compromised, or misconfigured?"** — this is the question Chris O'Brien, VP of Security Operations at Sophos, is asking. It doesn't have a clean answer yet. But you want to have thought about it before you're sitting in front of regulators.
+
+**Practical controls:**
+
+Agent telemetry is non-negotiable. Every AI agent operating in your environment should produce detailed logs of what it accessed, what actions it took, and what it produced. This isn't optional — it's the foundation of being able to investigate anything that goes wrong.
+
+Scope constraints matter more than permissions. Don't just control what an agent can do — control what it can see. Network segmentation, data classification enforcement, and scope definitions should constrain what data the agent even encounters, not just what it can modify.
+
+Build data inventory before deploying agents. The 34% stat is damning. If you don't know where your data is, you cannot effectively scope AI agent access to avoid sensitive data. Data inventory — knowing where your crown jewels are and what classification applies — is a prerequisite for safe agent deployment, not something you can defer.
+
+## The Synthesis: Ungoverned AI Is the Risk
+
+Symantec's framing is correct: "AI is not the threat; ungoverned AI is."
+
+None of the risks above are inevitable. They're all consequences of deploying AI without appropriate governance infrastructure. Organizations that treat AI adoption as a productivity initiative and security governance as a compliance afterthought will pay for it. Organizations that build governance infrastructure alongside capability deployment will get the efficiency gains without the corresponding risk expansion.
+
+The practical implication: your AI security program needs to exist and needs to be resourced. Not as a subproject of your data governance program, not as a policy document — as a functioning program with detection capabilities, incident response procedures, access controls, and audit mechanisms.
+
+The 44% of security professionals who are "extremely concerned" about generative AI risks are right to be concerned. The question is what you're building in response to that concern.
+
+What a functional AI security program looks like:
+
+- **Inventory:** Know what AI tools are deployed and what they have access to
+- **Governance:** Explicit approval process for new AI integrations with security review
+- **DLP:** Controls that apply to AI-bound traffic, not just traditional exfiltration vectors
+- **Identity:** AI-specific IAM review and scoping for agent access
+- **Telemetry:** Comprehensive logging of AI agent actions
+- **Detection:** SOC use cases specific to AI-related threats (prompt injection, AI-as-C2, unusual AI usage patterns)
+- **Response:** IR playbooks for AI-involved incidents (data leakage via AI, compromised AI agent)
+
+None of this is exotic. It's the same disciplines your security program already practices, applied to a new technology category. The urgency is that the technology category is moving faster than most programs' governance cycles.
+
+The time to build that governance infrastructure is before the incident that makes you wish you had it.
