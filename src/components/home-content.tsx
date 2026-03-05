@@ -6,7 +6,7 @@ import { Article } from '@/lib/articles';
 
 export default function HomeContent({ articles }: { articles: Article[] }) {
   const featuredArticle = articles.find(a => a.slug === 'how-i-saved-50k-month-cloud-costs');
-  const recentArticles = articles.filter(a => a.slug !== 'how-i-saved-50k-month-cloud-costs').slice(0, 2);
+  const recentArticles = articles.filter(a => a.slug !== 'how-i-saved-50k-month-cloud-costs').slice(0, 4);
 
   return (
     <>
@@ -151,9 +151,23 @@ export default function HomeContent({ articles }: { articles: Article[] }) {
       {recentArticles.length > 0 && (
         <section className="page-section" style={{ animation: 'fadeInUp 0.9s ease-out 0.6s both' }}>
           <div className="page-section-inner">
-            <p className="section-label">
-              <span style={{ color: 'var(--accent-cyan)' }}>{" //"}</span> Recent Articles
-            </p>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1.5rem', flexWrap: 'wrap', gap: '1rem' }}>
+              <p className="section-label" style={{ margin: 0 }}>
+                <span style={{ color: 'var(--accent-cyan)' }}>{" //"}</span> Recent Articles
+              </p>
+              <Link href="/articles" style={{
+                fontFamily: 'var(--font-jetbrains-mono)',
+                fontSize: '0.7rem',
+                fontWeight: 600,
+                color: 'var(--accent-cyan)',
+                textDecoration: 'none',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.4rem',
+              }}>
+                View all articles →
+              </Link>
+            </div>
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
               {recentArticles.map((article) => (
