@@ -217,44 +217,6 @@ export default async function ArticlePage({ params }: PageProps) {
           </ul>
         </header>
 
-        {/* Author bio */}
-        <div
-          className="rounded-xl px-5 py-4 mb-10 flex items-start gap-4"
-          style={{
-            background: 'rgba(0,212,255,0.04)',
-            border: '1px solid rgba(0,212,255,0.12)',
-          }}
-        >
-          <div
-            className="flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm"
-            style={{ background: 'rgba(0,212,255,0.15)', color: 'var(--accent-cyan)' }}
-          >
-            C
-          </div>
-          <div>
-            <p className="text-sm font-semibold mb-0.5" style={{ color: 'var(--text-primary)' }}>
-              Cesar
-              <span
-                className="ml-2 text-xs font-normal"
-                style={{ color: 'var(--text-muted)' }}
-              >
-                SOC Infrastructure Engineer
-              </span>
-            </p>
-            <p className="text-xs leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
-              Writes about cloud cost optimization, security infrastructure, and the engineering
-              decisions that actually move the needle on your bill.{' '}
-              <Link
-                href="/about"
-                className="underline underline-offset-2 transition-colors"
-                style={{ color: 'var(--accent-cyan)' }}
-              >
-                More about Cesar →
-              </Link>
-            </p>
-          </div>
-        </div>
-
         <TableOfContents markdown={article.content} />
 
         <div className="article-content article-body">
