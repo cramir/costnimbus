@@ -1,0 +1,180 @@
+---
+title: "GPU Cost Management for ML Teams: A Practical Playbook"
+description: "AWS cut H100 prices 44% in 2025. GCP followed. If your ML team set its GPU strategy before mid-2025, you're operating on stale assumptions. Here's the current pricing reality and the three highest-leverage cost levers available right now."
+pubDate: 2026-03-14
+author: "Cesar"
+tags: ["GPU", "Machine Learning", "Cloud Costs", "FinOps", "MLOps", "AWS", "GCP"]
+readTime: "12 min"
+category: "AI/ML"
+draft: false
+---
+
+## The GPU Market Just Changed — Has Your Spend Kept Up?
+
+In June 2025, AWS cut H100 instance prices by approximately 44%. GCP followed with comparable reductions. By late 2025, on-demand H100 rental from major hyperscalers was running $3.00–$3.90/GPU-hr — down from $7.57 (AWS) and $11.06 (GCP) just months earlier. On boutique GPU clouds (RunPod, Vast.ai, Lambda Labs), H100s were available at $1.49–$2.99/GPU-hr.
+
+If your ML team set its cloud GPU strategy before mid-2025 and hasn't revisited it, you're operating on stale assumptions in a market that moved significantly under you.
+
+This isn't a post about GPU market trends. It's a practical playbook for the three highest-leverage cost levers for ML teams: right-sizing, spot instances, and temporal/regional arbitrage. Each lever is independent; most teams are leaving money on the table on all three.
+
+---
+
+## Current GPU Pricing Reality (March 2026)
+
+Before discussing strategy, you need current numbers. Here's where the market sits:
+
+**H100 (80GB) — On-Demand, Per GPU-Hour:**
+
+| Provider | Price/GPU-hr |
+|---|---|
+| AWS EC2 P5 | ~$3.90 |
+| GCP A3-High | ~$3.00 |
+| Azure NC H100 v5 (East US) | ~$6.98 |
+| Lambda Labs | $2.99 |
+| CoreWeave | $6.16 |
+| RunPod (community) | $1.99 |
+| Vast.ai (marketplace) | $1.49–$1.87 |
+| Cudo Compute | $1.80 |
+
+**H100 — Spot/Preemptible:**
+- AWS P5 Spot: ~$2.00–$2.50/GPU-hr
+- GCP A3-High Spot (Preemptible): ~$2.25/GPU-hr
+
+**L4 (24GB) — On-Demand (Inference-optimized):**
+- GCP g2-standard-4 (1x L4): ~$0.70–$0.80/hr
+- AWS G6 instances (1x L4 equivalent): ~$0.80–$1.10/hr
+
+The Azure H100 premium vs AWS/GCP is notable: $6.98 vs $3.00–$3.90 for equivalent hardware. If you're Azure-first for organizational reasons, at least run the math — the delta for a team running 10 H100s continuously is ~$70K/year vs AWS.
+
+---
+
+## Lever 1: Right-Sizing — Stop Using H100s for Inference
+
+This is the most common and most expensive GPU mistake: using training-grade hardware for inference workloads.
+
+The H100 is built for large-scale distributed training. Its 3.35 TB/s memory bandwidth and 80GB HBM3 are optimized for the parallelism requirements of multi-billion parameter model training runs. For inference — loading a model once and running forward passes — you rarely saturate a fraction of those specs.
+
+The NVIDIA L4 was purpose-designed for inference and media processing. Spec comparison:
+
+| | H100 | A100 (80GB) | L4 |
+|---|---|---|---|
+| FP16 TFLOPS | ~1,979 | ~624 | ~242 |
+| VRAM | 80GB HBM3 | 80GB HBM2e | 24GB GDDR6 |
+| Memory BW | 3.35 TB/s | 2 TB/s | 300 GB/s |
+| Cloud price | $3.00–$3.90/hr | $0.80–$2.74/hr | $0.70–$1.10/hr |
+| Best for | LLM training, large-scale distributed | Training + large inference | Inference, fine-tuning, batch jobs |
+
+For most LLM inference deployments (models ≤70B parameters, batch size ≤32), L4 delivers latency within 20–30% of H100 at one-quarter to one-fifth the cost.
+
+**Decision framework:**
+- **Use H100:** Pre-training large foundation models (>7B params), fine-tuning with 4+ GPU parallelism, inference serving at very high batch sizes or with models >70B parameters
+- **Use A100:** Fine-tuning medium models (1B–70B), inference for large models where you need >24GB VRAM per GPU
+- **Use L4:** Real-time inference for models ≤13B parameters, batch inference jobs, embedding generation, most production API serving scenarios
+
+The right-sizing exercise: take your current GPU utilization metrics (not just instance uptime — actual GPU compute and memory utilization from nvidia-smi or your cloud provider's monitoring). If your GPU memory utilization is below 70% and compute utilization is below 60% for inference workloads, you're on the wrong GPU tier.
+
+---
+
+## Lever 2: Spot Instances — The 60–90% Discount You're Not Taking
+
+Spot (AWS) and Preemptible (GCP) GPU instances offer 60–90% discounts compared to on-demand. The tradeoff: instances can be interrupted with 2-minute warning (AWS) or 30-second warning (GCP).
+
+The objection most ML teams raise: "We can't checkpoint training jobs fast enough." This was a real concern in 2020. It's not in 2026.
+
+**Modern framework checkpoint support:**
+- PyTorch: `torch.save()` with checkpoint resumption, natively supported in PyTorch Lightning and Accelerate
+- JAX: Orbax checkpointing library with async writes
+- Hugging Face Trainer: `--save_steps` and `--resume_from_checkpoint` flags built-in
+- Kubernetes: Kueue and Volcano job schedulers support spot-aware gang scheduling with automatic requeue
+
+The real-world economics: Spotify cut ML infrastructure costs from $8.2M to $2.4M using AWS Spot with proper checkpoint-and-resume logic. That's a 71% reduction. The engineering investment to add checkpoint handling to a training job is typically 2–4 days of work; it pays back in the first billing cycle for any team with meaningful GPU spend.
+
+**Spot strategy by workload type:**
+
+| Workload | Spot suitability | Recommended approach |
+|---|---|---|
+| Model pre-training | High | Checkpoint every 500–1000 steps; use Spot with on-demand fallback |
+| Fine-tuning | High | Shorter runs, tolerate restarts, use Spot aggressively |
+| Batch inference | High | Embarrassingly parallel; Spot ideal |
+| Real-time inference (API serving) | Low | On-demand for SLA; use Reserved Instances |
+| Hyperparameter search | High | Independent trials; any interrupted trial can restart |
+| Embedding generation | High | Batch job; parallelizable |
+
+The key insight: your production inference serving should run on on-demand (or reserved) instances. Everything upstream — training, fine-tuning, evaluation, batch jobs — is a candidate for Spot. Most teams have this backwards.
+
+**Spot interruption handling checklist:**
+1. Checkpoint saves are async (don't block training progress)
+2. Checkpoint directory is on persistent storage (S3, GCS, NFS — not local disk)
+3. Job scheduler automatically retries on different instance type or AZ
+4. Training job reads `latest_checkpoint` on startup, not hard-coded epoch 0
+5. Alert/notification when interruption occurs (don't discover it hours later)
+
+---
+
+## Lever 3: Regional and Temporal Arbitrage
+
+GPU availability and spot pricing vary significantly by cloud region and time of day. Cast AI's 2025 GPU Price Report — tracking A100 and H100 pricing across 66 cloud regions from January 2024 through September 2025 — found that teams dynamically provisioning in the most favorable regions save 2–5x compared to locking to a single region.
+
+**Regional pricing patterns to know:**
+- US West (us-west-2, us-central1) tends to have lower spot prices than US East due to higher GPU capacity
+- Europe regions carry a 10–20% premium vs equivalent US regions
+- New capacity rollouts temporarily depress spot prices in the regions getting new hardware
+
+**Implementation options:**
+- **AWS:** EC2 Spot Fleet with `diversified` allocation strategy across instance types and AZs; use `lowest-price` allocation for pure cost optimization
+- **GCP:** Spot VMs with regional managed instance groups and multi-region placement policies
+- **Kubernetes:** Karpenter (AWS) or GKE Autopilot with spot node pools and region-aware scheduling
+
+The investment in multi-region or multi-AZ spot scheduling typically pays for itself within 2–3 months for teams spending $30K+/month on GPU compute.
+
+---
+
+## Quantization: The VRAM Reduction You're Sleeping On
+
+Quantization is worth calling out specifically: INT8 quantization typically cuts inference VRAM requirements by ~50% with minimal accuracy loss. INT4 (GPTQ, AWQ, GGUF) cuts it by ~75%. For a 13B parameter model:
+
+- FP16: ~28GB VRAM → requires 2x L4 or 1x A100
+- INT8: ~14GB VRAM → fits on 1x L4
+- INT4: ~7GB VRAM → fits comfortably on 1x L4 with headroom
+
+That compression frequently means you can serve the same model on a $0.80/hr L4 instead of a $2.74/hr A100 — a 70% cost reduction on your serving infrastructure.
+
+---
+
+## The Right-Sizing Workflow
+
+For teams not yet systematically tracking GPU efficiency:
+
+1. **Instrument first:** Deploy GPU utilization monitoring (CloudWatch GPU metrics on AWS, Cloud Monitoring on GCP, or Prometheus with DCGM exporter). Track `gpu_utilization`, `gpu_memory_used`, and `gpu_memory_total` per instance.
+
+2. **Baseline your fleet:** What's the P50 and P95 GPU utilization for each workload type? Most teams are surprised — utilization below 40% is common for inference workloads.
+
+3. **Identify right-sizing candidates:** Any inference workload with P50 GPU memory utilization below 60% is a candidate for a smaller GPU tier.
+
+4. **Benchmark before switching:** Test your workload on the target instance type. Measure latency P50/P95 and throughput. If the SLA holds, migrate.
+
+5. **Spot audit:** For every training and batch job, assess checkpoint feasibility. Prioritize based on job frequency × job cost.
+
+6. **Commit for baseline load:** For steady-state inference serving, Reserved Instances (AWS) or Committed Use Discounts (GCP) offer 30–40% savings vs on-demand for 1-year commitments. Only commit capacity you're certain of.
+
+---
+
+## What Teams Are Actually Saving
+
+Real numbers from publicly reported cases:
+- **Spotify:** $8.2M → $2.4M ML infrastructure cost using AWS Spot (71% reduction)
+- **Teams right-sizing H100 → L4 for inference:** ~60–70% cost reduction for inference workloads where model fits in 24GB
+- **Regional arbitrage with dynamic provisioning:** 2–5x savings on spot pricing vs single-region fixed provisioning (Cast AI, 2025)
+- **INT8 quantization (inference):** ~50% VRAM reduction → 1-tier GPU downgrade → ~40–60% cost reduction
+
+None of this is speculative. The pricing data is public. The engineering patterns are documented. The tools exist. The only reason most ML teams aren't capturing these savings is inertia — the GPU was provisioned when pricing looked different, and nobody has re-evaluated since.
+
+---
+
+## Where to Start
+
+Start with the right-sizing audit. It's the fastest win, requires no changes to your training/inference code, and the findings will often be surprising.
+
+After right-sizing: spot for batch. After spot for batch: regional scheduling if your spend justifies the infrastructure investment.
+
+The GPU market is the most dynamic compute market right now — prices are dropping, new GPU types are being released, and boutique providers are undercutting hyperscalers significantly on H100 pricing. The teams winning on GPU costs are the ones treating it as a continuously-managed optimization problem, not a one-time infrastructure decision.

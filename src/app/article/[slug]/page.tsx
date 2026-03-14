@@ -1,5 +1,6 @@
 import { notFound } from 'next/navigation';
-import { getArticle, getAllArticles } from '@/lib/articles';
+import Link from 'next/link';
+import { getArticle, getAllArticles, getAdjacentArticles } from '@/lib/articles';
 import InnerHeader from '@/components/inner-header';
 import Newsletter from '@/components/newsletter';
 import TableOfContents from '@/components/table-of-contents';
@@ -88,6 +89,8 @@ export default async function ArticlePage({ params }: PageProps) {
     .filter((a) => a.slug !== slug && a.category === article.category)
     .slice(0, 3);
 
+  const { prev, next } = getAdjacentArticles(slug);
+
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'Article',
@@ -131,7 +134,7 @@ export default async function ArticlePage({ params }: PageProps) {
           ]}
         />
 
-        <header style={{ marginBottom: '4rem' }}>
+        <header style={{ marginBottom: '2rem' }}>
           <h1 className="article-title">{article.title}</h1>
           <p className="article-description">{article.description}</p>
           <ul className="article-meta" role="list">
@@ -149,6 +152,44 @@ export default async function ArticlePage({ params }: PageProps) {
           </ul>
         </header>
 
+        {/* Author bio */}
+        <div
+          className="rounded-xl px-5 py-4 mb-10 flex items-start gap-4"
+          style={{
+            background: 'rgba(0,212,255,0.04)',
+            border: '1px solid rgba(0,212,255,0.12)',
+          }}
+        >
+          <div
+            className="flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm"
+            style={{ background: 'rgba(0,212,255,0.15)', color: 'var(--accent-cyan)' }}
+          >
+            C
+          </div>
+          <div>
+            <p className="text-sm font-semibold mb-0.5" style={{ color: 'var(--text-primary)' }}>
+              Cesar
+              <span
+                className="ml-2 text-xs font-normal"
+                style={{ color: 'var(--text-muted)' }}
+              >
+                SOC Infrastructure Engineer
+              </span>
+            </p>
+            <p className="text-xs leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
+              Writes about cloud cost optimization, security infrastructure, and the engineering
+              decisions that actually move the needle on your bill.{' '}
+              <Link
+                href="/about"
+                className="underline underline-offset-2 transition-colors"
+                style={{ color: 'var(--accent-cyan)' }}
+              >
+                More about Cesar →
+              </Link>
+            </p>
+          </div>
+        </div>
+
         <TableOfContents markdown={article.content} />
 
         <div className="article-content article-body">
@@ -162,6 +203,44 @@ export default async function ArticlePage({ params }: PageProps) {
         </div>
 
         <ShareButtons url={articleUrl} title={article.title} />
+
+        {/* Prev / Next navigation */}
+        {(prev || next) && (
+          <nav
+            className="flex items-center justify-between gap-4 mt-10 mb-4 pt-8"
+            style={{ borderTop: '1px solid rgba(255,255,255,0.08)' }}
+            aria-label="Article navigation"
+          >
+            {prev ? (
+              <Link
+                href={`/article/${prev.slug}`}
+                className="group flex items-center gap-2 text-sm font-semibold transition-all max-w-[45%]"
+                style={{ color: 'var(--accent-cyan)' }}
+              >
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true" className="flex-shrink-0 group-hover:-translate-x-1 transition-transform">
+                  <path d="M13 8H3M7 12l-4-4 4-4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+                <span className="truncate">{prev.title}</span>
+              </Link>
+            ) : (
+              <span />
+            )}
+            {next ? (
+              <Link
+                href={`/article/${next.slug}`}
+                className="group flex items-center gap-2 text-sm font-semibold transition-all max-w-[45%] text-right"
+                style={{ color: 'var(--accent-cyan)' }}
+              >
+                <span className="truncate">{next.title}</span>
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true" className="flex-shrink-0 group-hover:translate-x-1 transition-transform">
+                  <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </Link>
+            ) : (
+              <span />
+            )}
+          </nav>
+        )}
 
         <Newsletter wrapInSection={false} />
         <RelatedArticles articles={relatedArticles} />

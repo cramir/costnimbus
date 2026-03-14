@@ -5,7 +5,7 @@
     <link>https://costnimbus.com</link>
     <description>Cloud cost intelligence built by engineers, for engineers. Real numbers, no vendor fluff.</description>
     <language>en-us</language>
-    <lastBuildDate>Thu, 05 Mar 2026 03:43:39 GMT</lastBuildDate>
+    <lastBuildDate>Sat, 14 Mar 2026 22:16:51 GMT</lastBuildDate>
     <atom:link href="https://costnimbus.com/feed.xml" rel="self" type="application/rss+xml"/>
     <item>
       <title>Agentic SOC: Hype or Real Shift?</title>
@@ -13,6 +13,14 @@
       <guid isPermaLink="true">https://costnimbus.com/article/agentic-soc-hype-or-reality/</guid>
       <description>A SOC infrastructure builder&apos;s honest take on agentic AI in security operations — what it actually means, where the marketing ends, and a 3-question evaluation framework for cutting through vendor noise.</description>
       <pubDate>Wed, 25 Feb 2026 00:00:00 GMT</pubDate>
+      <category>Security</category>
+    </item>
+    <item>
+      <title>The Agentic SOC: What Platform Builders Actually Need to Know</title>
+      <link>https://costnimbus.com/article/agentic-soc-platform-builders-guide/</link>
+      <guid isPermaLink="true">https://costnimbus.com/article/agentic-soc-platform-builders-guide/</guid>
+      <description>Every vendor at RSA 2026 is selling &apos;agentic AI.&apos; This is for the engineers building the platform those agents run on — unified data layers, multi-agent orchestration, audit trails, guardrails, and the deduplication problem nobody talks about.</description>
+      <pubDate>Invalid Date</pubDate>
       <category>Security</category>
     </item>
     <item>
@@ -24,6 +32,14 @@
       <category></category>
     </item>
     <item>
+      <title>AI SOC Investigation Has Moved Beyond Triage — And Most Platforms Aren&apos;t Ready</title>
+      <link>https://costnimbus.com/article/ai-soc-investigation-beyond-triage/</link>
+      <guid isPermaLink="true">https://costnimbus.com/article/ai-soc-investigation-beyond-triage/</guid>
+      <description>The industry fixated on using AI to close tickets faster. The real leverage is in investigation — correlating multi-source signals to catch what triage-only systems miss. Here&apos;s what that actually looks like in production.</description>
+      <pubDate>Invalid Date</pubDate>
+      <category>Security</category>
+    </item>
+    <item>
       <title>Security Alert Fatigue Is Killing Your SOC — Here&apos;s What Actually Works</title>
       <link>https://costnimbus.com/article/alert-fatigue-soc-solutions/</link>
       <guid isPermaLink="true">https://costnimbus.com/article/alert-fatigue-soc-solutions/</guid>
@@ -32,20 +48,12 @@
       <category>Security</category>
     </item>
     <item>
-      <title>How Much Does SOC 2 Cost in 2026? Audit, Certification &amp; Hidden Fees</title>
-      <link>https://costnimbus.com/article/soc2-cost-breakdown-2026/</link>
-      <guid isPermaLink="true">https://costnimbus.com/article/soc2-cost-breakdown-2026/</guid>
-      <description>A brutally honest SOC 2 cost breakdown covering auditor fees, soc 2 certification cost, tool costs, internal labor hours, and the hidden opportunity cost nobody talks about — with real numbers by company size.</description>
-      <pubDate>Sat, 28 Feb 2026 00:00:00 GMT</pubDate>
-      <category>Security</category>
-    </item>
-    <item>
-      <title>The Complete SOC 2 Compliance Checklist: Evidence for Your SOC 2 Audit</title>
-      <link>https://costnimbus.com/article/soc2-evidence-collection-checklist/</link>
-      <guid isPermaLink="true">https://costnimbus.com/article/soc2-evidence-collection-checklist/</guid>
-      <description>The practical SOC 2 compliance checklist for evidence collection — organized by Trust Service Criteria, covering all SOC 2 requirements auditors expect, with sources, frequency, and manual vs automated time estimates.</description>
-      <pubDate>Sat, 28 Feb 2026 00:00:00 GMT</pubDate>
-      <category>Security</category>
+      <title>Autonomous FinOps: From Reactive Alerts to Self-Driving Cloud Optimization</title>
+      <link>https://costnimbus.com/article/autonomous-finops-self-driving-cloud-optimization/</link>
+      <guid isPermaLink="true">https://costnimbus.com/article/autonomous-finops-self-driving-cloud-optimization/</guid>
+      <description>Most teams are stuck on the FinOps treadmill — reactive cleanup, temporary improvement, inevitable drift. Here&apos;s the architecture for breaking that cycle: guardrails, drift detection, and what Level 3 autonomous optimization actually requires to work safely.</description>
+      <pubDate>Invalid Date</pubDate>
+      <category>FinOps</category>
     </item>
     <item>
       <title>Azure vs AWS for .NET Shops: A Cost and DX Deep-Dive</title>
@@ -54,6 +62,22 @@
       <description>You can run .NET on AWS. But Azure is purpose-built for it — and in most cases, dramatically cheaper. A rigorous comparison of managed services, pricing, and DX for teams migrating from on-prem or choosing a cloud for their .NET stack.</description>
       <pubDate>Wed, 25 Feb 2026 00:00:00 GMT</pubDate>
       <category>Cloud Strategy</category>
+    </item>
+    <item>
+      <title>GPU Cost Management for ML Teams: A Practical Playbook</title>
+      <link>https://costnimbus.com/article/gpu-cost-management-ml-teams/</link>
+      <guid isPermaLink="true">https://costnimbus.com/article/gpu-cost-management-ml-teams/</guid>
+      <description>AWS cut H100 prices 44% in 2025. GCP followed. If your ML team set its GPU strategy before mid-2025, you&apos;re operating on stale assumptions. Here&apos;s the current pricing reality and the three highest-leverage cost levers available right now.</description>
+      <pubDate>Invalid Date</pubDate>
+      <category>AI/ML</category>
+    </item>
+    <item>
+      <title>How Much Does SOC 2 Cost in 2026? Audit, Certification &amp; Hidden Fees</title>
+      <link>https://costnimbus.com/article/soc2-cost-breakdown-2026/</link>
+      <guid isPermaLink="true">https://costnimbus.com/article/soc2-cost-breakdown-2026/</guid>
+      <description>A brutally honest SOC 2 cost breakdown covering auditor fees, soc 2 certification cost, tool costs, internal labor hours, and the hidden opportunity cost nobody talks about — with real numbers by company size.</description>
+      <pubDate>Sat, 28 Feb 2026 00:00:00 GMT</pubDate>
+      <category>Security</category>
     </item>
     <item>
       <title>GPU Cost Optimization: When AI Ambitions Meet Budget Reality</title>
@@ -70,6 +94,14 @@
       <description>No one budgets for playbook rot, but every SOC pays for it. A look at the real resource drain of manual IR documentation — and what it costs when your procedures are wrong at the moment you need them most.</description>
       <pubDate>Invalid Date</pubDate>
       <category></category>
+    </item>
+    <item>
+      <title>The Complete SOC 2 Compliance Checklist: Evidence for Your SOC 2 Audit</title>
+      <link>https://costnimbus.com/article/soc2-evidence-collection-checklist/</link>
+      <guid isPermaLink="true">https://costnimbus.com/article/soc2-evidence-collection-checklist/</guid>
+      <description>The practical SOC 2 compliance checklist for evidence collection — organized by Trust Service Criteria, covering all SOC 2 requirements auditors expect, with sources, frequency, and manual vs automated time estimates.</description>
+      <pubDate>Sat, 28 Feb 2026 00:00:00 GMT</pubDate>
+      <category>Security</category>
     </item>
     <item>
       <title>How to Cut Your AWS Egress Bill by 80% (Without Changing Your App)</title>
@@ -112,14 +144,6 @@
       <category>AWS Databases</category>
     </item>
     <item>
-      <title>AWS Savings Plans vs Reserved Instances: Which Saves More in 2026?</title>
-      <link>https://costnimbus.com/article/savings-plans-vs-reserved-instances/</link>
-      <guid isPermaLink="true">https://costnimbus.com/article/savings-plans-vs-reserved-instances/</guid>
-      <description>Savings Plans are more flexible, but Reserved Instances can save 5–10% more in specific scenarios. Here is the complete decision guide with real numbers.</description>
-      <pubDate>Wed, 25 Feb 2026 00:00:00 GMT</pubDate>
-      <category>AWS Cost Optimization</category>
-    </item>
-    <item>
       <title>The Hidden Costs of AWS NAT Gateways (And How to Cut Them by 80%)</title>
       <link>https://costnimbus.com/article/hidden-costs-aws-nat-gateways/</link>
       <guid isPermaLink="true">https://costnimbus.com/article/hidden-costs-aws-nat-gateways/</guid>
@@ -150,6 +174,14 @@
       <description>How SOC infrastructure engineers can use OPA and Rego policies to automate security enforcement, eliminate retroactive approval theater, and build continuous SOC2 compliance — with real code from a production policy library.</description>
       <pubDate>Invalid Date</pubDate>
       <category>Engineering</category>
+    </item>
+    <item>
+      <title>AWS Savings Plans vs Reserved Instances: Which Saves More in 2026?</title>
+      <link>https://costnimbus.com/article/savings-plans-vs-reserved-instances/</link>
+      <guid isPermaLink="true">https://costnimbus.com/article/savings-plans-vs-reserved-instances/</guid>
+      <description>Savings Plans are more flexible, but Reserved Instances can save 5–10% more in specific scenarios. Here is the complete decision guide with real numbers.</description>
+      <pubDate>Wed, 25 Feb 2026 00:00:00 GMT</pubDate>
+      <category>AWS Cost Optimization</category>
     </item>
     <item>
       <title>The SOC Analyst&apos;s Guide to Generative AI</title>
