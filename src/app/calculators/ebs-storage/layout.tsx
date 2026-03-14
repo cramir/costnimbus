@@ -4,6 +4,9 @@ export const metadata: Metadata = {
   title: 'EBS Storage Calculator — gp3 vs gp2 vs io2 vs Azure Disk vs GCP PD',
   description: 'Compare AWS EBS (gp3, gp2, io2), Azure Disk, and GCP Persistent Disk monthly costs. gp3 saves 20% vs gp2 at baseline — see your exact number.',
   keywords: 'EBS calculator, gp3 vs gp2, io2 pricing, Azure Disk cost, GCP Persistent Disk, block storage comparison, AWS EBS pricing',
+  alternates: {
+    canonical: '/calculators/ebs-storage/',
+  },
   openGraph: {
     title: 'EBS Storage Calculator | Cost Nimbus',
     description: 'Compare AWS EBS (gp3, gp2, io2), Azure Disk, and GCP Persistent Disk monthly costs.',

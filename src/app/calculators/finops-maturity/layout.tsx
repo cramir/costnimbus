@@ -4,6 +4,9 @@ export const metadata: Metadata = {
   title: 'FinOps Maturity Assessment — Where Does Your Team Stand?',
   description: 'Free 15-question assessment that scores your FinOps maturity across 5 dimensions: Visibility, Optimization, Planning, Governance, and Culture. Get actionable recommendations.',
   keywords: 'FinOps maturity model, cloud cost maturity assessment, FinOps framework, cloud financial management, FinOps Crawl Walk Run, cloud cost optimization maturity',
+  alternates: {
+    canonical: '/calculators/finops-maturity/',
+  },
   openGraph: {
     title: 'FinOps Maturity Assessment | Cost Nimbus',
     description: 'Score your FinOps maturity across 5 dimensions and get a personalized action plan.',

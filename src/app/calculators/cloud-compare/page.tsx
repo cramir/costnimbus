@@ -176,6 +176,31 @@ export default function CloudCompareCalculator() {
           }
         }) }}
       />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "Which cloud provider is cheapest for compute?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "It depends on instance type and commitment level. AWS typically wins on Reserved Instance discounts, Azure offers competitive pricing for Windows/.NET workloads, and GCP's sustained-use discounts apply automatically without upfront commitment."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "How much does cloud egress cost across providers?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "AWS charges $0.09/GB, Azure charges $0.087/GB, and GCP charges $0.12/GB for standard egress. All three offer free tiers (100GB-200GB/month) and reduced rates for higher volumes."
+              }
+            }
+          ]
+        }) }}
+      />
       <div className="max-w-4xl mx-auto px-6 pt-6">
         <Breadcrumb items={[{ label: 'Home', href: '/' }, { label: 'Calculators', href: '/calculators' }, { label: 'AWS vs Azure vs GCP' }]} />
       </div>

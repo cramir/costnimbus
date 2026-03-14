@@ -155,6 +155,31 @@ export default function SIEMCalculator() {
           }
         }) }}
       />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "Which SIEM is cheapest for high log volumes?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Wazuh is cheapest as it's open-source with no license fees, but requires self-managed infrastructure. For managed solutions, Elastic SIEM is typically 40-60% cheaper than Splunk for volumes above 100GB/day."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "What hidden costs should I consider when choosing a SIEM?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Beyond license fees, account for compute infrastructure (self-hosted SIEMs), storage retention costs, engineering time for maintenance and tuning, and training. These hidden costs often double or triple the sticker price."
+              }
+            }
+          ]
+        }) }}
+      />
       <div className="max-w-4xl mx-auto px-6 pt-6">
         <Breadcrumb items={[{ label: 'Home', href: '/' }, { label: 'Calculators', href: '/calculators' }, { label: 'SIEM TCO' }]} />
       </div>

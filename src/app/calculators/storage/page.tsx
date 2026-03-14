@@ -108,6 +108,31 @@ export default function StorageCalculator() {
           }
         }) }}
       />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "Is Cloudflare R2 really free for egress?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes. R2 charges $0 for egress bandwidth, compared to S3's $0.09/GB. For egress-heavy workloads, R2 typically saves 60-80% vs S3."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "When should I choose S3 over R2 or Backblaze B2?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Choose S3 when you need deep AWS ecosystem integration (Lambda triggers, Athena queries, CloudFront origin), compliance certifications, or advanced features like S3 Intelligent-Tiering and Glacier."
+              }
+            }
+          ]
+        }) }}
+      />
       <div className="max-w-4xl mx-auto px-6 pt-6">
         <Breadcrumb items={[{ label: 'Home', href: '/' }, { label: 'Calculators', href: '/calculators' }, { label: 'Storage: S3 vs R2 vs Backblaze' }]} />
       </div>

@@ -261,6 +261,31 @@ export default function ServerlessCostCalculator() {
           }
         }) }}
       />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "Which serverless platform is cheapest?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Cloudflare Workers is cheapest for most workloads thanks to its generous free tier and low per-request pricing. For AWS-heavy architectures, Lambda's free tier of 1M requests/month and tight integration with other AWS services often makes it the practical choice."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "How do I estimate my serverless costs accurately?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Track three metrics: invocation count, average execution duration, and memory allocation. Most cost surprises come from underestimating duration or over-allocating memory."
+              }
+            }
+          ]
+        }) }}
+      />
       <div className="max-w-7xl mx-auto px-6">
         <Breadcrumb items={[
           { label: 'Calculators', href: '/calculators' },

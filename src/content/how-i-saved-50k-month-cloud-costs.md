@@ -19,9 +19,9 @@ Cloud costs have a nasty habit of growing 20-30% annually without any interventi
 When I joined my current role, I inherited a cloud environment that had grown organically over several years. Here's what I found:
 
 - **1,000+ EC2 instances**, with 40% running at less than 5% CPU utilization
-- **Orphaned EBS volumes** from terminated instances, still incurring charges
+- **[Orphaned EBS volumes](/calculators/ebs-storage/)** from terminated instances, still incurring charges
 - **Development environments** running 24/7 despite only being used during business hours
-- **Alert fatigue** from multiple monitoring tools, each with their own pricing
+- **[Alert fatigue](/article/alert-fatigue-soc-solutions/)** from multiple monitoring tools, each with their own pricing
 - **No clear cost ownership**—resources created without tags, owners, or business justification
 
 The business impact was significant: rising monthly bills without corresponding value, engineering time spent on manual cleanup, and leadership increasingly questioning whether the cloud migration had been worth it.
@@ -160,7 +160,7 @@ Implementation: Lambda functions triggered by EventBridge, with Slack notificati
 
 Systematic analysis of over-provisioned resources:
 - **Instance types:** m5.xlarge → t3.large where appropriate
-- **Storage tiers:** GP3 instead of GP2 for most workloads
+- **Storage tiers:** [GP3 instead of GP2](/calculators/ebs-storage/) for most workloads
 - **Database instances:** Read replicas reduced during off-peak
 - **Result:** 25% savings on compute costs
 
@@ -173,7 +173,7 @@ The zombie resources:
 - **Unused AMIs:** Custom images not launched in 90+ days
 - **Result:** 35% savings on storage costs
 
-**4. Reserved Instances + Savings Plans**
+**4. [Reserved Instances + Savings Plans](/article/savings-plans-vs-reserved-instances/)**
 
 For stable, predictable workloads:
 - **3-year commitments:** Core production databases
@@ -273,6 +273,18 @@ Ready to start your own cloud cost optimization journey? Here's the roadmap:
 - Advanced strategies (spot instances, multi-region)
 
 **Expected impact:** 40-60% cost reduction vs. baseline
+
+## Related Resources
+
+**Calculators** — run the numbers for your own environment:
+- [NAT Gateway Cost Calculator](/calculators/nat-gateway/) — see how much VPC endpoints save vs NAT Gateway
+- [EBS Volume Cost Calculator](/calculators/ebs-storage/) — compare gp3 vs gp2 vs io2 pricing
+- [EC2 Pricing Calculator](/calculators/ec2-pricing/) — On-Demand vs Reserved Instances vs Spot
+
+**Guides** — go deeper on specific optimization strategies:
+- [AWS Savings Plans vs Reserved Instances](/article/savings-plans-vs-reserved-instances/) — which commitment model saves more in 2026
+- [Kubernetes Cost Optimization: Cut Your K8s Bill by 67%](/article/kubernetes-cost-optimization/) — right-sizing, spot instances, and autoscaling
+- [Security Alert Fatigue Solutions](/article/alert-fatigue-soc-solutions/) — practical approaches to reducing alert noise
 
 ## Conclusion
 

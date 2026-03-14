@@ -202,6 +202,31 @@ export default function EBSStorageCalculator() {
           }
         }) }}
       />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "Should I use gp3 or gp2 for EBS volumes?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Almost always gp3. It costs 20% less than gp2 at baseline and includes 3,000 IOPS and 125 MB/s throughput for free. gp2 only makes sense if you need burst IOPS proportional to volume size."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "When should I use io2 Block Express?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Use io2 for databases and latency-sensitive applications that need guaranteed IOPS above 16,000 or sub-millisecond latency. io2 Block Express supports up to 256,000 IOPS and 4,000 MB/s throughput."
+              }
+            }
+          ]
+        }) }}
+      />
       <div className="max-w-7xl mx-auto px-6">
         <Breadcrumb items={[
           { label: 'Calculators', href: '/calculators' },

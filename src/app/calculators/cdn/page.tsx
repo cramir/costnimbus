@@ -263,6 +263,31 @@ export default function CDNCostCalculator() {
           }
         }) }}
       />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "Is Cloudflare CDN really free?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Cloudflare's free plan includes unlimited bandwidth with no metered costs. Paid plans ($20-200/month) add features like image optimization and WAF rules. For pure CDN, the free tier is genuinely usable for production."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "How much cheaper is BunnyCDN than CloudFront?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "BunnyCDN typically costs 80-85% less than CloudFront. BunnyCDN charges $0.01/GB in most regions vs CloudFront's $0.085/GB, making it one of the cheapest CDN options available."
+              }
+            }
+          ]
+        }) }}
+      />
       <div className="max-w-7xl mx-auto px-6">
         <Breadcrumb items={[
           { label: 'Calculators', href: '/calculators' },

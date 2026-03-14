@@ -777,6 +777,31 @@ export default function FinOpsMaturityPage() {
           }
         }) }}
       />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "What is FinOps maturity?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "FinOps maturity measures how effectively your organization manages cloud costs across five dimensions: Visibility, Optimization, Planning, Governance, and Culture. Most teams start at Crawl stage and progress through Walk to Run."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "How long does it take to improve FinOps maturity?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Most teams move from Crawl to Walk within 3-6 months by implementing tagging, cost alerts, and basic rightsizing. Moving from Walk to Run typically takes 6-12 months and requires cultural change and automated governance."
+              }
+            }
+          ]
+        }) }}
+      />
       <div style={{ maxWidth: '760px', margin: '0 auto', padding: '0 1.5rem' }}>
         <Breadcrumb items={[{ label: 'Calculators', href: '/calculators' }, { label: 'FinOps Maturity Assessment' }]} />
 

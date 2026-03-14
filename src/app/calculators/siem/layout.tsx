@@ -4,6 +4,9 @@ export const metadata: Metadata = {
   title: 'SIEM Total Cost of Ownership Calculator',
   description: 'True TCO comparison across Splunk, Microsoft Sentinel, Elastic SIEM, and Wazuh — including compute, storage, and FTE costs. Find the cheapest SIEM for your log volume.',
   keywords: 'SIEM cost calculator, Splunk pricing, Microsoft Sentinel cost, Elastic SIEM, Wazuh TCO, SIEM comparison',
+  alternates: {
+    canonical: '/calculators/siem/',
+  },
   openGraph: {
     title: 'SIEM TCO Calculator: Splunk vs Sentinel vs Elastic vs Wazuh | Cost Nimbus',
     description: 'See the true total cost of each SIEM including hidden costs. Enter your log volume and get real numbers.',
