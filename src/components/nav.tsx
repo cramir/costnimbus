@@ -12,6 +12,7 @@ const NAV_ITEMS = [
   { href: '/resources', label: 'Resources', exact: false },
   { href: '/calculators', label: 'Calculators', exact: false },
   { href: '/articles', label: 'Articles', exact: false },
+  { href: '/consulting', label: 'Consulting', exact: true },
 ];
 
 export default function Nav() {
