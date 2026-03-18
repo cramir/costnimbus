@@ -1,0 +1,245 @@
+---
+title: "Non-Human Identity Security: The $10M Risk Nobody's Managing"
+description: "Service accounts outnumber humans 45:1. Most rotate credentials never. GitGuardian found 12.8 million secrets leaked on GitHub in 2023 alone. The math on NHI compromise is brutal — and most organizations have no governance program for it."
+pubDate: 2026-03-18
+author: "Cesar"
+tags: ["NHI", "Security", "Identity", "Service Accounts", "API Keys"]
+readTime: "13 min"
+category: "Security"
+draft: false
+---
+
+## The Identity Problem You're Not Solving
+
+Your organization probably has a mature identity governance program for human users: provisioning reviews, MFA enforcement, role-based access, quarterly access certifications. You know who has admin rights. You rotate passwords. You offboard leavers within 24 hours.
+
+Now count your non-human identities: service accounts, API keys, OAuth tokens, machine certificates, bot credentials, CI/CD pipeline secrets, database passwords, third-party integration tokens. 
+
+According to CyberArk's 2024 Identity Security Threat Landscape Report, non-human identities now outnumber human identities in enterprise environments by an average of **45:1**. For organizations that have adopted microservices, cloud-native architectures, and third-party SaaS integrations heavily, that ratio is often 100:1 or higher.
+
+The overwhelming majority of these identities have no rotation schedule, no usage monitoring, no ownership attribution, and no deprovisioning process. They accumulate indefinitely. Many have broad permissions from when they were created, never trimmed. Some are completely orphaned — the human who created them left years ago.
+
+This is the NHI sprawl problem. It's not theoretical. It's producing multi-million dollar breach events right now, and the financial impact compounds in ways that most security teams haven't fully modeled.
+
+---
+
+## The Scale of the Leak Problem
+
+GitGuardian's 2024 State of Secrets Sprawl report is the most comprehensive public dataset on credential exposure:
+
+- **12.8 million secrets detected on GitHub in 2023** — a 28% increase from 2022
+- **1 in 10 code authors** exposed a secret in 2023
+- **90% of secrets detected remain valid 5 days after initial exposure** — the automation gap between leak and rotation is measured in days, not hours
+- **Generic high-entropy strings** (tokens, passwords) account for 45% of detected secrets; cloud provider API keys (AWS, GCP, Azure) account for another 18%
+- **Private repositories are not safe:** 35% of detected secrets were found in private repos — the assumption that "it's internal" provides no actual protection when insider threat, supply chain attack, or accidental public visibility occurs
+
+The AWS-specific numbers are particularly stark. In 2023, GitGuardian detected over 1.5 million AWS credentials in GitHub repositories. AWS Access Key IDs are deterministically identifiable (they start with `AKIA` for long-lived credentials, `ASIA` for session credentials), making automated detection trivial. The gap between "credential found in a repo" and "credential actively exploited" is measured in minutes for popular repos due to automated scanning by threat actors.
+
+**The 2022 Toyota breach** is the reference case. A subcontractor exposed an access key in a public GitHub repository. The key had been in the repo since December 2017. When discovered in October 2022, it had been live for nearly 5 years. The exposed data included personal information of 296,000 customers. Toyota's remediation costs, regulatory response, and reputational damage were significant — all from a single AWS credential in source code.
+
+**The Uber breach (2022)** started with compromised credentials (a contractor's VPN password via social engineering, but the lateral movement was enabled by an exposed Privileged Access Management (PAM) vault secret found in an internal network share). The total cost included $148 million in settlement (separate from the 2016 breach), operational disruption, and CISO departure.
+
+These are not exotic attack vectors. They're credential hygiene failures that NHI governance programs prevent.
+
+---
+
+## Why NHI Sprawl Happens
+
+Understanding the failure modes is necessary before designing the governance response.
+
+**1. No single owner.**
+Human identities have clear owners (the human). Non-human identities are created by engineers to solve immediate problems. The service account exists to let the CI/CD pipeline deploy to production. The API key exists to connect the monitoring tool to Slack. Nobody formally "owns" these identities — the creating engineer is gone in 18 months, and the credential lives forever.
+
+**2. Rotation is hard and testing is required.**
+Rotating a human password is a self-service action. Rotating an API key requires finding every place that key is used, updating each consumer in the right sequence, verifying nothing breaks, and having a rollback plan. Teams avoid this because it requires work and carries outage risk. The result: credentials that were created in 2019 are still in production in 2026.
+
+**3. Permissions are over-provisioned at creation.**
+Service accounts frequently get admin or broad permissions because it's the path of least resistance when debugging. "Just give it admin for now and we'll tighten it later." Later never comes. An IAM role with `*:*` permissions that was supposed to be temporary is running production workloads 3 years later.
+
+**4. Secrets end up in wrong places.**
+Developers copy credentials into environment variables, config files, source code, Docker images, and CI/CD pipeline variables. They paste them into Slack messages for "quick testing." They commit them to repos then delete the commit (which doesn't remove them from Git history). The credential escapes the intended context, and nobody tracks where it went.
+
+**5. No deprovisioning trigger.**
+Human users have lifecycle events: onboarding, role change, offboarding. Each event triggers an identity governance action. Non-human identities have no equivalent lifecycle. A service account created to support a project that shipped in 2021 is still active in 2026. The integration it enabled was deprecated, but the credential wasn't revoked. It's a dormant attack surface.
+
+---
+
+## The Cost Breakdown: How $10M Happens
+
+The $10M figure in the headline is not hyperbole — it's the mid-range outcome for a material NHI compromise at an enterprise, once you account for all cost categories.
+
+**Direct breach costs:**
+
+- **Incident response:** Forensic investigation, IR firm retainer, internal engineering time. Major cloud breach IR engagements run $200K–$800K for the investigation phase alone.
+- **Data breach notification:** Legal fees, notification letters, credit monitoring services for affected individuals. For breaches affecting 100K+ records, these costs routinely exceed $1M.
+- **Regulatory fines:** GDPR fines can reach 4% of global annual revenue. CCPA statutory damages: $100–$750 per consumer per incident. SEC disclosure requirements add compliance costs. Healthcare breaches (HIPAA): OCR fines from $100 to $50,000 per violation category.
+- **Litigation:** Class action settlements for large data breaches average $3.5M (IBM Cost of a Data Breach Report 2023). Uber's $148M settlement is an outlier; $3–5M is common for mid-size enterprise breaches.
+
+**Indirect costs:**
+
+- **Customer churn:** IBM's 2023 report finds data breach victims experience 5.4% abnormal customer churn post-breach. For a $50M ARR company, that's $2.7M in lost revenue.
+- **Increased insurance premiums:** Cyber insurance premiums for companies that have had breaches typically increase 30–50% at renewal.
+- **Engineering remediation:** Credential rotation at scale, security control implementation, security audit, penetration testing. 3–6 months of engineering time is common for comprehensive post-breach hardening.
+- **Reputational damage / deal pipeline impact:** Harder to quantify but real for B2B companies where security posture affects procurement decisions.
+
+**The tooling cost to prevent it:**
+
+PAM platforms (CyberArk, Delinea/Thycotic, HashiCorp Vault): $50K–$500K/year depending on seat count and deployment model.
+
+For most organizations, the prevention cost is an order of magnitude below the breach cost. The economic case for NHI governance is straightforward. The obstacle is organizational: NHI governance cuts across IAM, DevOps, security, and application teams — there's no obvious owner.
+
+---
+
+## The NHI Taxonomy: What You're Actually Managing
+
+A comprehensive NHI governance program needs to cover all identity types, each with different management challenges:
+
+**Service accounts (Active Directory / cloud IAM):**
+- Used by applications, services, and automation to authenticate to systems
+- Risk: Over-provisioned, no rotation, orphaned accounts from decommissioned services
+- Detection: IAM audit, AD reports, cloud IAM API query
+
+**API keys:**
+- Long-lived credentials for cloud provider access, SaaS integrations, and internal APIs
+- Risk: Leaked to source code, logs, Slack; shared across environments; no usage monitoring
+- Detection: GitGuardian, Nightfall, TruffleHog for code scanning; cloud provider's secret detection
+
+**OAuth tokens:**
+- Authorization grants for SaaS integrations (GitHub Apps, Google Workspace, Salesforce)
+- Risk: Broad scope grants, no expiration, zombie integrations after application decommission
+- Detection: OAuth app audit in each connected SaaS platform
+
+**CI/CD pipeline secrets:**
+- GitHub Actions secrets, GitLab CI variables, Jenkins credentials
+- Risk: Exposed via misconfigured logging, pipeline output artifacts, forked repo access
+- Detection: Pipeline security scanning, secret scanning in CI/CD platforms
+
+**Machine TLS certificates:**
+- Server certificates, mutual TLS client certificates, code signing certificates
+- Risk: Expired certificates causing outages; weak key lengths from legacy systems; no inventory
+- Detection: Certificate transparency logs, internal certificate scanning (Venafi, cert-manager)
+
+**Database credentials:**
+- Application-to-database passwords, replication credentials
+- Risk: Hardcoded in application configs, shared across environments, never rotated
+- Detection: Code scanning, configuration management audit
+
+**SSH keys:**
+- Developer access to servers, CI/CD system access
+- Risk: Orphaned keys after offboarding, private keys stored insecurely, weak key lengths
+- Detection: SSH authorized_keys audit across fleet, AD/LDAP SSH public key attribute audit
+
+---
+
+## The Governance Framework
+
+An NHI governance program operates on four pillars:
+
+### Pillar 1: Discovery and Inventory
+
+You cannot govern what you don't know exists. Comprehensive NHI discovery requires:
+
+- **Cloud IAM sweep:** AWS IAM users/roles/access keys, GCP service accounts, Azure service principals — exportable via CLI/API. Run weekly minimum.
+- **Secret detection in code:** Deploy GitGuardian, Nightfall, or GitHub Advanced Security for automated detection in repositories. Pre-commit hooks with gitleaks for developer-side prevention.
+- **SaaS OAuth audit:** Each connected SaaS maintains an OAuth grant list. Build an aggregated view.
+- **Kubernetes secret audit:** `kubectl get secrets -A` is not enough — you need to track what's in the secrets, what's accessing them, and whether they're rotated.
+- **CI/CD credential audit:** GitHub Actions organization-level secrets inventory; GitLab group variable audit.
+
+Centralize findings in your PAM platform or a lightweight CMDB. The key data points per identity: type, created date, last used, owning application/team, permissions scope, rotation status.
+
+### Pillar 2: Rotation and Lifecycle
+
+Rotation schedules by credential type:
+
+| Credential type | Target rotation frequency | Automated? |
+|---|---|---|
+| Cloud provider API keys (admin) | 90 days | Yes (AWS SecretsManager, GCP Secret Manager) |
+| Cloud provider API keys (app) | 180 days | Yes |
+| Database passwords | 90 days | Yes (Vault dynamic secrets) |
+| CI/CD secrets | 180 days | Semi (pipeline triggers) |
+| OAuth tokens | Per expiration or 1 year | Manual (SaaS-dependent) |
+| Machine TLS certs | 90 days (Let's Encrypt standard) | Yes (cert-manager) |
+| SSH keys | 1 year or role change | Semi |
+
+The key insight: **rotation must be automated to be reliable.** Manual rotation schedules exist only until the engineer who set up the calendar reminder leaves. HashiCorp Vault's dynamic secrets model — where credentials are generated on-demand with a TTL and automatically revoked — is the gold standard. AWS Secrets Manager with Lambda rotation is the AWS-native alternative.
+
+### Pillar 3: Least Privilege and Scoping
+
+Each NHI should have the minimum permissions needed for its function. This is easy to state and hard to enforce continuously because:
+
+1. Over-provisioning happens at creation
+2. Permissions accumulate over time as functionality is added
+3. Nobody audits NHI permissions the way they audit human access
+
+Practical approach:
+- **New NHIs:** Require permission justification at creation time. Embed NHI creation in infrastructure-as-code (Terraform IAM roles, not console-created service accounts) so permissions are code-reviewable.
+- **Existing NHIs:** Use cloud provider tools (AWS IAM Access Advisor, GCP Policy Intelligence, Azure Advisor) to identify permissions granted but never used. Remove unused permissions on a 90-day review cycle.
+- **Enforce boundaries:** Apply SCP (AWS) or Organization Policy (GCP) to prevent NHIs from certain actions (cross-account privilege escalation, resource creation in unapproved regions).
+
+### Pillar 4: Monitoring and Detection
+
+NHI monitoring has different signal patterns than human IAM monitoring:
+
+- **Unusual credential usage time:** A service account that normally runs during business hours UTC suddenly authenticates at 3 AM Saturday. High signal for compromise.
+- **Geographic anomaly:** Credential normally used from AWS us-east-1 suddenly authenticates from a European IP range.
+- **Permission escalation attempts:** An NHI attempting actions outside its normal operation (e.g., a deployment credential trying to list IAM users).
+- **Sudden usage increase:** A credential that makes 50 API calls/day suddenly makes 50,000. Data exfiltration pattern.
+- **Dormant credential activation:** A credential unused for 90+ days suddenly starts authenticating.
+
+These detections require cloud-native logging (CloudTrail, GCP Audit Logs, Azure Monitor) combined with behavioral baseline analysis. AWS GuardDuty covers some of these patterns; for comprehensive NHI threat detection, you need UEBA (User and Entity Behavior Analytics) tooling tuned for machine identities.
+
+---
+
+## Tooling Ecosystem
+
+**PAM platforms (comprehensive):**
+- **CyberArk:** Market leader, enterprise scale, strong NHI coverage. Pricing: $80–$150/vault/year; enterprise deals typically $500K–$2M.
+- **Delinea (formerly Thycotic/Centrify):** More accessible pricing for mid-market. Strong on service account management.
+- **HashiCorp Vault:** Open source (self-managed) or HCP Vault (managed). Best for dynamic secrets, Kubernetes integration, developer-friendly. Pricing: Open source free; HCP Vault $0.03/hr per cluster for Starter.
+
+**Secret detection:**
+- **GitGuardian:** Automated scanning for secrets in git history, real-time, pre-commit hooks. $29/dev/month for Teams. Enterprise pricing custom.
+- **Trufflesecurity TruffleHog:** Open source; strong for historical git scanning.
+- **GitHub Advanced Security / GitLab Secret Detection:** Built-in for respective platforms; solid coverage for known secret formats.
+
+**Cloud-native:**
+- **AWS Secrets Manager:** $0.40/secret/month + $0.05 per 10,000 API calls. Handles rotation automation with Lambda.
+- **GCP Secret Manager:** $0.06/secret version/month, 6 access operations free/month.
+- **Azure Key Vault:** $0.004/operation for secrets, $1/month per HSM-protected key.
+
+**NHI-specific platforms:**
+- **Opal Security:** Unified access management for cloud resources including machine identities. Mid-market focus.
+- **Sym:** Developer-friendly just-in-time access for both human and machine identities. Slack-native approval workflows.
+- **Astrix Security:** Purpose-built NHI security platform; focuses on discovery, risk scoring, and remediation. Acquired by Check Point in 2024.
+
+---
+
+## The 90-Day NHI Governance Kickstart
+
+**Month 1: Know what you have**
+
+Week 1-2: Run cloud IAM inventory. Export all service accounts, IAM users, roles with access keys, and service principals from AWS/GCP/Azure. Flag any with access keys older than 180 days — these are immediate risk.
+
+Week 2-3: Deploy secret scanning on all Git repositories. Use GitGuardian free tier or GitHub Advanced Security if you're on GitHub Enterprise. Run historical scan. The initial findings will be alarming; that's expected and normal.
+
+Week 3-4: Audit CI/CD secrets. Pull the full list of GitHub Actions secrets, GitLab CI variables, Jenkins credentials. Identify which ones have no documented owner.
+
+**Month 2: Reduce immediate risk**
+
+Priority 1: Rotate or revoke any credentials flagged as exposed in git history. This is non-negotiable — any secret that has been in a git commit history is compromised regardless of whether you can find evidence of exfiltration.
+
+Priority 2: Identify and revoke orphaned service accounts (last login >90 days, owning team offboarded or project decommissioned). Start with cloud IAM — the blast radius from a compromised orphaned cloud credential is highest.
+
+Priority 3: Enforce MFA or key-based authentication for any service accounts that still accept password authentication interactively.
+
+**Month 3: Sustainable governance**
+
+Set up automated rotation for cloud API keys using AWS Secrets Manager or GCP Secret Manager. Start with the highest-privilege credentials.
+
+Establish NHI ownership model: every service account needs an owning team and a primary contact. Encode this in resource tags. Without ownership, deprovisioning conversations never happen.
+
+Define NHI creation standards in your infrastructure-as-code templates: all new service accounts get created with least-privilege IAM policy, usage monitoring tags, and rotation schedule defined at creation.
+
+The organizations that have implemented systematic NHI governance report finding hundreds to thousands of untracked credentials, orphaned service accounts with production access, and secrets in source code that had been there for years. The cleanup is uncomfortable. The alternative — waiting for a breach — is more expensive by an order of magnitude.
+
+Start with the inventory. The risk you don't know about is the one that costs you.
