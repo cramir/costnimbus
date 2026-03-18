@@ -1,0 +1,121 @@
+---
+title: "Google + Wiz: What the $32B Acquisition Means for Your Cloud Security Spend"
+description: "Google closed the $32B Wiz acquisition on March 11 — days before RSAC. Here's what it means for customers with existing Wiz contracts, multi-cloud buyers evaluating CNAPP, and anyone watching cloud security consolidation."
+publishDate: "2026-03-18"
+readTime: "8 min"
+category: "Cloud Costs"
+---
+
+> **Context:** I evaluate cloud security tools for cost efficiency and architectural fit — not as an analyst, but as someone who builds the infrastructure that security tools run on. When a $32B acquisition closes 12 days before RSAC, it matters for budget decisions.
+
+---
+
+Google closed its acquisition of Wiz on **March 11, 2026** — twelve days before RSAC 2026. This is the first RSAC where Google and Wiz are the same company, and their presence at the conference (Google Cloud Security Happy Hour, March 24 at 490 Post St, 15F) is the first public test of how they're positioning the combined entity.
+
+If you have an existing Wiz contract, are evaluating CNAPP, or rely on multi-cloud security tooling, here's what you need to know — before the Google/Wiz narrative hardens at the conference.
+
+---
+
+## The Deal in Plain English
+
+Google paid **$32 billion** for Wiz — the largest cybersecurity acquisition in history, surpassing Broadcom's acquisition of VMware's security division and IBM's purchase of QRadar assets.
+
+What Google bought: the leading cloud-native application protection platform (CNAPP), with agentless scanning, attack path analysis, and code-to-cloud security coverage. Wiz had ~$700M ARR at acquisition and was growing ~50% year-over-year.
+
+The official positioning: "Wiz retains its brand and continues to support all clouds." This is the right thing to say at acquisition time. It's also the thing every acquirer says, and the reality over 18–36 months is almost always more complicated.
+
+What Google actually gets: a foothold in cloud security accounts that are heavily AWS and Azure. Wiz's customer base is not primarily Google Cloud — it's the multi-cloud enterprises that Google has been struggling to convert for years. Wiz is a distribution strategy as much as it's a product acquisition.
+
+---
+
+## Three Pricing Scenarios You Need to Model
+
+The acquisition creates real pricing uncertainty for Wiz customers. Here are the three scenarios you should model before your next renewal:
+
+### Scenario A: Standalone Wiz Pricing Unchanged (Most Likely, Near-Term)
+Wiz continues to operate as a standalone product with roughly the same pricing structure. Enterprise contracts negotiated pre-acquisition are honored. New customers can still buy Wiz without Google Cloud.
+
+**Probability:** High for the next 12–18 months. Google has strong incentives to maintain Wiz's multi-cloud neutrality while the integration matures. Churn risk from pricing changes is real.
+
+**What to watch:** Renewal pricing. The first renewal cycle post-acquisition is where Google's intentions become visible. If your Wiz renewal is coming up in 2026, this is the conversation to have.
+
+### Scenario B: Google Cloud Bundle Incentives
+Google creates pricing incentives to bundle Wiz with Google Cloud Security Command Center (SCC) and other Google Cloud services. Not necessarily forced, but discounted enough to make the bundle attractive.
+
+**Probability:** Medium — this is the playbook every major cloud provider runs. Google Cloud already offers Security Command Center, Chronicle SIEM, and reCAPTCHA/BeyondCorp. Adding Wiz to the bundle with a 15–25% discount vs. standalone is an obvious lever.
+
+**Impact on you:** If you're 60%+ on GCP already, this bundle could be genuinely cost-effective. If you're a mixed AWS/Azure/GCP shop, the "discount" only matters for the GCP workloads — you'd pay full price for the rest, or consolidate onto GCP faster than your architecture roadmap planned.
+
+**The trap:** "Bundle discount" often means you've committed to more Google Cloud consumption to unlock the savings. Model the total committed spend, not just the Wiz line item.
+
+### Scenario C: Standalone Licensing Deprecated (Long-Term Risk)
+Google eventually moves Wiz features into Google Cloud Security, making independent Wiz licensing unavailable or significantly more expensive outside the Google ecosystem.
+
+**Probability:** Low in the next 2 years, moderate over 3–5 years. This is the long-term strategic risk. Wiz's multi-cloud story is its competitive differentiation — destroying it immediately would crater revenue. But over time, Google has every incentive to make Wiz a Google Cloud-first product.
+
+**What to build:** Optionality. If you're making a 3-year CNAPP commitment today, understand what your exit looks like if Google moves in this direction.
+
+---
+
+## What to Look for in Your Current Contract
+
+If you have an existing Wiz contract, read it now — specifically:
+
+**Change of control clauses:** Does your contract include provisions triggered by acquisition? Some enterprise agreements allow customers to renegotiate or exit when the vendor changes ownership. Check before your next renewal.
+
+**Multi-cloud commitments:** Did you select Wiz explicitly because of its AWS/Azure support? Some contracts include service level provisions tied to specific platform support. The acquisition doesn't change Wiz's technical coverage today, but it's worth having documented.
+
+**Renewal terms:** When does your contract renew? If it's in the next 6 months, you're negotiating with Google's sales team, not Wiz's. Understand how that changes the conversation.
+
+**Pricing benchmarks:** Pull your current cost per asset or per cloud account. You'll need this to evaluate whether any Google bundle offer is actually a discount relative to what you're already paying.
+
+---
+
+## The Competitive Response at RSAC
+
+Google/Wiz doesn't happen in a vacuum. Every other CNAPP and cloud security vendor is at RSAC with a competitive response narrative:
+
+**CrowdStrike:** Already moved aggressively into cloud security with Falcon Cloud Security. Expect messaging around "vendor-neutral" cloud coverage — the opposite of the Google lock-in story.
+
+**Palo Alto Networks:** Prisma Cloud is the incumbent CNAPP. They'll lean into the "Google is now a competitor, not a partner" narrative for customers nervous about cloud provider conflict of interest. Cortex AgentiX at RSAC likely includes cloud workload protection angles.
+
+**Microsoft Defender for Cloud:** If you're an Azure shop, Microsoft has strong incentive to position Defender as the Google/Wiz alternative. Expect favorable multi-cloud positioning at any Microsoft RSAC session.
+
+**Independent CNAPPs (Orca Security, Lacework, Aqua):** These vendors just got a gift — every enterprise customer with Google/Wiz now has a reason to at least evaluate alternatives. If you're an Orca or Lacework rep at RSAC 2026, your job is to book 30-minute conversations with "nervous Wiz customers."
+
+---
+
+## The Google Tax Question
+
+Here's the real cost analysis question that CostNimbus can help you answer: **If Google eventually bundles Wiz features into Security Command Center, what's the effective per-feature cost?**
+
+Security Command Center (SCC) Standard is already included in Google Cloud. SCC Premium runs ~$0.04–$0.08/asset/month. Wiz Enterprise runs ~$15–$30/asset/month depending on coverage tier.
+
+If Google builds Wiz's agentless scanning and attack path analysis into SCC Premium at a premium-tier price of, say, $0.15–$0.25/asset/month — that's a dramatically lower unit cost than standalone Wiz, but only if you're running those workloads on GCP.
+
+The math changes completely if you're 70% AWS. At that ratio, the "Google bundle" covers 30% of your attack surface at a discount and leaves the rest at full price or unprotected.
+
+**Model it with your actual asset distribution.** The bundle only wins if your workload mix supports it.
+
+---
+
+## Action Items for the Next 30 Days
+
+**Before RSAC (this week):**
+1. Pull your current Wiz contract — find the renewal date, change of control language, and current pricing per asset.
+2. Check your cloud workload distribution: what % is GCP, AWS, Azure, hybrid?
+3. Flag your Wiz renewal to your finance/procurement team as "acquisition in progress, evaluate at renewal."
+
+**At RSAC (March 23–26):**
+4. Attend the Google Cloud Security Happy Hour (March 24, 5–7 PM, 490 Post St, 15F). This is where you'll get the clearest picture of what the combined entity actually looks like.
+5. Talk to Orca Security, Lacework, and Palo Alto Prisma. Get competitive quotes. Even if you don't switch, this is negotiation ammunition.
+6. Ask Google/Wiz reps directly: "What happens to multi-cloud customers at renewal? Does the pricing change if we're not primarily on GCP?"
+
+**Post-RSAC:**
+7. Build your three-scenario cost model before your next renewal meeting. Use your actual asset distribution and current pricing as the baseline.
+
+---
+
+The $32B number is the headline. What actually matters for your budget is the renewal conversation you'll have in 12–18 months. Get ahead of it now, while you have leverage and time to evaluate alternatives.
+
+**Use CostNimbus to model standalone Wiz vs. Google bundle scenarios against your actual cloud asset distribution.**

@@ -1,0 +1,146 @@
+---
+title: "Microsoft Sentinel's New Pricing Model: What Changed in March 2026 and What It Costs"
+description: "Microsoft shifted Sentinel Accelerator from daily to monthly usage pricing on March 1, 2026. Here's exactly what changed, who it affects, and how to model your new TCO before your next contract review."
+publishDate: "2026-03-18"
+readTime: "9 min"
+category: "Cloud Costs"
+---
+
+> **Who this is for:** SIEM administrators, IT/security budget owners, MSPs managing Sentinel deployments. If you're running Microsoft Sentinel and haven't audited your cost model since January 2026, read this before your next contract review.
+
+---
+
+Microsoft made a quiet but consequential change to Sentinel pricing on **March 1, 2026**: the Sentinel Accelerator program shifted from daily ingestion-based billing to a **monthly usage model**, with a maximum commitment cap of **$60,000/month**.
+
+Quiet doesn't mean small. If you're an enterprise Sentinel customer, this is a structural change to how your SIEM costs are calculated — and it compounds with three AI-related updates (Copilot data connector, Security Copilot agents, RSA ID Plus integration) that landed in the same window.
+
+Let me break down exactly what changed and what it means for your bill.
+
+---
+
+## What Changed: Old Model vs. New Model
+
+### The Old Model (Pre-March 2026)
+Sentinel Accelerator was billed on **daily ingestion volume**. You committed to a daily GB tier and paid accordingly. Billing was calculated and capped daily — if you had a spike day, it counted against that day's commitment.
+
+**The problem:** Ingestion is inherently spiky. Incident response, threat hunting campaigns, new log source onboarding — these create bursts that pushed customers into higher daily tiers temporarily, triggering overage charges.
+
+### The New Model (March 2026+)
+Accelerator now operates on **monthly usage totals**, with the maximum commitment landing at **$60,000/month**. Key changes:
+- Billing aggregates across the full month, not per-day
+- The cap provides a ceiling for high-volume months
+- Customers with stable average daily ingestion but high-spike days benefit from the smoothing effect
+- **New customers** can commit to monthly tiers from the start
+
+### Who Benefits
+- **High-volume, stable ingestors:** If your daily average is consistent, the monthly model just simplifies billing without cost impact.
+- **Spike-heavy workloads:** IR teams, organizations with compliance-driven batch log uploads, environments that run threat hunting campaigns. Monthly averaging absorbs your spike days.
+- **Organizations near the $60K ceiling:** The cap is meaningful — before March 2026, there was no hard monthly ceiling in the same way.
+
+### Who Might Pay More
+- **Low-volume with periodic bursts:** If your average daily ingestion is modest but you occasionally do very high-volume months (major incident, compliance audit, new environment onboarding), the monthly commitment might pull you into a higher tier than the old daily model would have.
+- **MSPs managing multiple tenants:** Monthly aggregation changes how you calculate per-tenant costs. Model each tenant separately before assuming the new model is uniformly better.
+
+---
+
+## The AI Layer Compounds the Complexity
+
+The Sentinel pricing change didn't land in isolation. Three AI-related updates shipped in the same February–March 2026 window:
+
+### 1. Security Copilot Agents for Sentinel
+Microsoft Security Copilot agents are now embedded in Sentinel workflows for anomalous behavior detection. These agents run automated investigations — enriching alerts, querying across data sources, generating investigation summaries.
+
+**Cost structure:** Security Copilot is billed separately at **$4 per Security Compute Unit (SCU)**. Automated agent investigations consume SCUs. A single agentic investigation on a complex alert can run 2–10 SCUs depending on query complexity and data volume.
+
+**What this means:** Your Sentinel bill is now variable in two dimensions:
+1. **Ingestion volume** (the Accelerator tier)
+2. **AI investigation depth** (Copilot SCU consumption)
+
+If you enable Copilot agents at scale and your alert volume is high, you can run significant SCU spend before you realize what happened. The Copilot billing is separate from the Sentinel invoice, which makes it easy to miss in month-end reviews.
+
+### 2. Copilot Data Connector (Public Preview)
+A new Copilot data connector is in public preview — it ingests Microsoft Copilot for Microsoft 365 activity logs into Sentinel for security monitoring. This is genuinely useful for DLP and insider threat scenarios.
+
+**Cost impact:** New connector = new data source = new ingestion volume. Factor this in when calculating your monthly Accelerator tier. If your org is deploying Copilot for M365 at scale, this connector adds a meaningful volume bump.
+
+### 3. RSA ID Plus Integration
+Microsoft announced Sentinel integration with RSA ID Plus, ingesting admin identity telemetry — privileged access events, authentication patterns, anomalous admin behavior.
+
+**Cost impact:** Identity telemetry volume depends heavily on your privileged user count and activity patterns. For environments with large Active Directory deployments or complex IAM, this can add 10–30% to your daily ingestion volume.
+
+---
+
+## The TCO Calculation: A Framework
+
+Here's the five-step model I use when reviewing Sentinel contracts:
+
+### Step 1: Pull Your Daily Ingestion Averages
+Run this query in Sentinel:
+```kusto
+Usage
+| where TimeGenerated > ago(90d)
+| where IsBillable == true
+| summarize TotalGB = sum(Quantity) / 1024 by Day = bin(TimeGenerated, 1d)
+| summarize AvgDailyGB = avg(TotalGB), MaxDailyGB = max(TotalGB), MinDailyGB = min(TotalGB)
+```
+
+You want average AND max/min. The spread tells you how spiky your ingestion is — which determines whether the monthly model helps or hurts you.
+
+### Step 2: Calculate Monthly Equivalent
+Multiply your average daily GB by 30. Then multiply your max daily GB by 30 (worst case). Compare both against the Accelerator tier thresholds.
+
+If average * 30 is well below max * 30, the monthly model likely benefits you — it smooths the spikes.
+
+### Step 3: Factor in New Data Sources
+If you're enabling the Copilot data connector or RSA ID Plus integration, estimate the volume add:
+- Copilot for M365: roughly 0.1–0.5 GB/day per 1,000 active users
+- RSA ID Plus: 0.5–2 GB/day depending on privileged user count
+
+Add these to your daily average before mapping to the Accelerator tier.
+
+### Step 4: Model Copilot SCU Consumption
+Estimate your approximate alert volume and the percentage you'll route through Copilot agents. A rough starting point:
+- Low automation (20% of alerts through Copilot): ~$500–$2,000/month in SCUs for a mid-size SOC
+- High automation (80% of alerts): ~$3,000–$10,000/month
+
+This is genuinely hard to estimate before you've run it. Start with a pilot on 20% of alert types, measure actual SCU consumption for 30 days, then project forward.
+
+### Step 5: Compare Accelerator Tiers
+Map your projected monthly ingestion to the current tier pricing. The $60K/month cap is the effective ceiling — if your projection exceeds that, you're in a different conversation about whether Sentinel is the right architecture at your scale.
+
+---
+
+## When the New Pricing Is a Signal to Evaluate Alternatives
+
+Not every Sentinel customer should stay on Sentinel after this change. The new pricing model, combined with the Copilot layer, points toward certain break-even scenarios:
+
+**Consider alternatives if:**
+- Your monthly Accelerator commitment is above $30K/month AND your Copilot SCU spend is adding another $5K+ on top
+- You're in a multi-SIEM environment (Sentinel + Splunk + another tool) and the Microsoft lock-in is limiting architectural flexibility
+- Your primary use case is cloud workload monitoring — pure GCP or AWS environments may find Chronicle or Security Lake more cost-efficient at scale
+
+**RSAC 2026 is a natural evaluation window.** Securonix, Splunk, and Chronicle are all at the conference. If you're questioning your Sentinel commitment, this week is the right time to benchmark.
+
+---
+
+## Concrete Action Items
+
+**Before RSAC (this week):**
+1. Run the ingestion query above. Get your 90-day average and max daily GB numbers.
+2. Check if you're on the new monthly Accelerator model or grandfathered into the old daily model — review your Azure invoice.
+3. Pull your current Copilot SCU spend if you've already enabled any Copilot features.
+
+**During RSAC:**
+4. If you're talking to Microsoft reps, the specific question is: "What's the SCU consumption rate for Copilot agent-driven investigations at [your alert volume]?" Get a number, not a range.
+5. Talk to Securonix and Splunk. Get pricing quotes for your ingestion volume. You may not switch, but the comparison is valuable negotiation data.
+
+**Post-RSAC:**
+6. Model the three scenarios: stay on current plan, move to new monthly Accelerator tier, evaluate migration. The numbers will tell you which conversation to have with Microsoft.
+
+---
+
+The Sentinel pricing change isn't a crisis — for most customers, it's neutral to positive. But it's happening at the same time as the AI cost layer is coming online, and the combination creates a compounding billing complexity that isn't obvious until you're reviewing a month-end invoice that's 40% higher than expected.
+
+Model it now, while you have the time. The worst time to figure this out is during an incident when your Copilot agents are running hot and your bill is tracking toward the $60K ceiling.
+
+**Use CostNimbus to model your Sentinel TCO under the new pricing before your next renewal.**

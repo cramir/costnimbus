@@ -1,0 +1,149 @@
+---
+title: "RSAC 2026: What the Agentic SOC Announcements Actually Mean for Your Budget"
+description: "Every vendor at RSAC 2026 is pitching an agentic SOC. Here's what 5 simultaneous AI security agent subscriptions actually cost — and how to avoid paying for the same capability three times."
+publishDate: "2026-03-18"
+readTime: "10 min"
+category: "Security"
+---
+
+> **Context:** I build SOC infrastructure — the pipelines, integrations, and platforms analysts use every day. I'm not a SOC analyst. I track vendor announcements not for the marketing narrative, but because pricing changes and new licensing models land in my lap when it's time to renew.
+
+---
+
+RSAC 2026 opens in five days, and the vendor pre-briefing season has already answered the conference's biggest question: **this is the "Agentic SOC" RSAC.** Every major security platform — CrowdStrike, Palo Alto, SentinelOne, Securonix, Dropzone AI, Prophet Security — is showing up with some version of "AI agents that run your SOC."
+
+That's not hype for its own sake. Alert triage automation is genuinely working at scale. The problem is that the procurement math breaks badly when you're evaluating 5 platforms, each with overlapping AI capabilities, each with a new and deliberately opaque pricing model.
+
+Let me break down what's actually been announced, what it costs, and how to avoid paying the "agentic SOC tax."
+
+---
+
+## What "Agentic SOC" Means in Practice (and What It Doesn't)
+
+The vendors use "agentic" loosely, but in practice it means one of three things:
+
+1. **Alert triage automation** — AI classifies and triages alerts without human review for each one. Dropzone AI and Prophet Security are purpose-built for this.
+2. **Investigation orchestration** — AI assembles context, runs queries, and generates an investigation summary for an analyst to review. CrowdStrike Charlotte Agentic SOAR and SentinelOne Purple AI Athena do this.
+3. **Autonomous response** — AI takes action (blocking, isolating, remediating) without analyst approval. Almost nobody in production is here yet, regardless of what the booth demo shows.
+
+Tiers 1 and 2 are real and in production at customer scale. Tier 3 is in "controlled pilot" language in every press release — which means your CISO still has to sign every response playbook.
+
+This distinction matters for budget: you're not buying a "fully autonomous SOC." You're buying faster triage and better investigation summaries, plus the engineers to wire it all together.
+
+---
+
+## The Five Platforms You'll See at RSAC — and What They Cost
+
+### CrowdStrike Charlotte Agentic SOAR
+
+Charlotte AI has been shipping since 2024 but this RSAC is the GA announcement for **Charlotte Agentic SOAR** — the full workflow automation layer. The CrowdStrike / EY / NVIDIA partnership announced March 17 signals enterprise positioning.
+
+**Pricing reality:** Charlotte AI is an add-on license on top of Falcon. CrowdStrike's base Falcon platform runs $15–$25/endpoint/year depending on tier. Charlotte AI adds roughly 20–30% to that. For a 5,000-endpoint org, you're looking at:
+- Base Falcon Complete: ~$150K–$200K/year
+- Charlotte AI add-on: ~$30K–$60K/year on top
+
+The Agentic SOAR expansion pricing isn't public yet — expect a separate SKU at RSAC.
+
+**What it does well:** Deep Falcon telemetry integration. If you're already all-in on CrowdStrike, Charlotte AI is the natural progression.
+**What it doesn't:** Non-Falcon data sources are second-class citizens. If you have Splunk or Sentinel as your SIEM, the integrations work but you lose the full contextual benefit.
+
+---
+
+### SentinelOne Purple AI "Athena"
+
+The Athena release is the headline SentinelOne announcement. The key differentiator: Purple AI claims to work across **any SIEM**, not just Singularity. That's a meaningful architectural choice that CrowdStrike hasn't matched.
+
+**Pricing reality:** Purple AI is priced as an add-on to the Singularity platform. Singularity Complete runs ~$12–$20/endpoint/year. Purple AI adds another tier — expect $5–$10/endpoint/year for the AI layer. At 5,000 endpoints:
+- Singularity Complete: ~$80K–$120K/year
+- Purple AI add-on: ~$25K–$50K/year
+
+**What it does well:** The "any SIEM" positioning is real if you're not ready to standardize on Singularity for log management.
+**What it doesn't:** The Athena "deep security reasoning" claims are still pre-production at scale for most customers.
+
+---
+
+### Dropzone AI
+
+The most interesting independent player. **Series B at $37M (Sep 2025)**. Announced autonomous threat hunting on March 18 — GA planned Summer 2026. Their stated metrics: 60% MTTR reduction, 10,000+ daily alerts handled autonomously.
+
+**Pricing reality:** Dropzone AI is the most transparently priced of the group. Their booth (#455) will be answering direct pricing questions. Based on public information:
+- Entry tier: ~$36K–$60K/year for small-to-mid SOC
+- Volume scales per investigation/alert at higher tiers
+- No endpoint-based licensing — you pay for what the AI does, not what you have
+
+**What it does well:** No-playbook-required approach. You don't need a SOAR engineer to deploy it. Genuinely the fastest time-to-value in the category.
+**What it doesn't:** Startup risk. Series B is healthy but you're making a dependency decision on a company with under 200 employees.
+
+---
+
+### Prophet Security
+
+Venture-backed, Docker as a reference customer, adaptive learning from analyst feedback. Core capability: autonomous alert triage and investigation, with the AI learning from how your analysts would have responded.
+
+**Pricing reality:** Not publicly listed. Expect startup pricing — likely $50K–$150K/year for enterprise depending on alert volume. Their differentiation is the feedback loop, not the base triage capability.
+
+**What it does well:** The adaptive model genuinely gets better with your specific analyst behavior. This is worth something if you have institutional knowledge you want to encode.
+**What it doesn't:** Newer product, less proven at enterprise scale than Dropzone.
+
+---
+
+### Securonix Sam + Agentic Mesh
+
+Securonix went a different direction: instead of a separate AI product, they're baking the AI analyst ("Sam") into the SIEM itself, under a **productivity-based pricing model**. Their Agentic Mesh announced February 2026 is the orchestration layer.
+
+**Pricing reality:** Securonix has shifted to outcome-based pricing — you pay for analyst productivity gains, not raw data ingestion. They're running an OCSF integration session at RSAC specifically to show this works across heterogeneous environments.
+
+This model is genuinely interesting for teams that want to avoid the SIEM + AI analyst double-billing problem. Watch their RSAC session for specifics.
+
+---
+
+## The Duplication Problem: You're Probably About to Pay Twice
+
+Here's the math that keeps me up at night when I look at post-RSAC procurement patterns:
+
+**Scenario A:** CrowdStrike Falcon Complete + Charlotte Agentic SOAR + Dropzone AI for "backup" coverage on non-Falcon sources + Prophet Security for a different use case.
+
+That's three AI triage and investigation systems running simultaneously, each generating an output layer that needs to feed into the same analyst queue. You haven't reduced alert fatigue — you've added three new consoles and three new renewal cycles.
+
+**Scenario B (what I'd actually build):** Pick one AI investigation platform that works with your SIEM architecture. Wire it in completely before buying anything else. If you're Microsoft Sentinel-first, look at Security Copilot agents + one purpose-built AI analyst. If you're CrowdStrike-first, Charlotte Agentic SOAR is the path. If you're vendor-agnostic, Dropzone AI's SIEM-agnostic positioning is worth the startup risk at that price point.
+
+The test: Can you articulate a scenario where you'd use AI Tool A but not AI Tool B for the same alert? If not, you're buying overlap.
+
+---
+
+## Microsoft Sentinel's AI Layer: What Changes in March 2026
+
+Sentinel got three significant updates leading into RSAC:
+1. **Security Copilot agents** for anomalous behavior detection — these run investigations automatically against Sentinel data
+2. **Copilot data connector** (public preview) — new data source that adds volume to your ingestion
+3. **RSA ID Plus integration** — identity telemetry flowing into Sentinel
+
+The AI agents add capability but also add cost: Security Copilot is priced at **$4 per Security Compute Unit (SCU)**, and agentic investigations can consume multiple SCUs per investigation.
+
+Combined with the **March 2026 Sentinel pricing shift to monthly usage model** (Accelerator up to $60K/month), this means your Sentinel bill is now variable in two dimensions: ingestion volume AND Copilot investigation depth.
+
+Model this before your next renewal. If you have a RSAC conversation with a Microsoft rep, the specific question is: "What's the SCU consumption for automated Copilot investigations at our alert volume?"
+
+---
+
+## What to Ask at Every AI SOC Vendor Booth
+
+Four questions that separate real products from booth theater:
+
+1. **"What does your AI analyst miss? What are the known failure modes?"** Real answer = credibility. Non-answer = still in development.
+
+2. **"What does it cost per alert at 10,000 alerts/day?"** Pin them to a number. "It varies" is not an answer.
+
+3. **"How long does deployment take, and what does integration engineering look like?"** 40–80 hours of engineering time to wire it in is a real cost that doesn't appear in the license quote.
+
+4. **"Does this work if we have multiple SIEMs or a hybrid environment?"** Most platforms have a preferred SIEM. Know what you're signing up for.
+
+---
+
+## The Bottom Line
+
+The Agentic SOC is real, but the business case requires honest math. Before RSAC, sketch out what you're already paying for AI-adjacent capabilities: EDR + AI add-ons + any SOAR licenses + any investigation tools. Then at the conference, evaluate new tools against that baseline — not against zero.
+
+The teams that will overpay coming out of RSAC 2026 are the ones that buy the agentic demo without auditing what they already own.
+
+**Run your current AI security stack through CostNimbus before your next renewal.** Find the overlap before the vendor finds your budget.
