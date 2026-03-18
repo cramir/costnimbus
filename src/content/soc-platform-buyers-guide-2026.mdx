@@ -1,0 +1,386 @@
+---
+title: "The $50K Question: Which SOC Platform Actually Fits Your Team?"
+description: "A 2026 buyer's guide to SOC tools from someone who builds the platforms — covering SIEM, SOAR, AI-native tools, and the real costs nobody talks about."
+publishDate: "2026-03-18"
+readTime: "16 min"
+category: "Security"
+---
+
+---
+
+> **Before you read this:** I'm not a SOC analyst. I build SOC platforms for a living — the infrastructure, the integrations, the pipelines that analysts actually use. I've wired up Splunk, Sentinel, Wazuh, XSOAR, and a handful of AI-native tools. I've watched organizations spend $300K on a SIEM they couldn't operationalize and $0 on an open-source stack that outperformed it. This guide is what I wish existed when I started.
+
+---
+
+## The $50K Question
+
+Here's the real question most security teams are facing in 2026: *You have somewhere between $50K and $500K to spend on SOC tooling. You need to defend your decision to a CFO, satisfy a compliance auditor, and actually catch threats — not just check boxes. Which platform do you pick?*
+
+The honest answer? **It depends on three things:** your team's maturity, your log volume, and how much internal engineering capacity you're willing to commit. Get those three wrong, and no amount of vendor magic will save you.
+
+Let's break it down.
+
+---
+
+## Section 1: The Market You're Buying Into
+
+### The Numbers That Should Scare Your Leadership
+
+The 2025 IBM Cost of a Data Breach Report put the average breach cost at **$4.88M** — up 10% from 2024. The average dwell time (attacker inside your network before detection) without a functioning SOC: **197 days**. With a mature SOC: **21 days**.
+
+That's a 176-day gap. The math on what that costs your organization is the strongest ROI argument you'll ever make to finance.
+
+But here's what the vendor decks don't show you: **SOC teams are drowning.** The average team receives 4,484 alerts per day. Sixty-seven percent go uninvestigated because there simply aren't enough hours. The global cybersecurity workforce shortage hit **3.5 million unfilled positions** in 2025.
+
+That gap — between alert volume and human capacity — is exactly why the "Agentic SOC" became the hottest phrase in security in 2025–2026.
+
+### Three Eras of SOC Tooling
+
+**Era 1 (2010–2018): SIEM-first.** You ingested logs, wrote correlation rules, and prayed your Tier 1 analyst caught something. Splunk and IBM QRadar dominated. Compliance drove most buying decisions — SIEM was the audit trail, not the detection engine.
+
+**Era 2 (2018–2023): SOAR + EDR.** You got tired of analysts doing the same 15-step investigation manually for the 500th time. SOAR platforms (Phantom/Splunk SOAR, XSOAR, Tines) automated the playbooks. EDR (CrowdStrike, Carbon Black) moved detection to the endpoint. Alert quality improved; volume didn't.
+
+**Era 3 (2024–now): Agentic AI.** Platforms that don't just execute playbooks — they *reason* through investigations. CrowdStrike Charlotte AI became a full agentic workforce in the Fall 2025 release. Microsoft Security Copilot started shipping meaningful autonomous investigation features. Palo Alto launched Cortex AgentiX. Dropzone AI proved you could do autonomous SOC investigations for $36K/year. The question shifted from "can AI help?" to "how much autonomy do we give it?"
+
+### The Platformization Trap (and Opportunity)
+
+Every major vendor is pushing "platformization" — SIEM + SOAR + EDR + AI in one SKU. Palo Alto, CrowdStrike, and Microsoft are explicitly pricing to make you buy the whole stack.
+
+The pitch: unified data, fewer integrations, single pane of glass.
+
+The reality: **vendor lock-in at premium pricing.** If you're a CrowdStrike shop and you want Charlotte AI, you're getting more CrowdStrike. If you're an Azure shop and want Security Copilot, you're buying deeper into Microsoft.
+
+That's not always wrong — sometimes the integrated stack is genuinely better. But go in with eyes open about what you're signing.
+
+**The counter-movement:** Wazuh (open source SIEM/XDR) + Tines (no-code SOAR) + Dropzone AI (autonomous investigation) creates a capable stack for under $50K/year. It requires an engineer who can actually build things. If you have that person, this combo is devastatingly cost-effective.
+
+---
+
+## Section 2: Nine Platforms, One Honest Comparison
+
+I've built and integrated all nine of these. Here's what the sales decks won't tell you.
+
+### 1. CrowdStrike Falcon + Charlotte AI
+**Category:** Agentic AI + EDR/XDR
+**Pricing:** $15–$25/endpoint/month (Falcon Go to Enterprise); Charlotte AI included or as add-on depending on tier
+**Best for:** Organizations with significant endpoint estates where EDR is the primary detection surface
+
+CrowdStrike's Fall 2025 release was the first time a major vendor credibly shipped an "agentic workforce" narrative and backed it with real functionality. Charlotte AI is now trained on millions of analyst decisions from their Falcon Complete MDR service — it's not generic LLM applied to security, it's behavioral pattern matching plus LLM reasoning trained on actual SOC work.
+
+**What works:** The endpoint telemetry is genuinely best-in-class. Charlotte AI's investigation quality is impressive for endpoint-originated alerts. If 80% of your alerts come from endpoints, this is a serious option.
+
+**What doesn't:** Charlotte AI is less useful when your threat surface extends beyond endpoints. Cloud workload, SaaS apps, identity — coverage varies. Pricing scales painfully with endpoint count. And every additional capability is another module purchase.
+
+**Infrastructure builder note:** Their APIs are solid. Integrating CrowdStrike into a custom SIEM or SOAR is doable. The Falcon Data Replicator lets you stream raw telemetry to your own pipeline — useful if you want CrowdStrike data in Splunk or elsewhere.
+
+---
+
+### 2. Microsoft Sentinel + Security Copilot
+**Category:** SIEM + Agentic AI
+**Pricing:** ~$2.46–$5.20/GB ingested (pay-as-you-go); commitment tiers available. Security Copilot: ~$4/Security Compute Unit (SCU)/hour
+**Best for:** Organizations already deep in Azure/Microsoft 365
+
+Sentinel is the most cost-effective enterprise SIEM *if you're already in Azure*. The 800+ built-in data connectors mean you can start ingesting Microsoft 365, Defender, Entra ID, and Azure workloads in hours, not weeks. The integration between Sentinel and Security Copilot is the most mature AI-SIEM combination in the market right now.
+
+**What works:** Cost per GB is genuinely competitive — 10 GB/day runs about $25/day. The 90-day free data retention for Microsoft sources is a real differentiator. KQL (Kusto Query Language) has a learning curve but is more powerful than SPL (Splunk) for many query patterns.
+
+**What doesn't:** Log volume scales costs brutally. Move from 50 GB/day to 200 GB/day and you're suddenly at $500+/day. Security Copilot SCU pricing is opaque — most organizations burn through credits faster than expected.
+
+**Infrastructure builder note:** Sentinel's Log Analytics workspace is a genuinely flexible backend. You can ingest custom log formats via the Data Collector API. Automation Rules + Logic Apps = decent SOAR-lite without Sentinel SOAR license. But if you need complex branching playbooks, you'll want a dedicated SOAR.
+
+---
+
+### 3. Palo Alto Cortex XSIAM + AgentiX
+**Category:** Unified Platform (SIEM + SOAR + AI + XDR)
+**Pricing:** Custom enterprise — typically $200K–$1M+/year for mid-enterprise
+**Best for:** Large enterprises committed to a single-vendor "autonomous SOC" platform
+
+XSIAM is Palo Alto's bet on the integrated platform future — SIEM, SOAR, UEBA, threat intelligence, and now AgentiX (autonomous agent framework) in one. The pitch is "replace your SIEM and SOAR with one platform." Some organizations have genuinely done it. Many have not.
+
+**What works:** The data foundation is strong. Stitch time (mean time to aggregate multi-source context for an alert) is genuinely fast. The playbook library from years of XSOAR community contributions is valuable. AgentiX shows real promise for automated investigation and remediation.
+
+**What doesn't:** The price. Enterprise contracts start high and go higher. Migration from existing SIEM is non-trivial. If you don't have a dedicated Palo Alto engineer, you're not going to extract full value.
+
+**Infrastructure builder note:** XSOAR's REST API is comprehensive. If you're building on top of Palo Alto's stack, the developer experience is reasonably good. The learning curve is steep — budget 3–6 months for a team to become productive.
+
+---
+
+### 4. Splunk SOAR (formerly Phantom)
+**Category:** SOAR
+**Pricing:** ~$75K–$250K+/year (workload pricing or ingest pricing via Cisco partnership)
+**Best for:** Mature SOCs with complex, multi-step automation requirements
+
+Phantom was the gold standard SOAR before Splunk acquired it, and Splunk SOAR still has the richest playbook ecosystem in the market — 500+ community apps, 2,000+ automated actions. If your SOC has documented runbooks and wants to automate them with code-level flexibility, Splunk SOAR delivers.
+
+**What works:** The playbook development experience is good. Python-based playbooks mean your engineers can write real code, not just drag-and-drop. App connectivity is broad. For complex investigation orchestration, it remains one of the most capable platforms.
+
+**What doesn't:** Post-Cisco acquisition, roadmap clarity has suffered. Splunk's pricing model (workload-based) can make cost projection difficult. The integration with the broader Splunk SIEM stack works, but the product feels like two companies bolted together — because it is.
+
+**Infrastructure builder note:** Mission Control in Splunk SOAR is genuinely useful for SOC floor management. The HEC (HTTP Event Collector) integration with Splunk SIEM is solid. If you're already on Splunk Cloud, this is worth evaluating seriously.
+
+---
+
+### 5. Palo Alto Cortex XSOAR
+**Category:** SOAR
+**Pricing:** ~$50K–$150K/year standalone; bundled pricing available with Cortex suite
+**Best for:** Teams that want a rich playbook marketplace and are open to Palo Alto ecosystem
+
+XSOAR (formerly Demisto) has the best playbook marketplace in the SOAR space — thousands of community-contributed playbooks covering almost every integration scenario. If you're in the Palo Alto ecosystem, the integration with XSIAM creates a unified response path.
+
+**What works:** The Marketplace. If someone has had your problem before, there's probably a playbook for it. War Room (collaborative incident workspace) is genuinely useful for team-based investigations.
+
+**What doesn't:** As Palo Alto pushes XSIAM, XSOAR's independent positioning becomes murkier. New customers are increasingly being steered toward the full XSIAM bundle.
+
+---
+
+### 6. Tines
+**Category:** SOAR / No-Code Workflow Automation
+**Pricing:** Free Community tier (unlimited stories, up to 500 actions/month); Enterprise from ~$12K/year
+**Best for:** Security and IT engineering teams that want workflow automation without vendor bloat
+
+Tines isn't trying to replace your SIEM. It's automation glue — you define the logic, it executes it reliably. What makes it stand out: the no-code interface is genuinely intuitive for people who think in flowcharts, but it supports real API calls and Jinja templating for engineers who need depth.
+
+**What works:** Free tier is actually useful. Getting from "I have an idea for a workflow" to "workflow is running in production" is measured in hours, not weeks. Tines AI (their LLM assistant) is a reasonable copilot for building workflows.
+
+**What doesn't:** Tines can automate what you define — it cannot reason through an unfamiliar threat. It's a force multiplier for human analysts, not a replacement. Don't buy it expecting AI-native investigation capability.
+
+**Infrastructure builder note:** Tines webhooks and HTTP Request actions make it trivially easy to integrate with any API-accessible tool. I've used it to bridge Wazuh alerts → enrichment (VirusTotal, Shodan) → Jira ticket creation → Slack notification in under an hour. For lean teams, it's a must-have.
+
+---
+
+### 7. Dropzone AI
+**Category:** Autonomous AI SOC Analyst
+**Pricing:** $36,000/year (includes 4,000 AI-driven investigations); enterprise/MSSP custom pricing
+**Best for:** SOC teams drowning in alert volume that want autonomous Tier 1 investigation
+
+Dropzone AI is the most direct answer to "what if AI just did the investigation?" It plugs into your existing SIEM, EDR, and other tools, and autonomously investigates alerts — asking the same questions a good Tier 1 analyst would ask, gathering evidence, and returning a verdict (true positive/false positive) with full reasoning chain.
+
+**What works:** The flat pricing model is refreshing. $36K/year is defensible even for a mid-size SOC when you consider that one Tier 1 analyst salary is $60–90K. The investigation quality — based on what practitioners report — is solid for common alert types. Full SIEM/SOAR/EDR integration list.
+
+**What doesn't:** Dropzone augments your existing stack; it doesn't replace your SIEM. You need clean, accessible data and API connectivity to your tools. Investigation quality for novel/complex threats is still below a strong Tier 2 analyst.
+
+**Infrastructure builder note:** The API-first architecture is clean. Integration is primarily webhook + REST — if you can hook your SIEM to send alerts to an HTTP endpoint, you can connect Dropzone. The investigation reports it produces are actually well-structured for feeding into ticketing systems.
+
+---
+
+### 8. Prophet Security
+**Category:** Agentic AI (Enterprise IR Automation)
+**Pricing:** Custom/contact sales (enterprise-tier)
+**Best for:** Enterprise organizations wanting AI-native incident response automation
+
+Prophet Security focuses on autonomous investigation and response at the enterprise scale, with particular depth in identity and cloud threat scenarios. Less public pricing than Dropzone, more focused on large enterprise and MSSP use cases.
+
+**What works:** Strong identity threat detection. Good cloud coverage. Enterprise-grade explainability for compliance use cases.
+
+**What doesn't:** Newer entrant, so integration breadth is narrower than established players. Less community knowledge available when you hit problems.
+
+---
+
+### 9. Wazuh
+**Category:** Open Source SIEM/XDR
+**Pricing:** Free (self-hosted); Wazuh Cloud from ~$250/month for managed deployment
+**Best for:** Cost-conscious teams, MSSPs building custom platforms, compliance-focused use cases
+
+Wazuh is the open-source SIEM that deserves more credit than it gets in enterprise conversations. It handles log aggregation, file integrity monitoring, vulnerability detection, compliance checks (PCI DSS, HIPAA, GDPR out-of-the-box), and basic XDR — all at $0 for the software license.
+
+**What works:** The price (free). The compliance modules are genuinely useful — PCI DSS dashboards out of the box. The community is active. Integrating custom decoders and rules is straightforward if you have an engineer who's willing to read documentation.
+
+**What doesn't:** Wazuh will not run itself. You need someone who can manage Elasticsearch clusters, tune alert rules, write custom decoders. If your team doesn't have that person, the "free" software will cost you dearly in engineering hours.
+
+**Infrastructure builder note:** I've built multiple MSSP backends on Wazuh. The Wazuh API + Opensearch Dashboards combination creates a genuinely professional SOC interface. Multi-tenant deployments are possible with proper cluster design. Budget 2–4 weeks of engineering time for initial setup, and ongoing tuning.
+
+---
+
+## Section 3: The Decision Framework
+
+### Filter 1: What's Your Log Volume?
+This single variable eliminates more options than anything else.
+
+**Under 20 GB/day:** Almost any platform is cost-feasible. Focus on features and team fit.
+**20–100 GB/day:** Sentinel commitment tiers, Splunk pricing starts mattering. Open source becomes more attractive.
+**100+ GB/day:** You're in enterprise pricing territory. Wazuh + commodity storage vs. enterprise SIEM TCO math gets serious.
+
+Quick math: At 100 GB/day in Microsoft Sentinel pay-as-you-go (~$2.46/GB), that's $246/day — $89,790/year. At 300 GB/day, it's $269K/year *just for ingestion*. Commitment tiers reduce this 30–40%, but you're still writing large checks.
+
+### Filter 2: Team Maturity
+| Maturity Level | Characteristics | Recommended Path |
+|---|---|---|
+| **Tier 1 Heavy** | Lots of L1 analysts doing manual triage | Agentic AI is highest ROI — Dropzone, Charlotte AI |
+| **Mature but Lean** | 2–5 experienced engineers | Tines + Wazuh or Sentinel + Dropzone overlay |
+| **Full-Stack SOC** | T1/T2/T3, dedicated SOAR engineer | Splunk SOAR or XSOAR at full maturity |
+| **Startup SOC** | <3 people, limited playbooks | Sentinel or Wazuh, delay SOAR until processes are documented |
+
+### Filter 3: Existing Stack Lock-in
+Be honest about this. Migration costs are real.
+
+- **Azure-native:** Sentinel is the obvious choice. Switching costs are real.
+- **AWS-native:** Sentinel works but adds cross-cloud complexity. Splunk Cloud or Wazuh + S3 more natural.
+- **CrowdStrike EDR already deployed:** Charlotte AI upsell math works if you're happy with the base platform.
+- **Palo Alto firewall + Prisma:** XSIAM consolidation pitch is at least coherent.
+
+### Filter 4: Compliance Requirements
+- **SOC 2 Type II:** Any major SIEM works; focus on audit log completeness and retention
+- **PCI DSS:** Wazuh PCI module, Splunk SIEM, or Sentinel — all have pre-built compliance content
+- **CMMC 2.0 (US DoD supply chain):** Microsoft Sentinel GovCloud or Splunk GovCloud
+- **NIS2 (EU):** Requires demonstrable detection + response capability; document everything
+
+---
+
+## Section 4: True Cost of Ownership
+
+### Annual Cost Estimates — 500-Person Organization, ~50 GB/Day
+
+| Platform | Annual License | Estimated Integration Hours | Annual Total |
+|---|---|---|---|
+| Wazuh (self-hosted) + Tines | $15K | 400 hrs @ $100/hr = $40K | **~$55K** |
+| Microsoft Sentinel (50GB/day, commitment) | $55K | 200 hrs = $20K | **~$75K** |
+| CrowdStrike Falcon (500 endpoints) + Charlotte AI | $125K | 150 hrs = $15K | **~$140K** |
+| Splunk Cloud + Splunk SOAR | $200K | 300 hrs = $30K | **~$230K** |
+| Palo Alto XSIAM | $300K+ | 400 hrs = $40K | **~$340K+** |
+
+*Note: Integration hours assume internal engineers at $100/hr loaded cost. Adjust for contractor rates.*
+
+### The Hidden Costs List
+
+Most organizations budget for the license. Few budget for:
+
+**Storage costs:** SIEM platforms charge for hot storage. Cold/archive storage (S3, Blob) is cheap; the API query costs on cold data add up fast.
+
+**Integration engineering:** Budget 50–200 hours per major integration. Your CMDB, your ticketing system, your identity provider, your cloud environments — each one needs work.
+
+**Alert tuning:** Expect 20–30% of your first-year engineering time on false positive reduction. Untuned SIEM = analyst burnout.
+
+**Training:** SANS SOC courses run $5K–$8K/person. Vendor certifications are typically included with enterprise licenses but require time.
+
+**Retention:** SOC analyst turnover is 15–25% per year. Each replacement costs $10K+ in recruiting and 3–6 months of productivity ramp.
+
+### Build vs. Buy vs. Managed
+
+**Build (in-house):** Full control, highest cost. $678K–$2M/year depending on org size. Requires 8–12 dedicated people for 24/7 coverage.
+
+**Buy (MSSP):** Speed to coverage, lower upfront, but less control. $50K–$500K/year depending on scope. Quality varies enormously — vet references carefully.
+
+**Hybrid (platform + AI overlay):** The emerging model. You own the platform, AI handles Tier 1 investigation, you have 2–4 senior engineers for Tier 2–3. Often 30–40% cheaper than full MSSP while maintaining internal control.
+
+---
+
+## Section 5: 90-Day Implementation Roadmap
+
+You've picked a platform. Now what?
+
+### Days 1–30: Discovery Sprint
+- Inventory all log sources (don't skip endpoints, cloud workloads, SaaS apps)
+- Document alert taxonomy (what alert types exist? what's your Tier 1 triage process?)
+- Map compliance requirements to specific detection use cases
+- Size your log volume — actually measure it, don't estimate
+
+**Deliverable:** Log source inventory spreadsheet, alert taxonomy document, daily GB/day figure
+
+### Days 31–60: POC (The Part Most Teams Skip)
+This is where bad vendor decisions get caught early. Run a real POC:
+- Ingest 2 weeks of actual production logs
+- Test with real historical alerts (include known true positives from previous incidents)
+- Measure: alert-to-investigation time, false positive rate, mean time to close
+
+**Non-negotiables:** Test with your actual data. Any vendor that won't do a real POC with your environment is hiding something.
+
+### Days 61–90: Decision + Contract
+- Score vendors against your filters (log volume, team maturity, stack lock-in, compliance)
+- Budget for Year 1 and Year 3 (platforms get more expensive as you grow)
+- Negotiate: multi-year discounts (20–30% is realistic), free training/certification seats, additional integrations
+
+**Tip on negotiation:** End-of-quarter deals are real. Most enterprise SaaS vendors have quarterly quotas and will move on price in the last 2 weeks of the quarter.
+
+### The Platform Build Phases
+
+```
+Phase 1: Core SIEM           → Ingest, normalize, alert (weeks 1–6)
+Phase 2: SOAR Layer          → Automate top 5 alert types (weeks 6–12)
+Phase 3: AI Investigation    → Deploy Dropzone/Charlotte/Copilot (months 3–6)
+Phase 4: Agentic Response    → Automated containment with approval gates (months 6–12)
+```
+
+Don't skip to Phase 4. Organizations that try to deploy autonomous response before their data is clean and their playbooks are documented end up with expensive problems.
+
+---
+
+## Section 6: "Agentic SOC" — Readiness Assessment
+
+The term gets thrown around freely. Here's how to know if you're actually ready for it.
+
+### What "Agentic" Actually Means
+
+The spectrum runs from:
+1. **Rule-based:** If alert_type == 'phishing', send to analyst queue
+2. **ML-based:** Cluster similar alerts, suppress known false positives
+3. **Reasoning-based:** "This alert plus this user behavior plus this network connection = likely credential stuffing, here's my evidence chain"
+4. **Autonomous action:** "I've confirmed the compromise, I'm isolating the endpoint, notifying the analyst, and preserving forensics"
+
+Most "AI SOC" vendors in 2026 are at #3 for well-known attack patterns. True #4 (autonomous response) is emerging but rare in production.
+
+### Agentic SOC Readiness Checklist
+
+Score yourself 0–3 on each dimension:
+
+| Dimension | Score 0 | Score 1–2 | Score 3 |
+|---|---|---|---|
+| **Data quality** | Logs are raw, inconsistent | Partial normalization | Normalized, labeled, clean |
+| **Alert taxonomy** | No documentation | Some runbooks | Full taxonomy with escalation paths |
+| **Tool API coverage** | Manual tool access only | Some tools have API | All critical tools are API-accessible |
+| **Playbook maturity** | No playbooks | 1–5 documented | 10+ documented and tested |
+| **Team readiness** | Skeptical/resistant | Open to AI assist | Champions AI-augmented workflow |
+
+**Score 0–5:** You're in Phase 1. Focus on data quality and basic SIEM before AI.
+**Score 6–10:** You're in Phase 2. Tines or Splunk SOAR automation, Dropzone AI overlay is viable.
+**Score 11–15:** You're ready for agentic. Evaluate Charlotte AI, XSIAM AgentiX, Microsoft Copilot.
+
+### What the Agentic Vendors Don't Tell You
+
+The dirty secret of autonomous SOC investigation: **it only works well on alert types it has seen before.** These platforms are trained on common attack patterns. Novel threats, unusual environments, and edge cases still require human judgment.
+
+The value is real — Dropzone AI customers report 90%+ of alerts get a high-quality autonomous investigation within minutes. CrowdStrike Charlotte AI customers report significant analyst time savings on endpoint investigation.
+
+But autonomous doesn't mean infallible. You need human review of autonomous decisions, especially early in deployment. Build in approval gates. Don't give the AI isolation authority before you've verified its judgment on 500 alerts.
+
+---
+
+## Making the Call
+
+Here's the decision framework in plain language:
+
+**If you're starting from scratch, budget is tight (<$100K), and you have an engineer:**
+→ Wazuh + Tines + Dropzone AI. You'll get 80% of the capability for 20% of the price.
+
+**If you're an Azure shop looking for the fastest path to a functioning SOC:**
+→ Microsoft Sentinel (commitment tier) + Logic Apps for basic SOAR. Add Security Copilot when your data is clean.
+
+**If your #1 pain is alert volume and your team is underwater:**
+→ Whatever SIEM you have + Dropzone AI at $36K/year. Solve the triage problem first.
+
+**If you have budget and want the best integrated platform:**
+→ CrowdStrike Falcon Enterprise + Charlotte AI (endpoint-heavy) or Palo Alto XSIAM (want full platform). Bring a big checkbook.
+
+**If you want to build something custom and learn deeply:**
+→ Wazuh. Accept the engineering overhead. The knowledge you'll gain is worth it.
+
+---
+
+## Your Next Step
+
+If you've read this far, you're serious about making the right platform decision — not just buying what the last vendor presentation told you.
+
+We've published the tools we use for platform evaluation publicly:
+- **SOC Playbook Library:** [github.com/cramir/soc-playbooks](https://github.com/cramir/soc-playbooks) — 10 incident response playbooks, free
+- **SOC Policy Library:** [github.com/cramir/soc-policy-library](https://github.com/cramir/soc-policy-library) — 10 OPA policies for SOC governance, free
+
+And if you want a 15-minute conversation where we map your specific environment to the right platform — not a sales call, an actual engineer-to-engineer recommendation — [book it here](https://costnimbus.com/call).
+
+---
+
+*CostNimbus helps security teams optimize their tool spend without sacrificing coverage. We build SOC platforms and do honest vendor evaluation. costnimbus.com*
+
+---
+
+**Version:** 2026.1 | **Last updated:** March 2026
+**Methodology:** Hands-on platform builds, public pricing research, practitioner interviews, vendor documentation
+**Disclosure:** No vendor sponsorships. No affiliate relationships. We build platforms for clients using all of these tools.
