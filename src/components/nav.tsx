@@ -13,6 +13,7 @@ const NAV_ITEMS = [
   { href: '/calculators', label: 'Calculators', exact: false },
   { href: '/articles', label: 'Articles', exact: false },
   { href: '/consulting', label: 'Consulting', exact: true },
+  { href: '/playbooks', label: 'Playbooks', exact: false },
 ];
 
 export default function Nav() {
