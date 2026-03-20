@@ -1,0 +1,464 @@
+---
+title: "Terraform Cost Estimation: Catch Cloud Overspend Before You Deploy"
+description: "Infracost integrates with Terraform to show cost diffs in pull requests — before a single resource is provisioned. Here's how to set it up, configure policies, and stop engineers from accidentally deploying $10K/month infrastructure."
+pubDate: 2026-03-20
+author: "Cesar"
+tags: ["Terraform", "IaC", "Cost Optimization", "FinOps", "DevOps", "AWS", "GCP", "Azure"]
+readTime: "13 min"
+category: "FinOps"
+draft: false
+---
+
+## The $50K Surprise
+
+A platform engineer on my team once spun up a new environment for a demo. They cloned the production Terraform config, changed the environment tag, and ran `terraform apply`. The demo went well. They forgot to destroy it. We discovered it three weeks later via a cost anomaly alert: $52,000 in charges.
+
+The infrastructure was provisionally correct — it matched production. That was the problem. Production-sized infrastructure for a demo that lasted 45 minutes.
+
+This is a common failure mode. The fix isn't to restrict who can run Terraform. The fix is to make the cost visible at the moment of decision — in the pull request, before `terraform apply` runs.
+
+---
+
+## Infracost: Cost Estimation as Code Review
+
+[Infracost](https://www.infracost.io/) is an open-source tool that parses Terraform plans and generates a cost breakdown. Its primary value isn't the cost estimate itself — it's the *diff*. When a PR changes infrastructure, Infracost shows you what the change costs: how much you're adding or removing per month.
+
+```
+Monthly cost estimate: $847.23
+
+─────────────────────────────────
+Project: my-app/environments/prod
+─────────────────────────────────
+
++ aws_instance.web_server
+  +$147.17/mo (was $0)
+  
++ aws_db_instance.postgres
+  +$293.72/mo (was $0)
+  
+~ aws_instance.api_server
+  InstanceType: t3.large → m7i.2xlarge
+  +$234.05/mo
+  
+─────────────────────────────────
+Monthly cost change: +$674.94
+```
+
+The PR reviewer sees this diff alongside the code. They can ask: "Why are we moving the API server from t3.large to m7i.2xlarge? That's $234/month." That conversation prevents a lot of accidental cost commits.
+
+---
+
+## Setup: Local Installation
+
+```bash
+# macOS
+brew install infracost
+
+# Linux
+curl -fsSL https://raw.githubusercontent.com/infracost/infracost/master/scripts/install.sh | sh
+
+# Verify
+infracost --version
+```
+
+Authenticate (free account for open-source use):
+
+```bash
+infracost auth login
+```
+
+This creates `~/.config/infracost/credentials.yml` with your API key. The free tier includes all core features; the paid tier adds team features and Policies (cost guardrails).
+
+---
+
+## Basic Usage: Estimate Before You Apply
+
+```bash
+# Navigate to your Terraform project
+cd infrastructure/environments/prod
+
+# Generate a cost estimate
+infracost breakdown --path .
+
+# Output:
+# Name                                     Monthly Qty  Unit   Monthly Cost
+# 
+# aws_instance.web_server
+# ├─ Instance usage (Linux/UNIX, on-demand, m7i.xlarge)   730  hours       $147.17
+# └─ root_block_device
+#    └─ Storage (general purpose SSD, gp3)                 20  GB            $1.60
+# 
+# aws_db_instance.postgres
+# ├─ Database instance (on-demand, db.m5.large)           730  hours       $137.24
+# └─ Storage (general purpose SSD, gp2)                   50  GB            $5.75
+# 
+# OVERALL TOTAL                                                             $291.76
+```
+
+The `breakdown` command reads your `.tf` files without running `terraform plan`. It uses your provider configuration to look up pricing from Infracost's pricing database.
+
+For more accurate results (with usage-based resources like Lambda, DynamoDB, data transfer), provide a usage file:
+
+```bash
+# Generate a usage template
+infracost generate config --repo-path . --template-path infracost.yml.tmpl
+
+# Edit infracost-usage.yml with expected usage
+cat infracost-usage.yml
+```
+
+---
+
+## The Usage File: Estimating Variable-Cost Resources
+
+Many AWS resources have costs that depend on usage: Lambda invocations, DynamoDB read/write units, S3 API calls, data transfer. Infracost can't know these without input.
+
+```yaml
+# infracost-usage.yml
+version: 0.1
+resource_usage:
+  aws_lambda_function.api:
+    monthly_requests: 2000000
+    request_duration_ms: 200
+    
+  aws_dynamodb_table.sessions:
+    monthly_write_request_units: 500000
+    monthly_read_request_units: 2000000
+    storage_gb: 10
+    
+  aws_s3_bucket.uploads:
+    monthly_storage_gb: 500
+    monthly_get_requests: 100000
+    monthly_put_requests: 50000
+    
+  aws_cloudfront_distribution.cdn:
+    monthly_data_transfer_to_internet_gb: 1000
+    monthly_http_requests: 5000000
+    monthly_https_requests: 20000000
+```
+
+```bash
+# Run with usage file
+infracost breakdown --path . --usage-file infracost-usage.yml
+```
+
+For the [Serverless Cost Calculator](/calculators/serverless/) use case — if you're estimating Lambda costs, the usage file approach with Infracost gives you plan-time estimates rather than post-deploy surprises.
+
+---
+
+## Diffs: What Changed in This PR?
+
+The `diff` command is Infracost's most powerful feature. It compares the current state with the Terraform plan:
+
+```bash
+# Generate a Terraform plan first
+terraform plan -out=tfplan.binary
+terraform show -json tfplan.binary > tfplan.json
+
+# Run Infracost diff against the plan
+infracost diff --path . --compare-to tfplan.json
+
+# Or use breakdown on the plan directly
+infracost breakdown --path tfplan.json --format json > current.json
+
+# In a CI context, compare two branches:
+# 1. Clone the base branch
+git checkout main
+infracost breakdown --path . --format json > base.json
+
+# 2. Switch to the feature branch  
+git checkout feature/new-db
+infracost breakdown --path . --format json > feature.json
+
+# 3. Show the diff
+infracost diff --path feature.json --compare-to base.json
+```
+
+---
+
+## GitHub Actions Integration
+
+This is where right-sizing pays off at scale — cost diffs in every infrastructure PR.
+
+```yaml
+# .github/workflows/infracost.yml
+name: Infracost Cost Estimate
+
+on:
+  pull_request:
+    paths:
+      - 'infrastructure/**'
+      - 'terraform/**'
+      - '**.tf'
+
+jobs:
+  infracost:
+    name: Infracost
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+
+    steps:
+      - name: Checkout base branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.base.ref }}
+
+      - name: Setup Infracost
+        uses: infracost/actions/setup@v3
+        with:
+          api-key: ${{ secrets.INFRACOST_API_KEY }}
+
+      - name: Generate Infracost cost estimate for base branch
+        run: |
+          infracost breakdown \
+            --path=infrastructure/ \
+            --format=json \
+            --out-file=/tmp/infracost-base.json
+
+      - name: Checkout PR branch
+        uses: actions/checkout@v4
+
+      - name: Generate Infracost cost estimate for PR branch
+        run: |
+          infracost breakdown \
+            --path=infrastructure/ \
+            --format=json \
+            --out-file=/tmp/infracost-pr.json
+
+      - name: Post Infracost comment
+        run: |
+          infracost comment github \
+            --path=/tmp/infracost-pr.json \
+            --repo=$GITHUB_REPOSITORY \
+            --github-token=${{ github.token }} \
+            --pull-request=${{ github.event.pull_request.number }} \
+            --behavior=update \
+            --compare-to=/tmp/infracost-base.json
+        env:
+          INFRACOST_API_KEY: ${{ secrets.INFRACOST_API_KEY }}
+```
+
+This posts a comment on every infrastructure PR showing the cost delta. The comment updates on each push to the PR — you always see the current state.
+
+For GitLab:
+
+```yaml
+# .gitlab-ci.yml
+infracost:
+  stage: cost
+  image: infracost/infracost:ci-0.10
+  script:
+    - infracost breakdown --path=. --format=json --out-file=/tmp/infracost.json
+    - infracost comment gitlab
+        --path=/tmp/infracost.json
+        --repo=$CI_PROJECT_PATH
+        --merge-request=$CI_MERGE_REQUEST_IID
+        --gitlab-token=$GITLAB_TOKEN
+        --behavior=update
+  only:
+    - merge_requests
+  variables:
+    INFRACOST_API_KEY: $INFRACOST_API_KEY
+```
+
+---
+
+## Cost Policies: Block Expensive Changes
+
+Infracost supports OPA (Open Policy Agent) policies that can fail CI if a cost change exceeds a threshold. This is the guardrail that prevents the $52K demo environment scenario.
+
+```rego
+# policies/cost_check.rego
+package infracost
+
+# Deny if monthly cost increase exceeds $500
+deny[msg] {
+  baseline_cost := to_number(input.pastTotalMonthlyCost)
+  new_cost := to_number(input.totalMonthlyCost)
+  cost_increase := new_cost - baseline_cost
+  cost_increase > 500
+  msg := sprintf(
+    "Monthly cost increase of $%.2f exceeds the $500 threshold. Current: $%.2f, New: $%.2f",
+    [cost_increase, baseline_cost, new_cost]
+  )
+}
+
+# Deny if any single resource costs more than $300/month
+deny[msg] {
+  resource := input.projects[_].breakdown.resources[_]
+  resource_cost := to_number(resource.monthlyCost)
+  resource_cost > 300
+  msg := sprintf(
+    "Resource %v costs $%.2f/month, exceeding the $300 per-resource limit",
+    [resource.name, resource_cost]
+  )
+}
+
+# Warn on large instances (informational only — doesn't block)
+warn[msg] {
+  resource := input.projects[_].breakdown.resources[_]
+  contains(resource.resourceType, "aws_instance")
+  contains(resource.name, "demo")
+  msg := sprintf(
+    "Demo instance %v detected — remember to destroy after use",
+    [resource.name]
+  )
+}
+```
+
+```bash
+# Test policy locally
+infracost breakdown --path . --format json | \
+  infracost comment --path /dev/stdin \
+    --policy-path policies/cost_check.rego \
+    --dry-run
+```
+
+In CI, add the policy check:
+
+```yaml
+- name: Check Infracost policies
+  run: |
+    infracost comment github \
+      --path=/tmp/infracost-pr.json \
+      --policy-path=policies/cost_check.rego \
+      --repo=$GITHUB_REPOSITORY \
+      --github-token=${{ github.token }} \
+      --pull-request=${{ github.event.pull_request.number }} \
+      --behavior=update \
+      --compare-to=/tmp/infracost-base.json \
+      --fail-on-diff-percentage 25  # Fail if cost increases >25%
+```
+
+---
+
+## Handling Terraform Variables and Workspaces
+
+Real Terraform projects use variables and workspaces. Infracost needs the right values to generate accurate estimates.
+
+```bash
+# Pass variable values
+infracost breakdown \
+  --path . \
+  --terraform-var="environment=prod" \
+  --terraform-var="instance_type=m7i.2xlarge" \
+  --terraform-var="db_instance_class=db.r6g.xlarge"
+
+# Use a tfvars file
+infracost breakdown \
+  --path . \
+  --terraform-var-file="environments/prod.tfvars"
+
+# Specific workspace
+infracost breakdown \
+  --path . \
+  --terraform-workspace=prod
+```
+
+For the `--fail-on-diff-percentage` to work meaningfully in multi-environment setups, run Infracost separately per environment and compare within the same environment.
+
+---
+
+## Multi-Project Configuration
+
+Most real infrastructure spans multiple Terraform root modules. Infracost supports a config file that covers all of them:
+
+```yaml
+# infracost.yml
+version: 0.1
+
+projects:
+  - path: infrastructure/networking
+    name: networking
+    
+  - path: infrastructure/compute
+    name: compute
+    terraform_var_files:
+      - ../../environments/prod.tfvars
+      
+  - path: infrastructure/data
+    name: databases
+    terraform_workspace: prod
+    
+  - path: modules/security-baseline
+    name: security
+```
+
+```bash
+# Run against all projects in the config
+infracost breakdown --config-file infracost.yml --format json > all-projects.json
+
+# Show a summary
+infracost output --path all-projects.json --format table
+```
+
+This gives you a single report covering your entire infrastructure footprint.
+
+---
+
+## Integrating with AWS Cost Optimization Workflow
+
+Infracost works best as part of a broader cost governance workflow. Here's how it fits:
+
+**Before deploy (Infracost):** Shows estimated cost in PR review. Engineers and reviewers catch obvious oversizing before it's committed.
+
+**After deploy (AWS Cost Explorer + Compute Optimizer):** Validates that actual costs match estimates. Flags instances that should be right-sized. See our [EC2 right-sizing guide](/article/ec2-right-sizing-guide/) for the post-deploy process.
+
+**Ongoing (Savings Plans + Reserved Instances):** Once your fleet is right-sized, commit to discounts on the correct baseline. See [Savings Plans vs Reserved Instances](/article/savings-plans-vs-reserved-instances/) for the commitment strategy.
+
+The [Cloud Provider Comparison Calculator](/calculators/cloud-compare/) is useful when Infracost surfaces a cost that seems high — plug in the resource spec to compare AWS vs GCP vs Azure pricing and verify you're using the right cloud for the workload.
+
+---
+
+## Accuracy Limitations
+
+Infracost is accurate for fixed-price resources (EC2, RDS, EBS). It's an estimate for usage-based resources. Know the limits:
+
+**Accurate:**
+- EC2 instance types (on-demand pricing)
+- EBS volumes
+- RDS instances
+- ElastiCache
+- NAT Gateway hourly charges
+
+**Estimate only (requires usage file):**
+- Lambda invocations
+- DynamoDB read/write units
+- S3 API calls
+- Data transfer / egress
+- CloudFront requests
+
+**Not supported:**
+- Spot instance pricing (too variable)
+- Savings Plan discounts (use the [EC2 Pricing Calculator](/calculators/ec2-pricing/) for committed spend modeling)
+- AWS Marketplace resources
+
+For the resources Infracost can't price, use your actual cost history from Cost Explorer to build a usage baseline, then input those numbers into the usage file.
+
+---
+
+## Real-World Impact
+
+At organizations where I've helped implement Infracost in CI:
+
+- **Time to detect oversized resources:** from weeks (post-deploy cost review) to minutes (PR review)
+- **Average cost reduction on new deployments:** 15–25% (engineers self-optimize when costs are visible)
+- **Number of "surprise" cost spikes > $1K/month:** reduced by ~80%
+
+The cultural change is the real ROI. When cost is visible at code review time, engineers start thinking about it the same way they think about security or performance — as something to get right before merge, not clean up after.
+
+---
+
+## Getting Started in 30 Minutes
+
+1. **Install Infracost:** `brew install infracost && infracost auth login`
+2. **Run a baseline:** `cd your-terraform-dir && infracost breakdown --path .`
+3. **Add GitHub Actions:** Copy the workflow above, add `INFRACOST_API_KEY` to your repository secrets
+4. **Open a test PR:** Make a small infrastructure change and watch the cost comment appear
+5. **Add a policy:** Start with a `deny if cost increase > $1000` rule to catch egregious cases
+
+The first PR with a cost comment will generate questions. That's the point. Those conversations — "why does this cost $500/month more?" — are what prevent expensive infrastructure from getting silently merged.
+
+For the resources Infracost surfaces as expensive, use the [Managed Database Calculator](/calculators/managed-db/) for RDS/Aurora sizing, the [EBS Volume Cost Calculator](/calculators/ebs-storage/) for storage optimization, and the [NAT Gateway Cost Calculator](/calculators/nat-gateway/) for networking cost analysis.
