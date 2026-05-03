@@ -34,11 +34,16 @@ function getAllArticles() {
       const slug = f.replace(/\.mdx?$/, '');
       const raw = fs.readFileSync(path.join(contentDir, f), 'utf8');
       const { data, content } = matter(raw);
+      const publishDate = data.publishDate || (data.pubDate instanceof Date
+        ? data.pubDate.toISOString().split('T')[0]
+        : typeof data.pubDate === 'string'
+        ? data.pubDate
+        : '');
       return {
         slug,
         title: data.title || '',
         description: data.description || '',
-        publishDate: data.publishDate || '',
+        publishDate,
         category: data.category || '',
         content,
       };

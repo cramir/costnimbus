@@ -5,87 +5,63 @@
     <link>https://costnimbus.com</link>
     <description>Cloud cost intelligence built by engineers, for engineers. Real numbers, no vendor fluff.</description>
     <language>en-us</language>
-    <lastBuildDate>Thu, 19 Mar 2026 20:03:51 GMT</lastBuildDate>
+    <lastBuildDate>Sun, 03 May 2026 02:15:14 GMT</lastBuildDate>
     <atom:link href="https://costnimbus.com/feed.xml" rel="self" type="application/rss+xml"/>
     <item>
-      <title>Agentic SOC: Hype or Real Shift?</title>
-      <link>https://costnimbus.com/article/agentic-soc-hype-or-reality/</link>
-      <guid isPermaLink="true">https://costnimbus.com/article/agentic-soc-hype-or-reality/</guid>
-      <description>A SOC infrastructure builder&apos;s honest take on agentic AI in security operations — what it actually means, where the marketing ends, and a 3-question evaluation framework for cutting through vendor noise.</description>
-      <pubDate>Wed, 25 Feb 2026 00:00:00 GMT</pubDate>
+      <title>Cloudflare R2 vs S3: The Real Cost Comparison Engineers Need</title>
+      <link>https://costnimbus.com/article/cloudflare-r2-vs-s3-cost-comparison/</link>
+      <guid isPermaLink="true">https://costnimbus.com/article/cloudflare-r2-vs-s3-cost-comparison/</guid>
+      <description>$90/TB egress on S3 vs $0 on R2. I analyzed the pricing, hidden costs, and tradeoffs so you can choose the right object storage for your workload.</description>
+      <pubDate>Sun, 03 May 2026 00:00:00 GMT</pubDate>
+      <category>Cloud Costs</category>
+    </item>
+    <item>
+      <title>AI API Pricing Comparison: OpenAI vs Anthropic vs Google vs Open Source in 2026</title>
+      <link>https://costnimbus.com/article/ai-api-pricing-comparison-2026/</link>
+      <guid isPermaLink="true">https://costnimbus.com/article/ai-api-pricing-comparison-2026/</guid>
+      <description>AI API costs are the fastest-growing line item for teams shipping AI features. Most teams pick a provider and never compare again. Here&apos;s what that costs you — and how to pick the right model for every workload.</description>
+      <pubDate>Wed, 25 Mar 2026 00:00:00 GMT</pubDate>
+      <category>AI/ML</category>
+    </item>
+    <item>
+      <title>Arctic Wolf&apos;s Aurora Agentic SOC: What MDR&apos;s Biggest Player Going AI-Native Actually Costs</title>
+      <link>https://costnimbus.com/article/arctic-wolf-agentic-soc-analysis/</link>
+      <guid isPermaLink="true">https://costnimbus.com/article/arctic-wolf-agentic-soc-analysis/</guid>
+      <description>Arctic Wolf just claimed &apos;the world&apos;s largest commercial Agentic SOC&apos; at RSAC 2026 — and existing customers get it at no extra charge. Here&apos;s what that means for your SOC budget, and whether MDR-native AI beats purpose-built agentic vendors on cost and capability.</description>
+      <pubDate>Wed, 25 Mar 2026 00:00:00 GMT</pubDate>
       <category>Security</category>
     </item>
     <item>
-      <title>The Agentic SOC: What Platform Builders Actually Need to Know</title>
-      <link>https://costnimbus.com/article/agentic-soc-platform-builders-guide/</link>
-      <guid isPermaLink="true">https://costnimbus.com/article/agentic-soc-platform-builders-guide/</guid>
-      <description>Every vendor at RSA 2026 is selling &apos;agentic AI.&apos; This is for the engineers building the platform those agents run on — unified data layers, multi-agent orchestration, audit trails, guardrails, and the deduplication problem nobody talks about.</description>
-      <pubDate>Invalid Date</pubDate>
-      <category>Security</category>
+      <title>Right-Sizing EC2 Instances: A Step-by-Step Guide to Cutting Your Compute Bill</title>
+      <link>https://costnimbus.com/article/ec2-right-sizing-guide/</link>
+      <guid isPermaLink="true">https://costnimbus.com/article/ec2-right-sizing-guide/</guid>
+      <description>The average AWS account has 30–40% of EC2 spend on oversized instances. Here&apos;s the systematic process to identify them, validate downsizes safely, and automate ongoing right-sizing — with real commands and real numbers.</description>
+      <pubDate>Fri, 20 Mar 2026 00:00:00 GMT</pubDate>
+      <category>AWS Cost Optimization</category>
+    </item>
+    <item>
+      <title>S3 Storage Classes Explained: When to Use Each (And What They Actually Cost)</title>
+      <link>https://costnimbus.com/article/s3-storage-classes-cost-guide/</link>
+      <guid isPermaLink="true">https://costnimbus.com/article/s3-storage-classes-cost-guide/</guid>
+      <description>AWS has seven S3 storage classes and most teams are using the wrong ones. Here&apos;s the complete breakdown with real pricing, retrieval costs, and a decision framework you can apply today to cut your S3 bill by 40–70%.</description>
+      <pubDate>Fri, 20 Mar 2026 00:00:00 GMT</pubDate>
+      <category>AWS Cost Optimization</category>
+    </item>
+    <item>
+      <title>Terraform Cost Estimation: Catch Cloud Overspend Before You Deploy</title>
+      <link>https://costnimbus.com/article/terraform-cost-estimation-infracost/</link>
+      <guid isPermaLink="true">https://costnimbus.com/article/terraform-cost-estimation-infracost/</guid>
+      <description>Infracost integrates with Terraform to show cost diffs in pull requests — before a single resource is provisioned. Here&apos;s how to set it up, configure policies, and stop engineers from accidentally deploying $10K/month infrastructure.</description>
+      <pubDate>Fri, 20 Mar 2026 00:00:00 GMT</pubDate>
+      <category>FinOps</category>
     </item>
     <item>
       <title>AI Agent Governance for SOC Teams: From Copilot to Autonomous</title>
       <link>https://costnimbus.com/article/ai-agent-governance-soc-teams/</link>
       <guid isPermaLink="true">https://costnimbus.com/article/ai-agent-governance-soc-teams/</guid>
       <description>The gap between &apos;AI helps analysts&apos; and &apos;AI acts autonomously&apos; is where governance frameworks live or die. Here&apos;s the risk matrix, approval workflows, and audit requirements SOC teams need as they move up the autonomy spectrum.</description>
-      <pubDate>Invalid Date</pubDate>
+      <pubDate>Wed, 18 Mar 2026 00:00:00 GMT</pubDate>
       <category>Security Operations</category>
-    </item>
-    <item>
-      <title>RSAC 2026: What the Agentic SOC Announcements Actually Mean for Your Budget</title>
-      <link>https://costnimbus.com/article/rsac-2026-agentic-soc-budget-impact/</link>
-      <guid isPermaLink="true">https://costnimbus.com/article/rsac-2026-agentic-soc-budget-impact/</guid>
-      <description>Every vendor at RSAC 2026 is pitching an agentic SOC. Here&apos;s what 5 simultaneous AI security agent subscriptions actually cost — and how to avoid paying for the same capability three times.</description>
-      <pubDate>Wed, 18 Mar 2026 00:00:00 GMT</pubDate>
-      <category>Security</category>
-    </item>
-    <item>
-      <title>AI Security Risks Enterprises Are Ignoring</title>
-      <link>https://costnimbus.com/article/ai-security-risks-enterprises-ignoring/</link>
-      <guid isPermaLink="true">https://costnimbus.com/article/ai-security-risks-enterprises-ignoring/</guid>
-      <description>Only 34% of organizations know where all their data resides, yet AI agents are wandering through enterprise systems with unprecedented access. Here are the four AI security risks that aren&apos;t in your threat model yet — and should be.</description>
-      <pubDate>Thu, 05 Mar 2026 00:00:00 GMT</pubDate>
-      <category>Security</category>
-    </item>
-    <item>
-      <title>AI SOC Investigation Has Moved Beyond Triage — And Most Platforms Aren&apos;t Ready</title>
-      <link>https://costnimbus.com/article/ai-soc-investigation-beyond-triage/</link>
-      <guid isPermaLink="true">https://costnimbus.com/article/ai-soc-investigation-beyond-triage/</guid>
-      <description>The industry fixated on using AI to close tickets faster. The real leverage is in investigation — correlating multi-source signals to catch what triage-only systems miss. Here&apos;s what that actually looks like in production.</description>
-      <pubDate>Invalid Date</pubDate>
-      <category>Security</category>
-    </item>
-    <item>
-      <title>The $50K Question: Which SOC Platform Actually Fits Your Team?</title>
-      <link>https://costnimbus.com/article/soc-platform-buyers-guide-2026/</link>
-      <guid isPermaLink="true">https://costnimbus.com/article/soc-platform-buyers-guide-2026/</guid>
-      <description>A 2026 buyer&apos;s guide to SOC tools from someone who builds the platforms — covering SIEM, SOAR, AI-native tools, and the real costs nobody talks about.</description>
-      <pubDate>Wed, 18 Mar 2026 00:00:00 GMT</pubDate>
-      <category>Security</category>
-    </item>
-    <item>
-      <title>OPA v1.0 Migration Guide for SOC Teams</title>
-      <link>https://costnimbus.com/article/opa-v1-migration-guide-soc-teams/</link>
-      <guid isPermaLink="true">https://costnimbus.com/article/opa-v1-migration-guide-soc-teams/</guid>
-      <description>OPA&apos;s v1.0 release brings breaking changes to Rego syntax and defaults. Here&apos;s a practical migration guide for SOC and infrastructure security teams — covering what changed, what breaks, and how to use the migration as an opportunity to improve your compliance posture.</description>
-      <pubDate>Thu, 05 Mar 2026 00:00:00 GMT</pubDate>
-      <category>Security</category>
-    </item>
-    <item>
-      <title>Security Alert Fatigue Is Killing Your SOC — Here&apos;s What Actually Works</title>
-      <link>https://costnimbus.com/article/alert-fatigue-soc-solutions/</link>
-      <guid isPermaLink="true">https://costnimbus.com/article/alert-fatigue-soc-solutions/</guid>
-      <description>A SOC infrastructure engineer&apos;s honest analysis of alert fatigue in the security operations center: the real numbers, why current tools fail, and the practical approaches that actually reduce noise without creating blind spots.</description>
-      <pubDate>Sat, 28 Feb 2026 00:00:00 GMT</pubDate>
-      <category>Security</category>
-    </item>
-    <item>
-      <title>Autonomous FinOps: From Reactive Alerts to Self-Driving Cloud Optimization</title>
-      <link>https://costnimbus.com/article/autonomous-finops-self-driving-cloud-optimization/</link>
-      <guid isPermaLink="true">https://costnimbus.com/article/autonomous-finops-self-driving-cloud-optimization/</guid>
-      <description>Most teams are stuck on the FinOps treadmill — reactive cleanup, temporary improvement, inevitable drift. Here&apos;s the architecture for breaking that cycle: guardrails, drift detection, and what Level 3 autonomous optimization actually requires to work safely.</description>
-      <pubDate>Invalid Date</pubDate>
-      <category>FinOps</category>
     </item>
     <item>
       <title>Google + Wiz: What the $32B Acquisition Means for Your Cloud Security Spend</title>
@@ -96,59 +72,11 @@
       <category>Cloud Costs</category>
     </item>
     <item>
-      <title>The SOC Analyst&apos;s Guide to Generative AI</title>
-      <link>https://costnimbus.com/article/soc-analyst-guide-generative-ai/</link>
-      <guid isPermaLink="true">https://costnimbus.com/article/soc-analyst-guide-generative-ai/</guid>
-      <description>A practical guide for security analysts on safely integrating generative AI into daily workflows — from SIEM query generation to threat intel summarization. What actually works, what doesn&apos;t, and how to avoid the traps.</description>
-      <pubDate>Thu, 05 Mar 2026 00:00:00 GMT</pubDate>
-      <category>Security</category>
-    </item>
-    <item>
-      <title>Azure vs AWS for .NET Shops: A Cost and DX Deep-Dive</title>
-      <link>https://costnimbus.com/article/azure-vs-aws-dotnet/</link>
-      <guid isPermaLink="true">https://costnimbus.com/article/azure-vs-aws-dotnet/</guid>
-      <description>You can run .NET on AWS. But Azure is purpose-built for it — and in most cases, dramatically cheaper. A rigorous comparison of managed services, pricing, and DX for teams migrating from on-prem or choosing a cloud for their .NET stack.</description>
-      <pubDate>Wed, 25 Feb 2026 00:00:00 GMT</pubDate>
-      <category>Cloud Strategy</category>
-    </item>
-    <item>
-      <title>GPU Cost Management for ML Teams: A Practical Playbook</title>
-      <link>https://costnimbus.com/article/gpu-cost-management-ml-teams/</link>
-      <guid isPermaLink="true">https://costnimbus.com/article/gpu-cost-management-ml-teams/</guid>
-      <description>AWS cut H100 prices 44% in 2025. GCP followed. If your ML team set its GPU strategy before mid-2025, you&apos;re operating on stale assumptions. Here&apos;s the current pricing reality and the three highest-leverage cost levers available right now.</description>
-      <pubDate>Invalid Date</pubDate>
-      <category>AI/ML</category>
-    </item>
-    <item>
-      <title>Policy-as-Code for SOC Teams: Stop Writing Tickets, Start Writing Rules</title>
-      <link>https://costnimbus.com/article/policy-as-code-soc-teams/</link>
-      <guid isPermaLink="true">https://costnimbus.com/article/policy-as-code-soc-teams/</guid>
-      <description>How SOC infrastructure engineers can use OPA and Rego policies to automate security enforcement, eliminate retroactive approval theater, and build continuous SOC2 compliance — with real code from a production policy library.</description>
-      <pubDate>Thu, 05 Mar 2026 00:00:00 GMT</pubDate>
-      <category>Engineering</category>
-    </item>
-    <item>
-      <title>Static vs Dynamic Playbooks: Why 2026 Is the Year of AI-Generated IR</title>
-      <link>https://costnimbus.com/article/static-vs-dynamic-playbooks/</link>
-      <guid isPermaLink="true">https://costnimbus.com/article/static-vs-dynamic-playbooks/</guid>
-      <description>IDC predicts 85% of detection and response playbooks will be dynamically generated by H1 2027. Here&apos;s what that means for your SOC, why static playbooks are already failing, and how to prepare your team for the shift.</description>
-      <pubDate>Thu, 05 Mar 2026 00:00:00 GMT</pubDate>
-      <category>Security</category>
-    </item>
-    <item>
-      <title>GPU Cost Optimization: When AI Ambitions Meet Budget Reality</title>
-      <link>https://costnimbus.com/article/gpu-cost-optimization-ai-workloads/</link>
-      <guid isPermaLink="true">https://costnimbus.com/article/gpu-cost-optimization-ai-workloads/</guid>
-      <description>A practical guide to cutting GPU costs for AI/ML workloads — where the waste actually hides, spot instance strategies, model optimization, and real cost breakdowns for A100, H100, and L4 instances.</description>
-      <pubDate>Wed, 25 Feb 2026 00:00:00 GMT</pubDate>
-      <category>Cloud Costs</category>
-    </item>
-    <item>
       <title>GPU FinOps: Why Traditional Cloud Cost Tools Fail for AI Workloads</title>
       <link>https://costnimbus.com/article/gpu-finops-traditional-tools-fail/</link>
       <guid isPermaLink="true">https://costnimbus.com/article/gpu-finops-traditional-tools-fail/</guid>
       <description>Your FinOps dashboard was built for CPU compute and storage. It doesn&apos;t understand GPU utilization, spot scheduling for training jobs, or the economics of reserved capacity for inference vs training. Here&apos;s what&apos;s missing and how to close the gap.</description>
-      <pubDate>Invalid Date</pubDate>
+      <pubDate>Wed, 18 Mar 2026 00:00:00 GMT</pubDate>
       <category>AI/ML</category>
     </item>
     <item>
@@ -160,11 +88,115 @@
       <category>Cloud Costs</category>
     </item>
     <item>
+      <title>Non-Human Identity Security: The $10M Risk Nobody&apos;s Managing</title>
+      <link>https://costnimbus.com/article/non-human-identity-security-risk/</link>
+      <guid isPermaLink="true">https://costnimbus.com/article/non-human-identity-security-risk/</guid>
+      <description>Service accounts outnumber humans 45:1. Most rotate credentials never. GitGuardian found 12.8 million secrets leaked on GitHub in 2023 alone. The math on NHI compromise is brutal — and most organizations have no governance program for it.</description>
+      <pubDate>Wed, 18 Mar 2026 00:00:00 GMT</pubDate>
+      <category>Security</category>
+    </item>
+    <item>
+      <title>RSAC 2026: What the Agentic SOC Announcements Actually Mean for Your Budget</title>
+      <link>https://costnimbus.com/article/rsac-2026-agentic-soc-budget-impact/</link>
+      <guid isPermaLink="true">https://costnimbus.com/article/rsac-2026-agentic-soc-budget-impact/</guid>
+      <description>Every vendor at RSAC 2026 is pitching an agentic SOC. Here&apos;s what 5 simultaneous AI security agent subscriptions actually cost — and how to avoid paying for the same capability three times.</description>
+      <pubDate>Wed, 18 Mar 2026 00:00:00 GMT</pubDate>
+      <category>Security</category>
+    </item>
+    <item>
+      <title>The $50K Question: Which SOC Platform Actually Fits Your Team?</title>
+      <link>https://costnimbus.com/article/soc-platform-buyers-guide-2026/</link>
+      <guid isPermaLink="true">https://costnimbus.com/article/soc-platform-buyers-guide-2026/</guid>
+      <description>A 2026 buyer&apos;s guide to SOC tools from someone who builds the platforms — covering SIEM, SOAR, AI-native tools, and the real costs nobody talks about.</description>
+      <pubDate>Wed, 18 Mar 2026 00:00:00 GMT</pubDate>
+      <category>Security</category>
+    </item>
+    <item>
+      <title>The Agentic SOC: What Platform Builders Actually Need to Know</title>
+      <link>https://costnimbus.com/article/agentic-soc-platform-builders-guide/</link>
+      <guid isPermaLink="true">https://costnimbus.com/article/agentic-soc-platform-builders-guide/</guid>
+      <description>Every vendor at RSA 2026 is selling &apos;agentic AI.&apos; This is for the engineers building the platform those agents run on — unified data layers, multi-agent orchestration, audit trails, guardrails, and the deduplication problem nobody talks about.</description>
+      <pubDate>Sat, 14 Mar 2026 00:00:00 GMT</pubDate>
+      <category>Security</category>
+    </item>
+    <item>
+      <title>AI SOC Investigation Has Moved Beyond Triage — And Most Platforms Aren&apos;t Ready</title>
+      <link>https://costnimbus.com/article/ai-soc-investigation-beyond-triage/</link>
+      <guid isPermaLink="true">https://costnimbus.com/article/ai-soc-investigation-beyond-triage/</guid>
+      <description>The industry fixated on using AI to close tickets faster. The real leverage is in investigation — correlating multi-source signals to catch what triage-only systems miss. Here&apos;s what that actually looks like in production.</description>
+      <pubDate>Sat, 14 Mar 2026 00:00:00 GMT</pubDate>
+      <category>Security</category>
+    </item>
+    <item>
+      <title>Autonomous FinOps: From Reactive Alerts to Self-Driving Cloud Optimization</title>
+      <link>https://costnimbus.com/article/autonomous-finops-self-driving-cloud-optimization/</link>
+      <guid isPermaLink="true">https://costnimbus.com/article/autonomous-finops-self-driving-cloud-optimization/</guid>
+      <description>Most teams are stuck on the FinOps treadmill — reactive cleanup, temporary improvement, inevitable drift. Here&apos;s the architecture for breaking that cycle: guardrails, drift detection, and what Level 3 autonomous optimization actually requires to work safely.</description>
+      <pubDate>Sat, 14 Mar 2026 00:00:00 GMT</pubDate>
+      <category>FinOps</category>
+    </item>
+    <item>
+      <title>GPU Cost Management for ML Teams: A Practical Playbook</title>
+      <link>https://costnimbus.com/article/gpu-cost-management-ml-teams/</link>
+      <guid isPermaLink="true">https://costnimbus.com/article/gpu-cost-management-ml-teams/</guid>
+      <description>AWS cut H100 prices 44% in 2025. GCP followed. If your ML team set its GPU strategy before mid-2025, you&apos;re operating on stale assumptions. Here&apos;s the current pricing reality and the three highest-leverage cost levers available right now.</description>
+      <pubDate>Sat, 14 Mar 2026 00:00:00 GMT</pubDate>
+      <category>AI/ML</category>
+    </item>
+    <item>
+      <title>AI Security Risks Enterprises Are Ignoring</title>
+      <link>https://costnimbus.com/article/ai-security-risks-enterprises-ignoring/</link>
+      <guid isPermaLink="true">https://costnimbus.com/article/ai-security-risks-enterprises-ignoring/</guid>
+      <description>Only 34% of organizations know where all their data resides, yet AI agents are wandering through enterprise systems with unprecedented access. Here are the four AI security risks that aren&apos;t in your threat model yet — and should be.</description>
+      <pubDate>Thu, 05 Mar 2026 00:00:00 GMT</pubDate>
+      <category>Security</category>
+    </item>
+    <item>
       <title>The Hidden Cost of Manual Playbook Maintenance</title>
       <link>https://costnimbus.com/article/hidden-cost-manual-playbook-maintenance/</link>
       <guid isPermaLink="true">https://costnimbus.com/article/hidden-cost-manual-playbook-maintenance/</guid>
       <description>No one budgets for playbook rot, but every SOC pays for it. A look at the real resource drain of manual IR documentation — and what it costs when your procedures are wrong at the moment you need them most.</description>
       <pubDate>Thu, 05 Mar 2026 00:00:00 GMT</pubDate>
+      <category>Security</category>
+    </item>
+    <item>
+      <title>OPA v1.0 Migration Guide for SOC Teams</title>
+      <link>https://costnimbus.com/article/opa-v1-migration-guide-soc-teams/</link>
+      <guid isPermaLink="true">https://costnimbus.com/article/opa-v1-migration-guide-soc-teams/</guid>
+      <description>OPA&apos;s v1.0 release brings breaking changes to Rego syntax and defaults. Here&apos;s a practical migration guide for SOC and infrastructure security teams — covering what changed, what breaks, and how to use the migration as an opportunity to improve your compliance posture.</description>
+      <pubDate>Thu, 05 Mar 2026 00:00:00 GMT</pubDate>
+      <category>Security</category>
+    </item>
+    <item>
+      <title>Policy-as-Code for SOC Teams: Stop Writing Tickets, Start Writing Rules</title>
+      <link>https://costnimbus.com/article/policy-as-code-soc-teams/</link>
+      <guid isPermaLink="true">https://costnimbus.com/article/policy-as-code-soc-teams/</guid>
+      <description>How SOC infrastructure engineers can use OPA and Rego policies to automate security enforcement, eliminate retroactive approval theater, and build continuous SOC2 compliance — with real code from a production policy library.</description>
+      <pubDate>Thu, 05 Mar 2026 00:00:00 GMT</pubDate>
+      <category>Engineering</category>
+    </item>
+    <item>
+      <title>The SOC Analyst&apos;s Guide to Generative AI</title>
+      <link>https://costnimbus.com/article/soc-analyst-guide-generative-ai/</link>
+      <guid isPermaLink="true">https://costnimbus.com/article/soc-analyst-guide-generative-ai/</guid>
+      <description>A practical guide for security analysts on safely integrating generative AI into daily workflows — from SIEM query generation to threat intel summarization. What actually works, what doesn&apos;t, and how to avoid the traps.</description>
+      <pubDate>Thu, 05 Mar 2026 00:00:00 GMT</pubDate>
+      <category>Security</category>
+    </item>
+    <item>
+      <title>Static vs Dynamic Playbooks: Why 2026 Is the Year of AI-Generated IR</title>
+      <link>https://costnimbus.com/article/static-vs-dynamic-playbooks/</link>
+      <guid isPermaLink="true">https://costnimbus.com/article/static-vs-dynamic-playbooks/</guid>
+      <description>IDC predicts 85% of detection and response playbooks will be dynamically generated by H1 2027. Here&apos;s what that means for your SOC, why static playbooks are already failing, and how to prepare your team for the shift.</description>
+      <pubDate>Thu, 05 Mar 2026 00:00:00 GMT</pubDate>
+      <category>Security</category>
+    </item>
+    <item>
+      <title>Security Alert Fatigue Is Killing Your SOC — Here&apos;s What Actually Works</title>
+      <link>https://costnimbus.com/article/alert-fatigue-soc-solutions/</link>
+      <guid isPermaLink="true">https://costnimbus.com/article/alert-fatigue-soc-solutions/</guid>
+      <description>A SOC infrastructure engineer&apos;s honest analysis of alert fatigue in the security operations center: the real numbers, why current tools fail, and the practical approaches that actually reduce noise without creating blind spots.</description>
+      <pubDate>Sat, 28 Feb 2026 00:00:00 GMT</pubDate>
       <category>Security</category>
     </item>
     <item>
@@ -182,6 +214,30 @@
       <description>The practical SOC 2 compliance checklist for evidence collection — organized by Trust Service Criteria, covering all SOC 2 requirements auditors expect, with sources, frequency, and manual vs automated time estimates.</description>
       <pubDate>Sat, 28 Feb 2026 00:00:00 GMT</pubDate>
       <category>Security</category>
+    </item>
+    <item>
+      <title>Agentic SOC: Hype or Real Shift?</title>
+      <link>https://costnimbus.com/article/agentic-soc-hype-or-reality/</link>
+      <guid isPermaLink="true">https://costnimbus.com/article/agentic-soc-hype-or-reality/</guid>
+      <description>A SOC infrastructure builder&apos;s honest take on agentic AI in security operations — what it actually means, where the marketing ends, and a 3-question evaluation framework for cutting through vendor noise.</description>
+      <pubDate>Wed, 25 Feb 2026 00:00:00 GMT</pubDate>
+      <category>Security</category>
+    </item>
+    <item>
+      <title>Azure vs AWS for .NET Shops: A Cost and DX Deep-Dive</title>
+      <link>https://costnimbus.com/article/azure-vs-aws-dotnet/</link>
+      <guid isPermaLink="true">https://costnimbus.com/article/azure-vs-aws-dotnet/</guid>
+      <description>You can run .NET on AWS. But Azure is purpose-built for it — and in most cases, dramatically cheaper. A rigorous comparison of managed services, pricing, and DX for teams migrating from on-prem or choosing a cloud for their .NET stack.</description>
+      <pubDate>Wed, 25 Feb 2026 00:00:00 GMT</pubDate>
+      <category>Cloud Strategy</category>
+    </item>
+    <item>
+      <title>GPU Cost Optimization: When AI Ambitions Meet Budget Reality</title>
+      <link>https://costnimbus.com/article/gpu-cost-optimization-ai-workloads/</link>
+      <guid isPermaLink="true">https://costnimbus.com/article/gpu-cost-optimization-ai-workloads/</guid>
+      <description>A practical guide to cutting GPU costs for AI/ML workloads — where the waste actually hides, spot instance strategies, model optimization, and real cost breakdowns for A100, H100, and L4 instances.</description>
+      <pubDate>Wed, 25 Feb 2026 00:00:00 GMT</pubDate>
+      <category>Cloud Costs</category>
     </item>
     <item>
       <title>How to Cut Your AWS Egress Bill by 80% (Without Changing Your App)</title>
@@ -246,14 +302,6 @@
       <description>Two specific solutions that delivered $30K + $20K in monthly savings, with exact technologies and step-by-step implementation.</description>
       <pubDate>Fri, 20 Feb 2026 00:00:00 GMT</pubDate>
       <category>Cloud Cost Optimization</category>
-    </item>
-    <item>
-      <title>Non-Human Identity Security: The $10M Risk Nobody&apos;s Managing</title>
-      <link>https://costnimbus.com/article/non-human-identity-security-risk/</link>
-      <guid isPermaLink="true">https://costnimbus.com/article/non-human-identity-security-risk/</guid>
-      <description>Service accounts outnumber humans 45:1. Most rotate credentials never. GitGuardian found 12.8 million secrets leaked on GitHub in 2023 alone. The math on NHI compromise is brutal — and most organizations have no governance program for it.</description>
-      <pubDate>Invalid Date</pubDate>
-      <category>Security</category>
     </item>
   </channel>
 </rss>
