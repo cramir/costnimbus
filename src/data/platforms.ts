@@ -753,6 +753,36 @@ export const platforms: Platform[] = [
     aiCapabilities: true,
     url: "https://www.devo.com"
   },
+  {
+    name: "Brava",
+    category: "AI-First SOC Analyst",
+    tagline: "AI agents that validate threat detection, investigate incidents, and cut security data costs",
+    pricing: {
+      model: "Seed-stage (pricing undisclosed)"
+    },
+    targetMarket: ["Enterprise"],
+    keyFeatures: [
+      "Simulates attack evidence to test detections without executing attacks",
+      "Detection engineering: finds broken rules, missing log sources, format drift",
+      "Aquarium NL investigation agent across SIEM, archive, EDR, and cloud audit",
+      "Security data cost tiering with retained searchability"
+    ],
+    strengths: [
+      "Fresh $15M seed led by F2 VC and Pitango (Nov 2026)",
+      "Angel investors tied to Anthropic, Microsoft, and Check Point",
+      "Fortune 100 customers at launch (retail, energy, hospitality)",
+      "Rare combo: detection validation + security data cost tiering"
+    ],
+    weaknesses: [
+      "Just out of stealth — no public track record",
+      "Pricing undisclosed",
+      "No public integration count yet"
+    ],
+    integrations: 0,
+    deployment: "SaaS",
+    aiCapabilities: true,
+    url: "https://www.brava.security"
+  },
 ];
 
 export const categories = [
